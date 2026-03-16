@@ -36,10 +36,16 @@ const Footer = () => {
           <div>
             <h4 className="font-display font-bold text-foreground mb-4">Navegação</h4>
             <div className="flex flex-col gap-3">
-              {["Home", "Projetos", "Serviços", "Sobre", "Contato"].map((label) => (
+              {[
+                { label: "Home", path: "/" },
+                { label: "Projetos", path: "/projetos" },
+                { label: "Serviços", path: "/servicos" },
+                { label: "Sobre", path: "/sobre" },
+                { label: "Contato", path: "/contato" },
+              ].map(({ label, path }) => (
                 <Link
                   key={label}
-                  to={label === "Home" ? "/" : `/${label.toLowerCase().replace("ç", "c")}`}
+                  to={path}
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
                   {label}
