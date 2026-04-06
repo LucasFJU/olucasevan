@@ -11,6 +11,8 @@ import Contact from "./pages/Contact";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminProjectForm from "./pages/AdminProjectForm";
+import AdminSettings from "./pages/AdminSettings";
+import AdminAbout from "./pages/AdminAbout";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,6 +33,8 @@ const App = () => (
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/novo" element={<AdminProjectForm />} />
           <Route path="/admin/editar/:id" element={<AdminProjectForm />} />
+          <Route path="/admin/configuracoes" element={<AdminSettings />} />
+          <Route path="/admin/sobre" element={<AdminAbout />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

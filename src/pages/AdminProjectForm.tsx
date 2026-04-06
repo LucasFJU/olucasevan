@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { Link } from "react-router-dom";
 
 const categories = ["Social Media", "Brand Design", "Web Design"];
+const projectStatuses = ["Concluído", "Em andamento", "Em breve"];
 
 const AdminProjectForm = () => {
   const { id } = useParams<{ id: string }>();
@@ -23,6 +24,7 @@ const AdminProjectForm = () => {
     tags: "",
     link_projeto: "",
     destaque: false,
+    status: "Concluído",
   });
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [coverPreview, setCoverPreview] = useState<string>("");
@@ -54,6 +56,7 @@ const AdminProjectForm = () => {
         tags: project.tags?.join(", ") || "",
         link_projeto: project.link_projeto || "",
         destaque: project.destaque || false,
+        status: (project as any).status || "Concluído",
       });
       setCoverPreview(project.imagem_capa || "");
       setExistingGallery(project.galeria || []);
@@ -97,7 +100,8 @@ const AdminProjectForm = () => {
         tags,
         link_projeto: form.link_projeto || null,
         destaque: form.destaque,
-      };
+        status: form.status,
+      } as any;
 
       if (isEditing) {
         const { error } = await supabase.from("projects").update(projectData).eq("id", id!);
