@@ -39,9 +39,18 @@ const ProjectCard = ({ project, featured = false }: ProjectCardProps) => {
           )}
         </div>
         <div className="p-6">
-          <span className="text-primary text-xs font-bold uppercase tracking-widest">
-            {project.categoria}
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="text-primary text-xs font-bold uppercase tracking-widest">
+              {project.categoria}
+            </span>
+            {(project as any).status && (project as any).status !== "Concluído" && (
+              <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
+                (project as any).status === "Em andamento" ? "bg-yellow-500/10 text-yellow-400" : "bg-blue-500/10 text-blue-400"
+              }`}>
+                {(project as any).status}
+              </span>
+            )}
+          </div>
           <h3 className="text-xl font-bold mt-2 text-foreground group-hover:text-primary transition-colors">
             {project.titulo}
           </h3>
