@@ -2,8 +2,10 @@ import Layout from "@/components/Layout";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
-const philosophy = [
+const defaultPhilosophy = [
   { title: "Estratégia", desc: "Todo design começa com uma estratégia sólida. Entendo o negócio antes de criar." },
   { title: "Criatividade", desc: "Soluções visuais únicas que diferenciam sua marca no mercado." },
   { title: "Resultados", desc: "Design orientado a métricas. Resultados orgânicos: +45% em conversão." },
@@ -17,6 +19,23 @@ const tools = [
 ];
 
 const About = () => {
+  const { data: settings } = useQuery({
+    queryKey: ["site-settings-public"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("site_settings" as any).select("*");
+      if (error) return [];
+      return data as any[];
+    },
+  });
+
+  const getSetting = (key: string) => settings?.find((s: any) => s.key === key)?.value || "";
+
+  const title = getSetting("about_title") || "O Designer por trás do Studio";
+  const description = getSetting("about_description") || "Com mais de 8 anos de experiência em design digital, já ajudei dezenas de marcas a construir identidades visuais fortes e experiências digitais que geram resultados reais.";
+  const mission = getSetting("about_mission");
+  const vision = getSetting("about_vision");
+  const values = getSetting("about_values");
+
   return (
     <Layout>
       <section className="pt-32 pb-24">
@@ -29,16 +48,29 @@ const About = () => {
             >
               <span className="text-primary text-sm font-bold uppercase tracking-widest">Sobre</span>
               <h1 className="text-5xl md:text-6xl font-bold tracking-tighter mt-2 text-foreground">
-                O Designer por trás do Studio
+                {title}
               </h1>
-              <p className="text-muted-foreground mt-6 leading-relaxed text-pretty">
-                Com mais de 8 anos de experiência em design digital, já ajudei dezenas de marcas a 
-                construir identidades visuais fortes e experiências digitais que geram resultados reais.
+              <p className="text-muted-foreground mt-6 leading-relaxed text-pretty whitespace-pre-line">
+                {description}
               </p>
-              <p className="text-muted-foreground mt-4 leading-relaxed text-pretty">
-                Minha abordagem combina pensamento estratégico com execução criativa, garantindo que 
-                cada projeto não apenas seja bonito, mas também funcional e orientado a resultados.
-              </p>
+              {mission && (
+                <div className="mt-6">
+                  <h3 className="text-sm font-bold text-primary uppercase tracking-widest">Missão</h3>
+                  <p className="text-muted-foreground mt-2 leading-relaxed text-pretty whitespace-pre-line">{mission}</p>
+                </div>
+              )}
+              {vision && (
+                <div className="mt-4">
+                  <h3 className="text-sm font-bold text-primary uppercase tracking-widest">Visão</h3>
+                  <p className="text-muted-foreground mt-2 leading-relaxed text-pretty whitespace-pre-line">{vision}</p>
+                </div>
+              )}
+              {values && (
+                <div className="mt-4">
+                  <h3 className="text-sm font-bold text-primary uppercase tracking-widest">Valores</h3>
+                  <p className="text-muted-foreground mt-2 leading-relaxed text-pretty whitespace-pre-line">{values}</p>
+                </div>
+              )}
             </motion.div>
 
             <motion.div
@@ -70,7 +102,7 @@ const About = () => {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-            {philosophy.map((item, i) => (
+            {defaultPhilosophy.map((item, i) => (
               <motion.div
                 key={item.title}
                 initial={{ opacity: 0, y: 20 }}
