@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       leads: {
         Row: {
+          assunto: string | null
           created_at: string
           email: string
           id: string
@@ -24,6 +25,7 @@ export type Database = {
           tipo_projeto: string | null
         }
         Insert: {
+          assunto?: string | null
           created_at?: string
           email: string
           id?: string
@@ -32,6 +34,7 @@ export type Database = {
           tipo_projeto?: string | null
         }
         Update: {
+          assunto?: string | null
           created_at?: string
           email?: string
           id?: string
