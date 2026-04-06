@@ -1,139 +1,152 @@
 import Layout from "@/components/Layout";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Palette, Globe, Megaphone, ArrowRight, Lightbulb, Target, Paintbrush, Send } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const services = [
   {
-    icon: Megaphone,
+    num: "01",
     title: "Social Media Design",
-    description: "Criação de identidade visual para redes sociais que gera engajamento e fortalece a presença digital da sua marca.",
-    benefits: ["Posts e stories consistentes", "Templates editáveis", "Identidade visual para redes", "Aumento de engajamento"],
-    deliverables: "Feed design, stories templates, capas de destaque, banners"
+    desc: "Conteúdo visual estratégico que para o scroll, comunica em segundos e converte seguidores em clientes.",
+    items: ["Posts e Stories para Instagram", "Carrosséis e Reels Cover", "Identidade visual para redes", "Templates editáveis no Canva", "Calendário visual mensal"],
   },
   {
-    icon: Palette,
+    num: "02",
     title: "Brand Design",
-    description: "Desenvolvimento completo de identidade visual que comunica os valores da sua marca e a diferencia no mercado.",
-    benefits: ["Logotipo e variações", "Paleta de cores", "Tipografia definida", "Manual de marca"],
-    deliverables: "Logo, brand book, papelaria, guidelines de aplicação"
+    desc: "Identidades visuais que transmitem profissionalismo, geram confiança e tornam sua marca inesquecível.",
+    items: ["Logotipo + variações", "Paleta de cores e tipografia", "Manual de identidade visual", "Papelaria e materiais gráficos", "Brandbook completo"],
   },
   {
-    icon: Globe,
+    num: "03",
     title: "Web Design",
-    description: "Design de interfaces web modernas, responsivas e focadas em conversão, com experiência de usuário impecável.",
-    benefits: ["Design responsivo", "Foco em conversão", "UX otimizada", "Protótipos interativos"],
-    deliverables: "Wireframes, protótipos, design system, UI kit completo"
+    desc: "Sites e landing pages que impressionam visualmente e são construídos para converter visitantes em leads.",
+    items: ["Landing pages de alta conversão", "Sites institucionais e portfólios", "UI/UX para aplicativos", "Design para Webflow / Framer", "Protótipos interativos no Figma"],
   },
 ];
 
 const process = [
-  { icon: Lightbulb, title: "Briefing", desc: "Entendemos sua marca, objetivos e público-alvo." },
-  { icon: Target, title: "Estratégia", desc: "Definimos posicionamento, tom de voz e direção criativa." },
-  { icon: Paintbrush, title: "Design", desc: "Criamos conceitos visuais alinhados à estratégia." },
-  { icon: Send, title: "Entrega", desc: "Entregamos arquivos finais e guidelines de uso." },
+  { num: "01", title: "Briefing & Imersão", desc: "Mergulhamos no seu negócio, público e objetivos antes de criar qualquer pixel." },
+  { num: "02", title: "Estratégia Visual", desc: "Definimos direção criativa, referências e conceito antes da execução." },
+  { num: "03", title: "Design & Refinamento", desc: "Criamos, apresentamos e refinamos com foco em clareza, conversão e identidade." },
+  { num: "04", title: "Entrega & Suporte", desc: "Arquivos organizados, manual de uso e suporte pós-entrega incluso." },
 ];
 
 const Services = () => {
   return (
     <Layout>
       <section className="pt-32 pb-24">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto px-6 md:px-12">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
+            className="text-center mb-14"
           >
-            <span className="text-primary text-sm font-bold uppercase tracking-widest">O que faço</span>
-            <h1 className="text-5xl md:text-6xl font-bold tracking-tighter mt-2 text-foreground">Serviços</h1>
-            <p className="text-muted-foreground mt-4 max-w-xl text-pretty">
-              Soluções de design completas para marcas que querem se destacar.
-            </p>
+            <p className="tag-label mb-3">O que fazemos</p>
+            <h1
+              className="font-display font-extrabold leading-[1.05] text-foreground max-w-[600px] mx-auto"
+              style={{ fontSize: "clamp(34px, 5vw, 58px)" }}
+            >
+              Três especialidades. Um propósito: fazer sua marca crescer.
+            </h1>
           </motion.div>
 
-          {/* Services */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
-            {services.map((service, i) => (
-              <motion.div
-                key={service.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-card rounded-2xl p-8 card-rim"
+          {/* Services Big Grid */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-[2px]"
+          >
+            {services.map((srv, i) => (
+              <div
+                key={srv.title}
+                className={`group relative bg-card border border-border p-10 md:p-12 cursor-pointer transition-colors hover:bg-secondary overflow-hidden ${
+                  i === 0 ? "md:rounded-l-lg" : i === 2 ? "md:rounded-r-lg" : ""
+                }`}
               >
-                <div className="w-12 h-12 rounded-xl bg-ember-gradient flex items-center justify-center mb-6">
-                  <service.icon size={22} className="text-primary-foreground" strokeWidth={1.5} />
+                <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="relative z-10">
+                  <div className="font-display text-[64px] font-extrabold text-border leading-none mb-5 group-hover:text-primary transition-colors">
+                    {srv.num}
+                  </div>
+                  <h3 className="font-display text-2xl font-extrabold text-foreground mb-3">{srv.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-[1.8] mb-6">{srv.desc}</p>
+                  <ul className="space-y-0">
+                    {srv.items.map((item) => (
+                      <li key={item} className="text-[13px] text-muted-foreground py-2 border-b border-border last:border-b-0 flex items-center gap-2">
+                        <span className="text-primary text-[12px] flex-shrink-0">→</span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <h3 className="text-2xl font-bold text-foreground">{service.title}</h3>
-                <p className="text-muted-foreground text-sm mt-3 leading-relaxed">{service.description}</p>
-                <ul className="mt-6 space-y-2">
-                  {service.benefits.map((b) => (
-                    <li key={b} className="flex items-center gap-2 text-sm text-secondary-foreground">
-                      <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                      {b}
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-6 pt-4 border-t border-border">
-                  <p className="text-xs text-muted-foreground">
-                    <span className="font-semibold text-secondary-foreground">Entregáveis:</span> {service.deliverables}
-                  </p>
-                </div>
-              </motion.div>
+              </div>
             ))}
-          </div>
+          </motion.div>
+
+          <hr className="border-border my-24" />
 
           {/* Process */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mt-24"
+            className="text-center mb-14"
           >
-            <span className="text-primary text-sm font-bold uppercase tracking-widest">Metodologia</span>
-            <h2 className="text-4xl font-bold tracking-tighter mt-2 text-foreground">Processo de Trabalho</h2>
+            <p className="tag-label mb-3">Como trabalhamos</p>
+            <h2 className="font-display font-extrabold text-foreground" style={{ fontSize: "clamp(30px, 4vw, 50px)" }}>
+              Processo simples. Resultado excepcional.
+            </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mt-12">
-            {process.map((step, i) => (
-              <motion.div
-                key={step.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="text-center"
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4"
+          >
+            {process.map((step) => (
+              <div
+                key={step.num}
+                className="group bg-card border border-border rounded-lg p-8 hover:border-primary transition-colors"
               >
-                <div className="w-16 h-16 mx-auto rounded-2xl bg-secondary flex items-center justify-center mb-4">
-                  <step.icon size={24} className="text-primary" strokeWidth={1.5} />
+                <div className="font-display text-[56px] font-extrabold text-border leading-none mb-4 group-hover:text-primary transition-colors">
+                  {step.num}
                 </div>
-                <span className="text-xs text-primary font-bold">0{i + 1}</span>
-                <h3 className="text-lg font-bold text-foreground mt-1">{step.title}</h3>
-                <p className="text-sm text-muted-foreground mt-2">{step.desc}</p>
-              </motion.div>
+                <h3 className="font-display text-[17px] font-bold text-foreground mb-2">{step.title}</h3>
+                <p className="text-[13px] text-muted-foreground leading-[1.7]">{step.desc}</p>
+              </div>
             ))}
-          </div>
+          </motion.div>
+
+          <hr className="border-border my-24" />
 
           {/* CTA */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mt-24 text-center bg-card rounded-2xl p-12 card-rim"
+            className="rounded-lg p-12 md:p-20 text-center relative overflow-hidden"
+            style={{ background: "linear-gradient(135deg, #ff5c1a 0%, #c03000 55%, #0a0a0a 100%)" }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tighter text-foreground">
-              Pronto para transformar sua marca?
-            </h2>
-            <p className="text-muted-foreground mt-3 max-w-md mx-auto">
-              Solicite um orçamento e vamos criar algo memorável juntos.
-            </p>
-            <Link
-              to="/contato"
-              className="inline-flex items-center gap-2 bg-ember-gradient text-primary-foreground px-8 py-3.5 rounded-xl text-sm font-semibold mt-8 transition-transform hover:scale-105"
-            >
-              Solicitar orçamento <ArrowRight size={16} />
-            </Link>
+            <div className="absolute inset-0" style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E")`
+            }} />
+            <div className="relative z-10">
+              <h2
+                className="font-display font-extrabold text-white mb-4"
+                style={{ fontSize: "clamp(38px, 6vw, 72px)" }}
+              >
+                Solicitar orçamento
+              </h2>
+              <p className="text-white/75 text-base max-w-[440px] mx-auto mb-8 leading-[1.8]">
+                Pronto para transformar sua marca? Respondemos em até 24h.
+              </p>
+              <Link to="/contato" className="btn-primary">
+                Fale Comigo <ArrowRight size={16} />
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>
