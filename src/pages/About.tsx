@@ -5,19 +5,6 @@ import { ArrowRight } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
-const defaultPhilosophy = [
-  { title: "Estratégia", desc: "Todo design começa com uma estratégia sólida. Entendo o negócio antes de criar." },
-  { title: "Criatividade", desc: "Soluções visuais únicas que diferenciam sua marca no mercado." },
-  { title: "Resultados", desc: "Design orientado a métricas. Resultados orgânicos: +45% em conversão." },
-];
-
-const tools = [
-  { name: "Figma", desc: "UI/UX Design" },
-  { name: "Adobe Creative Suite", desc: "Branding & Ilustração" },
-  { name: "Webflow", desc: "Desenvolvimento Web" },
-  { name: "Framer", desc: "Protótipos Interativos" },
-];
-
 const About = () => {
   const { data: settings } = useQuery({
     queryKey: ["site-settings-public"],
@@ -30,8 +17,6 @@ const About = () => {
 
   const getSetting = (key: string) => settings?.find((s: any) => s.key === key)?.value || "";
 
-  const title = getSetting("about_title") || "O Designer por trás do Studio";
-  const description = getSetting("about_description") || "Com mais de 8 anos de experiência em design digital, já ajudei dezenas de marcas a construir identidades visuais fortes e experiências digitais que geram resultados reais.";
   const mission = getSetting("about_mission");
   const vision = getSetting("about_vision");
   const values = getSetting("about_values");
@@ -39,126 +24,121 @@ const About = () => {
   return (
     <Layout>
       <section className="pt-32 pb-24">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+        <div className="container mx-auto px-6 md:px-12">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-20 items-center"
+          >
+            {/* Image */}
+            <div
+              className="rounded-lg min-h-[480px] relative overflow-hidden"
+              style={{ background: "linear-gradient(160deg, #ff5c1a 0%, #8a2200 50%, #0a0a0a 100%)" }}
             >
-              <span className="text-primary text-sm font-bold uppercase tracking-widest">Sobre</span>
-              <h1 className="text-5xl md:text-6xl font-bold tracking-tighter mt-2 text-foreground">
-                {title}
+              <div className="absolute inset-0" style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3C/g%3E%3C/svg%3E")`
+              }} />
+            </div>
+
+            {/* Content */}
+            <div>
+              <p className="tag-label mb-3">Sobre a Folioblox</p>
+              <h1
+                className="font-display font-extrabold leading-[1.05] text-foreground mb-5"
+                style={{ fontSize: "clamp(34px, 4.5vw, 54px)" }}
+              >
+                Não somos só designers. Somos parceiros de crescimento.
               </h1>
-              <p className="text-muted-foreground mt-6 leading-relaxed text-pretty whitespace-pre-line">
-                {description}
+              <p className="text-muted-foreground leading-[1.85] mb-4 text-[15px]">
+                A Folioblox nasceu com uma missão clara: criar design que vai além do bonito — design que trabalha pela sua marca, que vende, que posiciona.
               </p>
+              <p className="text-muted-foreground leading-[1.85] text-[15px]">
+                Combinamos estratégia, criatividade e execução impecável em cada projeto. Entendemos o seu negócio antes de abrir o Figma.
+              </p>
+
               {mission && (
                 <div className="mt-6">
-                  <h3 className="text-sm font-bold text-primary uppercase tracking-widest">Missão</h3>
-                  <p className="text-muted-foreground mt-2 leading-relaxed text-pretty whitespace-pre-line">{mission}</p>
+                  <h3 className="tag-label">Missão</h3>
+                  <p className="text-muted-foreground mt-2 leading-relaxed whitespace-pre-line text-sm">{mission}</p>
                 </div>
               )}
               {vision && (
                 <div className="mt-4">
-                  <h3 className="text-sm font-bold text-primary uppercase tracking-widest">Visão</h3>
-                  <p className="text-muted-foreground mt-2 leading-relaxed text-pretty whitespace-pre-line">{vision}</p>
+                  <h3 className="tag-label">Visão</h3>
+                  <p className="text-muted-foreground mt-2 leading-relaxed whitespace-pre-line text-sm">{vision}</p>
                 </div>
               )}
               {values && (
                 <div className="mt-4">
-                  <h3 className="text-sm font-bold text-primary uppercase tracking-widest">Valores</h3>
-                  <p className="text-muted-foreground mt-2 leading-relaxed text-pretty whitespace-pre-line">{values}</p>
+                  <h3 className="tag-label">Valores</h3>
+                  <p className="text-muted-foreground mt-2 leading-relaxed whitespace-pre-line text-sm">{values}</p>
                 </div>
               )}
-            </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="aspect-square rounded-2xl bg-card card-rim overflow-hidden"
-            >
-              <div className="w-full h-full bg-secondary flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-32 h-32 mx-auto rounded-full bg-ember-gradient flex items-center justify-center mb-4">
-                    <span className="font-display text-5xl font-bold text-primary-foreground">S</span>
+              <div className="grid grid-cols-2 gap-4 mt-9">
+                {[
+                  { n: "120+", l: "Projetos entregues" },
+                  { n: "80+", l: "Clientes satisfeitos" },
+                  { n: "5 anos", l: "De experiência" },
+                  { n: "3", l: "Especialidades" },
+                ].map((s) => (
+                  <div key={s.l} className="bg-secondary border border-border rounded-md p-5">
+                    <div className="font-display text-[32px] font-extrabold text-primary">{s.n}</div>
+                    <div className="text-[13px] text-muted-foreground mt-1">{s.l}</div>
                   </div>
-                  <p className="text-muted-foreground text-sm">Foto profissional</p>
-                </div>
+                ))}
               </div>
-            </motion.div>
-          </div>
-
-          {/* Philosophy */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mt-24"
-          >
-            <span className="text-primary text-sm font-bold uppercase tracking-widest">Filosofia</span>
-            <h2 className="text-4xl font-bold tracking-tighter mt-2 text-foreground">Como eu trabalho</h2>
+            </div>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-            {defaultPhilosophy.map((item, i) => (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-card rounded-2xl p-8 card-rim"
-              >
-                <span className="text-primary text-xs font-bold">0{i + 1}</span>
-                <h3 className="text-xl font-bold text-foreground mt-2">{item.title}</h3>
-                <p className="text-muted-foreground text-sm mt-3 leading-relaxed">{item.desc}</p>
-              </motion.div>
-            ))}
-          </div>
+          <hr className="border-border my-24" />
 
           {/* Tools */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mt-24"
           >
-            <span className="text-primary text-sm font-bold uppercase tracking-widest">Ferramentas</span>
-            <h2 className="text-4xl font-bold tracking-tighter mt-2 text-foreground">Stack de Design</h2>
+            <p className="tag-label mb-3">Ferramentas</p>
+            <h2 className="font-display font-extrabold text-foreground mb-10" style={{ fontSize: "clamp(30px, 4vw, 46px)" }}>
+              Stack de Design
+            </h2>
           </motion.div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
-            {tools.map((tool, i) => (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { name: "Figma", desc: "UI/UX Design" },
+              { name: "Adobe Creative Suite", desc: "Branding & Ilustração" },
+              { name: "Webflow", desc: "Desenvolvimento Web" },
+              { name: "Framer", desc: "Protótipos Interativos" },
+            ].map((tool) => (
               <motion.div
                 key={tool.name}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-card rounded-2xl p-6 text-center card-rim"
+                className="bg-card border border-border rounded-lg p-6 text-center hover:border-primary transition-colors"
               >
-                <h3 className="font-bold text-foreground">{tool.name}</h3>
+                <h3 className="font-display font-bold text-foreground">{tool.name}</h3>
                 <p className="text-xs text-muted-foreground mt-1">{tool.desc}</p>
               </motion.div>
             ))}
           </div>
 
+          <hr className="border-border my-24" />
+
           {/* CTA */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mt-24 text-center"
+            className="text-center"
           >
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tighter text-foreground">
+            <h2 className="font-display font-extrabold text-foreground" style={{ fontSize: "clamp(30px, 4vw, 48px)" }}>
               Vamos trabalhar juntos?
             </h2>
-            <Link
-              to="/contato"
-              className="inline-flex items-center gap-2 bg-ember-gradient text-primary-foreground px-8 py-3.5 rounded-xl text-sm font-semibold mt-8 transition-transform hover:scale-105"
-            >
+            <Link to="/contato" className="btn-primary mt-8">
               Entrar em contato <ArrowRight size={16} />
             </Link>
           </motion.div>

@@ -6,47 +6,48 @@
 
 @layer base {
   :root {
-    --background: 230 20% 10%;
-    --foreground: 230 10% 96%;
+    /* Folioblox-inspired tokens — pure dark neutral palette */
+    --background: 0 0% 4%;
+    --foreground: 30 27% 93%;
 
-    --card: 230 15% 13%;
-    --card-foreground: 230 10% 96%;
+    --card: 0 0% 7.5%;
+    --card-foreground: 30 27% 93%;
 
-    --popover: 230 15% 13%;
-    --popover-foreground: 230 10% 96%;
+    --popover: 0 0% 7.5%;
+    --popover-foreground: 30 27% 93%;
 
-    --primary: 25 90% 55%;
+    --primary: 18 100% 55%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 230 12% 18%;
-    --secondary-foreground: 230 10% 90%;
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 80%;
 
-    --muted: 230 10% 20%;
-    --muted-foreground: 230 10% 55%;
+    --muted: 0 0% 13%;
+    --muted-foreground: 0 0% 47%;
 
-    --accent: 10 75% 45%;
+    --accent: 18 100% 63%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 230 10% 18%;
-    --input: 230 10% 18%;
-    --ring: 25 90% 55%;
+    --border: 0 0% 12%;
+    --input: 0 0% 12%;
+    --ring: 18 100% 55%;
 
-    --radius: 0.75rem;
+    --radius: 1.125rem;
 
-    --sidebar-background: 230 20% 8%;
-    --sidebar-foreground: 230 10% 90%;
-    --sidebar-primary: 25 90% 55%;
+    --sidebar-background: 0 0% 5%;
+    --sidebar-foreground: 0 0% 85%;
+    --sidebar-primary: 18 100% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 230 12% 15%;
-    --sidebar-accent-foreground: 230 10% 90%;
-    --sidebar-border: 230 10% 15%;
-    --sidebar-ring: 25 90% 55%;
+    --sidebar-accent: 0 0% 9%;
+    --sidebar-accent-foreground: 0 0% 85%;
+    --sidebar-border: 0 0% 10%;
+    --sidebar-ring: 18 100% 55%;
 
-    --ember-glow: 0 0 80px hsl(25 90% 55% / 0.15);
-    --rim-light: inset 0 1px 0 0 rgba(255,255,255,0.08);
+    --ember-glow: 0 0 80px hsl(18 100% 55% / 0.15);
+    --rim-light: inset 0 1px 0 0 rgba(255,255,255,0.06);
   }
 }
 
@@ -58,6 +59,8 @@
   body {
     @apply bg-background text-foreground;
     font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
   }
@@ -71,19 +74,19 @@
 @layer utilities {
   .text-gradient-ember {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(25 90% 55%), hsl(10 75% 45%));
+    background-image: linear-gradient(135deg, hsl(18 100% 55%), hsl(18 100% 63%));
   }
 
   .bg-ember-gradient {
-    background-image: linear-gradient(135deg, hsl(25 90% 55%), hsl(10 75% 45%));
+    background-image: linear-gradient(135deg, hsl(18 100% 55%), hsl(18 100% 63%));
   }
 
   .card-rim {
-    box-shadow: inset 0 1px 0 0 rgba(255,255,255,0.08);
+    box-shadow: inset 0 1px 0 0 rgba(255,255,255,0.06);
   }
 
   .ember-glow {
-    box-shadow: 0 0 80px hsl(25 90% 55% / 0.15);
+    box-shadow: 0 0 80px hsl(18 100% 55% / 0.15);
   }
 
   .text-balance {
@@ -92,5 +95,72 @@
 
   .text-pretty {
     text-wrap: pretty;
+  }
+
+  /* Folioblox grid pattern overlay */
+  .grid-pattern {
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255,255,255,0.018) 59px, rgba(255,255,255,0.018) 60px),
+      repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,255,255,0.018) 59px, rgba(255,255,255,0.018) 60px);
+  }
+
+  /* Pill button base */
+  .btn-pill {
+    @apply inline-flex items-center gap-2 rounded-full font-medium transition-all text-sm;
+  }
+
+  .btn-primary {
+    @apply btn-pill bg-ember-gradient text-primary-foreground px-7 py-3.5;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+  }
+
+  .btn-ghost {
+    @apply btn-pill border border-border text-foreground px-6 py-3;
+  }
+  .btn-ghost:hover {
+    @apply border-primary/50 bg-primary/5;
+  }
+
+  /* Nav link underline animation */
+  .nav-link-animated {
+    @apply relative text-muted-foreground text-sm transition-colors;
+  }
+  .nav-link-animated::after {
+    content: '';
+    @apply absolute bottom-[-3px] left-0 h-px bg-primary transition-all duration-300;
+    width: 0;
+  }
+  .nav-link-animated:hover,
+  .nav-link-animated.active {
+    @apply text-foreground;
+  }
+  .nav-link-animated:hover::after,
+  .nav-link-animated.active::after {
+    width: 100%;
+  }
+
+  /* Scroll indicator */
+  .scroll-line {
+    @apply w-px h-10;
+    background: linear-gradient(to bottom, hsl(18 100% 55%), transparent);
+    animation: scrollLine 1.8s ease-in-out infinite;
+  }
+  @keyframes scrollLine {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  /* Tag label */
+  .tag-label {
+    @apply text-[11px] text-primary font-bold tracking-[0.1em] uppercase;
+  }
+
+  /* Section padding */
+  .sec-pad {
+    @apply py-24 md:py-28;
   }
 }

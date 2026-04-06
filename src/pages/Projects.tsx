@@ -40,83 +40,88 @@ const Projects = () => {
   return (
     <Layout>
       <section className="pt-32 pb-24">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto px-6 md:px-12">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
+            className="flex items-end justify-between flex-wrap gap-4 mb-9"
           >
-            <span className="text-primary text-sm font-bold uppercase tracking-widest">Portfólio</span>
-            <h1 className="text-5xl md:text-6xl font-bold tracking-tighter mt-2 text-foreground">
-              Todos os Projetos
-            </h1>
-            <p className="text-muted-foreground mt-4 max-w-xl text-pretty">
-              Explore meus trabalhos em Social Media, Brand Design e Web Design.
-            </p>
+            <div>
+              <p className="tag-label mb-3">Portfólio</p>
+              <h1
+                className="font-display font-extrabold leading-[1.05] text-foreground"
+                style={{ fontSize: "clamp(32px, 5vw, 54px)" }}
+              >
+                Todos os Projetos
+              </h1>
+            </div>
+
+            {/* Filter pills */}
+            <div className="flex flex-wrap gap-2.5">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveFilter(cat)}
+                  className={`rounded-full px-5 py-2 text-[13px] font-medium border transition-all ${
+                    activeFilter === cat
+                      ? "bg-primary border-primary text-primary-foreground"
+                      : "bg-secondary border-border text-muted-foreground hover:bg-primary hover:border-primary hover:text-primary-foreground"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
           </motion.div>
 
-          {/* Search */}
-          <div className="relative mt-10 max-w-md">
-            <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
-            <input
-              type="text"
-              placeholder="Buscar projetos..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-secondary border border-border rounded-xl pl-11 pr-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-            />
-          </div>
-
-          {/* Category Filters */}
-          <div className="flex flex-wrap gap-3 mt-6">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveFilter(cat)}
-                className={`px-5 py-2 rounded-lg text-sm font-medium transition-all ${
-                  activeFilter === cat
-                    ? "bg-ember-gradient text-primary-foreground"
-                    : "bg-secondary text-secondary-foreground hover:bg-muted"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-
-          {/* Status Filters */}
-          <div className="flex flex-wrap gap-3 mt-3">
-            {statuses.map((s) => (
-              <button
-                key={s}
-                onClick={() => setActiveStatus(s)}
-                className={`px-4 py-1.5 rounded-lg text-xs font-medium transition-all border ${
-                  activeStatus === s
-                    ? "border-primary text-primary bg-primary/10"
-                    : "border-border text-muted-foreground hover:border-primary/50"
-                }`}
-              >
-                {s}
-              </button>
-            ))}
+          {/* Search + Status */}
+          <div className="flex flex-wrap items-center gap-4 mb-10">
+            <div className="relative flex-1 min-w-[200px] max-w-sm">
+              <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
+              <input
+                type="text"
+                placeholder="🔍 Buscar..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-secondary border border-border rounded-md pl-10 pr-4 py-2.5 text-[13px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
+              />
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {statuses.map((s) => (
+                <button
+                  key={s}
+                  onClick={() => setActiveStatus(s)}
+                  className={`rounded-full px-4 py-1.5 text-[12px] font-medium border transition-all ${
+                    activeStatus === s
+                      ? "border-primary text-primary bg-primary/10"
+                      : "border-border text-muted-foreground hover:border-primary/50"
+                  }`}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Grid */}
-          <div className="grid grid-cols-12 gap-8 mt-12">
+          <div className="grid grid-cols-12 gap-4">
             {isLoading
-              ? Array.from({ length: 6 }).map((_, i) => (
+              ? Array.from({ length: 4 }).map((_, i) => (
                   <div
                     key={i}
-                    className="col-span-12 md:col-span-4 aspect-[4/3] bg-card rounded-2xl animate-pulse"
+                    className="col-span-12 md:col-span-6 h-[340px] bg-card rounded-lg animate-pulse"
                   />
                 ))
               : filtered && filtered.length > 0
-              ? filtered.map((project, i) => (
-                  <ProjectCard key={project.id} project={project} featured={i === 0} />
+              ? filtered.map((project) => (
+                  <ProjectCard key={project.id} project={project} />
                 ))
               : (
                 <div className="col-span-12 text-center py-20 text-muted-foreground">
-                  <p className="text-lg">Nenhum projeto encontrado.</p>
+                  <div className="text-[40px] mb-3 opacity-30">🎨</div>
+                  <p className="font-display text-lg font-bold text-foreground mb-2">Nenhum projeto nesta categoria</p>
+                  <p className="text-sm">Adicione projetos pelo painel admin.</p>
                 </div>
               )}
           </div>

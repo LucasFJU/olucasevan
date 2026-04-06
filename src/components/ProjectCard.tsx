@@ -10,39 +10,33 @@ interface ProjectCardProps {
 const ProjectCard = ({ project, featured = false }: ProjectCardProps) => {
   return (
     <motion.div
-      whileHover="hover"
-      className={`group relative overflow-hidden rounded-2xl bg-card card-rim ${
-        featured ? "col-span-12 md:col-span-8" : "col-span-12 md:col-span-4"
+      whileHover={{ y: -5 }}
+      transition={{ duration: 0.25 }}
+      className={`group bg-card border border-border rounded-lg overflow-hidden cursor-pointer hover:border-primary transition-colors ${
+        featured ? "col-span-12 md:col-span-6" : "col-span-12 md:col-span-6"
       }`}
     >
       <Link to={`/projetos/${project.id}`}>
-        <div className={`overflow-hidden ${featured ? "aspect-[16/10]" : "aspect-[4/3]"}`}>
+        {/* Thumbnail */}
+        <div className="w-full h-[220px] overflow-hidden bg-secondary relative">
           {project.imagem_capa ? (
-            <motion.img
-              variants={{ hover: { scale: 1.05 } }}
-              transition={{ type: "spring", duration: 0.5, bounce: 0 }}
+            <img
               src={project.imagem_capa}
               alt={project.titulo}
-              className="object-cover w-full h-full"
+              className="w-full h-full object-cover transition-transform duration-400 group-hover:scale-[1.04]"
               loading="lazy"
             />
           ) : (
-            <motion.div
-              variants={{ hover: { scale: 1.05 } }}
-              transition={{ type: "spring", duration: 0.5, bounce: 0 }}
-              className="w-full h-full bg-secondary flex items-center justify-center"
-            >
-              <span className="font-display text-4xl font-bold text-muted-foreground/30">
-                {project.titulo[0]}
-              </span>
-            </motion.div>
+            <div className="w-full h-full flex items-center justify-center text-[40px] opacity-25">
+              🎨
+            </div>
           )}
         </div>
-        <div className="p-6">
-          <div className="flex items-center gap-2">
-            <span className="text-primary text-xs font-bold uppercase tracking-widest">
-              {project.categoria}
-            </span>
+
+        {/* Body */}
+        <div className="p-7">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="tag-label">{project.categoria}</span>
             {(project as any).status && (project as any).status !== "Concluído" && (
               <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
                 (project as any).status === "Em andamento" ? "bg-yellow-500/10 text-yellow-400" : "bg-blue-500/10 text-blue-400"
@@ -51,21 +45,26 @@ const ProjectCard = ({ project, featured = false }: ProjectCardProps) => {
               </span>
             )}
           </div>
-          <h3 className="text-xl font-bold mt-2 text-foreground group-hover:text-primary transition-colors">
+          <h3 className="font-display text-xl font-bold text-foreground mb-2">
             {project.titulo}
           </h3>
-          {featured && project.descricao && (
-            <p className="text-muted-foreground text-sm mt-2 line-clamp-2">{project.descricao}</p>
+          {project.descricao && (
+            <p className="text-[13px] text-muted-foreground leading-[1.7] line-clamp-2">
+              {project.descricao}
+            </p>
           )}
-          {project.tags && project.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mt-3">
-              {project.tags.slice(0, 3).map((tag) => (
-                <span key={tag} className="text-xs text-muted-foreground bg-secondary px-2.5 py-1 rounded-md">
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
+
+          {/* Footer */}
+          <div className="flex items-center justify-between mt-5 pt-4 border-t border-border">
+            <span className="text-[12px] text-muted-foreground/60">
+              {project.data_publicacao
+                ? new Date(project.data_publicacao).getFullYear()
+                : ""}
+            </span>
+            <span className="text-[13px] text-primary font-semibold">
+              Ver Projeto →
+            </span>
+          </div>
         </div>
       </Link>
     </motion.div>

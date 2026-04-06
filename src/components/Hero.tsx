@@ -1,69 +1,95 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
-      {/* Background glow */}
-      <div className="absolute top-1/2 right-0 w-[600px] h-[600px] rounded-full bg-primary/5 blur-[120px] -translate-y-1/2" />
+    <section className="relative min-h-screen flex items-center pt-[68px] overflow-hidden">
+      {/* Radial gradient glows */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 70% 60% at 65% 35%, rgba(255,92,26,0.18) 0%, transparent 65%), radial-gradient(ellipse 40% 40% at 15% 80%, rgba(124,58,237,0.08) 0%, transparent 65%)",
+        }}
+      />
+      {/* Grid pattern */}
+      <div className="absolute inset-0 grid-pattern pointer-events-none" />
 
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-7"
-          >
-            <span className="text-primary text-sm font-bold uppercase tracking-widest mb-6 block">
-              Social Media · Brand · Web Design
-            </span>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-[0.9] text-foreground text-balance">
-              Designer criando marcas e experiências digitais{" "}
-              <span className="text-gradient-ember">memoráveis</span>
-            </h1>
-            <p className="mt-6 text-lg text-muted-foreground max-w-xl text-pretty leading-relaxed">
-              Transformo ideias em identidades visuais impactantes, experiências web 
-              imersivas e conteúdo de social media que conecta marcas ao seu público.
-            </p>
-            <div className="mt-10 flex flex-wrap gap-4">
-              <Link
-                to="/projetos"
-                className="bg-ember-gradient text-primary-foreground px-8 py-3.5 rounded-xl text-sm font-semibold flex items-center gap-2 transition-transform hover:scale-105"
-              >
-                Ver Projetos
-                <ArrowRight size={16} />
-              </Link>
-              <Link
-                to="/contato"
-                className="border border-border text-foreground px-8 py-3.5 rounded-xl text-sm font-semibold transition-all hover:border-primary/50 hover:shadow-[0_0_20px_hsl(25_90%_55%/0.1)]"
-              >
-                Entrar em contato
-              </Link>
-            </div>
-          </motion.div>
+      <div className="container mx-auto px-6 md:px-12 relative z-10 py-16">
+        <motion.p
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="text-muted-foreground text-base font-light mb-3"
+        >
+          Agência criativa especializada em
+        </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:col-span-5 hidden lg:block"
-          >
-            <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-card card-rim ember-glow">
-              <div className="absolute inset-0 bg-ember-gradient opacity-20" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-24 h-24 mx-auto rounded-full bg-ember-gradient flex items-center justify-center mb-4">
-                    <span className="font-display text-3xl font-bold text-primary-foreground">S</span>
-                  </div>
-                  <p className="text-muted-foreground text-sm">Portfólio Criativo</p>
-                </div>
-              </div>
+        <motion.h1
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="font-display font-extrabold leading-[0.93] tracking-tighter text-foreground"
+          style={{ fontSize: "clamp(68px, 9.5vw, 128px)" }}
+        >
+          Design<em className="text-primary not-italic block">que Vende.</em>
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.35 }}
+          className="text-[17px] text-muted-foreground max-w-[360px] leading-[1.75] mt-5 mb-10"
+        >
+          Transformamos marcas em experiências visuais que geram conexão, autoridade e resultados reais. Do social ao digital.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.45 }}
+          className="flex flex-wrap gap-4"
+        >
+          <Link to="/projetos" className="btn-primary">
+            Ver Nossos Projetos →
+          </Link>
+          <Link to="/contato" className="btn-ghost">
+            Solicitar Orçamento
+          </Link>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.55 }}
+          className="flex gap-3 mt-14 flex-wrap"
+        >
+          {[
+            { icon: "📱", label: "Social Media Design" },
+            { icon: "◈", label: "Brand Design" },
+            { icon: "🌐", label: "Web Design" },
+          ].map((s) => (
+            <div
+              key={s.label}
+              className="bg-secondary border border-border rounded-full px-5 py-2.5 text-[13px] text-secondary-foreground flex items-center gap-2 hover:border-primary hover:bg-primary/5 transition-all"
+            >
+              <span className="text-[15px]">{s.icon}</span>
+              {s.label}
             </div>
-          </motion.div>
-        </div>
+          ))}
+        </motion.div>
       </div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.8 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+      >
+        <span className="text-[11px] text-muted-foreground tracking-[0.1em] uppercase">scroll</span>
+        <div className="scroll-line" />
+      </motion.div>
     </section>
   );
 };
