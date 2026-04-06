@@ -1,15 +1,16 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { Plus, Pencil, Trash2, LogOut, Star } from "lucide-react";
+import { Plus, Pencil, Trash2, LogOut, Star, Search, Settings, FileText } from "lucide-react";
 import { toast } from "sonner";
 
 const AdminDashboard = () => {
   const { user, loading: authLoading, signOut } = useAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -29,6 +30,12 @@ const AdminDashboard = () => {
     },
     enabled: !!user,
   });
+
+  const filtered = projects?.filter((p) =>
+    !search ||
+    p.titulo.toLowerCase().includes(search.toLowerCase()) ||
+    p.categoria.toLowerCase().includes(search.toLowerCase())
+  );
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
@@ -60,7 +67,21 @@ const AdminDashboard = () => {
             </Link>
             <span className="text-xs text-muted-foreground bg-secondary px-2.5 py-1 rounded-md">Admin</span>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <Link
+              to="/admin/sobre"
+              className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+              title="Editar Sobre"
+            >
+              <FileText size={18} />
+            </Link>
+            <Link
+              to="/admin/configuracoes"
+              className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+              title="Configurações"
+            >
+              <Settings size={18} />
+            </Link>
             <Link
               to="/admin/novo"
               className="bg-ember-gradient text-primary-foreground px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2"
@@ -69,7 +90,7 @@ const AdminDashboard = () => {
             </Link>
             <button
               onClick={signOut}
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-muted-foreground hover:text-foreground transition-colors p-2"
               title="Sair"
             >
               <LogOut size={18} />
@@ -79,7 +100,19 @@ const AdminDashboard = () => {
       </header>
 
       <div className="container mx-auto px-6 py-10">
-        <h1 className="text-3xl font-bold text-foreground mb-8">Projetos</h1>
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-3xl font-bold text-foreground">Projetos</h1>
+          <div className="relative w-64">
+            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Buscar projetos..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full bg-secondary border border-border rounded-lg pl-9 pr-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
+            />
+          </div>
+        </div>
 
         {isLoading ? (
           <div className="space-y-4">
@@ -87,9 +120,9 @@ const AdminDashboard = () => {
               <div key={i} className="h-20 bg-card rounded-xl animate-pulse" />
             ))}
           </div>
-        ) : projects && projects.length > 0 ? (
+        ) : filtered && filtered.length > 0 ? (
           <div className="space-y-4">
-            {projects.map((project) => (
+            {filtered.map((project) => (
               <div
                 key={project.id}
                 className="bg-card rounded-xl p-5 card-rim flex items-center justify-between gap-4"
@@ -111,7 +144,18 @@ const AdminDashboard = () => {
                       <h3 className="font-semibold text-foreground truncate">{project.titulo}</h3>
                       {project.destaque && <Star size={14} className="text-primary flex-shrink-0" />}
                     </div>
-                    <p className="text-xs text-muted-foreground">{project.categoria}</p>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <p className="text-xs text-muted-foreground">{project.categoria}</p>
+                      {(project as any).status && (
+                        <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
+                          (project as any).status === "Concluído" ? "bg-green-500/10 text-green-400" :
+                          (project as any).status === "Em andamento" ? "bg-yellow-500/10 text-yellow-400" :
+                          "bg-blue-500/10 text-blue-400"
+                        }`}>
+                          {(project as any).status}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 flex-shrink-0">

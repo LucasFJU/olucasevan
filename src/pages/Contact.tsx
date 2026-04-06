@@ -9,12 +9,13 @@ import { z } from "zod";
 const contactSchema = z.object({
   nome: z.string().trim().min(1, "Nome é obrigatório").max(100),
   email: z.string().trim().email("Email inválido").max(255),
+  assunto: z.string().trim().max(200).optional(),
   tipo_projeto: z.string().optional(),
   mensagem: z.string().trim().min(1, "Mensagem é obrigatória").max(2000),
 });
 
 const Contact = () => {
-  const [form, setForm] = useState({ nome: "", email: "", tipo_projeto: "", mensagem: "" });
+  const [form, setForm] = useState({ nome: "", email: "", assunto: "", tipo_projeto: "", mensagem: "" });
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
 
@@ -30,9 +31,10 @@ const Contact = () => {
     const { error } = await supabase.from("leads").insert({
       nome: result.data.nome,
       email: result.data.email,
+      assunto: result.data.assunto || null,
       tipo_projeto: result.data.tipo_projeto || null,
       mensagem: result.data.mensagem,
-    });
+    } as any);
     setLoading(false);
 
     if (error) {
@@ -112,6 +114,16 @@ const Contact = () => {
                       className="w-full bg-secondary border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
                       placeholder="seu@email.com"
                       required
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-foreground block mb-2">Assunto</label>
+                    <input
+                      type="text"
+                      value={form.assunto}
+                      onChange={(e) => setForm({ ...form, assunto: e.target.value })}
+                      className="w-full bg-secondary border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
+                      placeholder="Assunto da mensagem"
                     />
                   </div>
                   <div>
