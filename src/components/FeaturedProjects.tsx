@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import ProjectCard from "./ProjectCard";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
 const FeaturedProjects = () => {
@@ -14,55 +13,59 @@ const FeaturedProjects = () => {
         .select("*")
         .eq("destaque", true)
         .order("data_publicacao", { ascending: false })
-        .limit(3);
+        .limit(4);
       if (error) throw error;
       return data;
     },
   });
 
   return (
-    <section className="py-24">
-      <div className="container mx-auto px-6">
+    <section className="sec-pad">
+      <div className="container mx-auto px-6 md:px-12">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="flex items-end justify-between mb-12"
+          transition={{ duration: 0.6 }}
+          className="flex items-end justify-between mb-10 flex-wrap gap-4"
         >
           <div>
-            <span className="text-primary text-sm font-bold uppercase tracking-widest">Portfólio</span>
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tighter mt-2 text-foreground">
-              Projetos em Destaque
+            <p className="tag-label mb-3">Portfólio</p>
+            <h2
+              className="font-display font-extrabold leading-[1.05] text-foreground"
+              style={{ fontSize: "clamp(32px, 5vw, 54px)" }}
+            >
+              Projetos que falam por si.
             </h2>
           </div>
           <Link
             to="/projetos"
-            className="hidden md:flex items-center gap-2 text-primary text-sm font-semibold hover:underline"
+            className="hidden md:inline-flex text-primary text-sm font-semibold hover:underline items-center gap-2"
           >
-            Ver todos <ArrowRight size={14} />
+            Ver todos →
           </Link>
         </motion.div>
 
         {isLoading ? (
-          <div className="grid grid-cols-12 gap-8">
-            {[8, 4, 4].map((span, i) => (
+          <div className="grid grid-cols-12 gap-4">
+            {[6, 6, 6, 6].map((_, i) => (
               <div
                 key={i}
-                className={`col-span-12 md:col-span-${span} aspect-[16/10] bg-card rounded-2xl animate-pulse`}
+                className="col-span-12 md:col-span-6 h-[340px] bg-card rounded-lg animate-pulse"
               />
             ))}
           </div>
         ) : projects && projects.length > 0 ? (
-          <div className="grid grid-cols-12 gap-8">
-            {projects.map((project, i) => (
-              <ProjectCard key={project.id} project={project} featured={i === 0} />
+          <div className="grid grid-cols-12 gap-4">
+            {projects.map((project) => (
+              <ProjectCard key={project.id} project={project} />
             ))}
           </div>
         ) : (
           <div className="text-center py-20 text-muted-foreground">
-            <p className="text-lg">Nenhum projeto em destaque ainda.</p>
-            <p className="text-sm mt-2">Projetos aparecerão aqui quando adicionados pelo painel admin.</p>
+            <div className="text-[40px] mb-3 opacity-30">🎨</div>
+            <p className="font-display text-lg font-bold text-foreground mb-2">Nenhum projeto em destaque</p>
+            <p className="text-sm">Adicione projetos pelo painel admin.</p>
           </div>
         )}
 
@@ -70,7 +73,7 @@ const FeaturedProjects = () => {
           to="/projetos"
           className="md:hidden flex items-center justify-center gap-2 text-primary text-sm font-semibold mt-8"
         >
-          Ver todos os projetos <ArrowRight size={14} />
+          Ver todos os projetos →
         </Link>
       </div>
     </section>
