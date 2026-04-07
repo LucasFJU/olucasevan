@@ -85,7 +85,7 @@ const AdminDashboard = () => {
         </div>
       </nav>
 
-      <div className="container mx-auto px-6 md:px-12 pt-[100px] pb-16">
+      <div className="container mx-auto px-4 md:px-12 pt-[100px] pb-16">
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5 mb-10">
           {[
