@@ -61,22 +61,22 @@ const AdminDashboard = () => {
     <div className="min-h-screen bg-background">
       {/* Navbar */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-background/88 backdrop-blur-[18px] border-b border-border">
-        <div className="container mx-auto px-6 md:px-12 h-[68px] flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Link to="/" className="font-display text-lg font-extrabold text-foreground">
+        <div className="container mx-auto px-4 md:px-12 h-[68px] flex items-center justify-between">
+          <div className="flex items-center gap-2 min-w-0">
+            <Link to="/" className="font-display text-lg font-extrabold text-foreground shrink-0">
               Folio<span className="text-primary">blox</span>
             </Link>
-            <span className="text-[11px] text-primary font-bold uppercase tracking-[0.08em] bg-primary/10 px-2.5 py-1 rounded-full">Admin</span>
+            <span className="text-[11px] text-primary font-bold uppercase tracking-[0.08em] bg-primary/10 px-2 py-1 rounded-full shrink-0">Admin</span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 md:gap-2">
             <Link to="/admin/sobre" className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors" title="Editar Sobre">
               <FileText size={18} />
             </Link>
             <Link to="/admin/configuracoes" className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors" title="Configurações">
               <Settings size={18} />
             </Link>
-            <Link to="/admin/novo" className="btn-primary px-5 py-2.5 text-[13px]">
-              <Plus size={16} /> Novo Projeto
+            <Link to="/admin/novo" className="btn-primary px-3 py-2 md:px-5 md:py-2.5 text-[13px]">
+              <Plus size={16} /> <span className="hidden sm:inline">Novo Projeto</span>
             </Link>
             <button onClick={signOut} className="p-2 text-muted-foreground hover:text-foreground transition-colors" title="Sair">
               <LogOut size={18} />
@@ -85,7 +85,7 @@ const AdminDashboard = () => {
         </div>
       </nav>
 
-      <div className="container mx-auto px-6 md:px-12 pt-[100px] pb-16">
+      <div className="container mx-auto px-4 md:px-12 pt-[100px] pb-16">
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5 mb-10">
           {[
