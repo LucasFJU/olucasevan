@@ -1,101 +1,98 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import heroBg from "@/assets/hero-bg.png";
+import heroBg from "@/assets/hero-bg.jpg";
+
+const features = [
+  { num: "01", label: "Brand Strategy" },
+  { num: "02", label: "Brand Identity Design" },
+  { num: "03", label: "Packaging Design" },
+  { num: "04", label: "Creative Direction" },
+];
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-end overflow-hidden">
+    <section className="relative min-h-screen flex items-end overflow-hidden mx-4 md:mx-6 rounded-b-[40px] md:rounded-b-[80px]">
       {/* Background image */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat rounded-b-[40px] md:rounded-b-[80px]"
         style={{ backgroundImage: `url(${heroBg})` }}
       />
 
       {/* Dark overlay gradient from bottom */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/10 rounded-b-[40px] md:rounded-b-[80px]" />
 
       {/* Content */}
-      <div className="container mx-auto px-6 md:px-12 relative z-10 pb-20 md:pb-28 pt-32">
-        <div className="max-w-[700px]">
+      <div className="w-full max-w-[1600px] mx-auto relative z-10 pb-16 md:pb-24 pt-32 px-6 md:px-10">
+        <div className="flex flex-col gap-16 md:gap-24">
+          {/* Header area */}
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-10">
+            {/* Headline */}
+            <div className="max-w-[1110px]">
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="text-primary font-bold text-[20px] md:text-[30px] leading-[1.4] mb-5"
+              >
+                Olá, sou um
+              </motion.p>
+
+              <motion.h1
+                initial={{ opacity: 0, y: 28 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.2 }}
+                className="font-display font-extrabold leading-[0.95] tracking-tighter text-foreground"
+                style={{ fontSize: "clamp(56px, 8.5vw, 116px)" }}
+              >
+                Diretor<br />
+                Criativo
+              </motion.h1>
+            </div>
+
+            {/* Right text + buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.35 }}
+              className="max-w-[480px] flex flex-col gap-5"
+            >
+              <p className="text-foreground font-bold text-[18px] md:text-[22px] leading-[1.5]">
+                O bom design deve ser invisível.
+              </p>
+              <p className="text-foreground/60 text-[15px] leading-[1.85]">
+                Do logotipo à linguagem visual, crio marcas que conectam e convertem.
+              </p>
+
+              <div className="flex flex-wrap gap-3 mt-2">
+                <Link to="/projetos" className="btn-primary">
+                  Ver Projetos →
+                </Link>
+                <Link to="/contato" className="btn-ghost border-foreground/20 text-foreground hover:border-primary/50 hover:bg-primary/5">
+                  Solicitar Orçamento
+                </Link>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Features bar */}
           <motion.div
-            initial={{ opacity: 0, y: 28 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="flex items-center gap-3 mb-5"
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10"
           >
-            <span className="w-8 h-[3px] bg-primary rounded-full" />
-            <span className="text-muted-foreground text-sm font-light">Olá, sou um</span>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="font-display font-extrabold leading-[0.93] tracking-tighter text-foreground"
-            style={{ fontSize: "clamp(56px, 8.5vw, 120px)" }}
-          >
-            Diretor<br />
-            <em className="text-primary not-italic">Criativo</em>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.35 }}
-            className="text-[16px] text-muted-foreground max-w-[420px] leading-[1.75] mt-6 mb-10"
-          >
-            O bom design deve ser invisível. Crio identidades visuais, interfaces e marcas que conectam e convertem.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.45 }}
-            className="flex flex-wrap gap-4"
-          >
-            <Link to="/projetos" className="btn-primary">
-              Ver Projetos →
-            </Link>
-            <Link to="/contato" className="btn-ghost border-foreground/20 text-foreground hover:border-primary/50 hover:bg-primary/5">
-              Solicitar Orçamento
-            </Link>
-          </motion.div>
-
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.55 }}
-            className="flex gap-10 md:gap-16 mt-14 flex-wrap"
-          >
-            {[
-              { n: "08+", l: "ANOS DE EXPERIÊNCIA" },
-              { n: "120+", l: "PROJETOS ENTREGUES" },
-              { n: "45+", l: "CLIENTES ATIVOS" },
-            ].map((s) => (
-              <div key={s.l}>
-                <div className="font-display text-[36px] md:text-[42px] font-extrabold text-foreground leading-none">
-                  {s.n}
+            {features.map((f) => (
+              <div key={f.num} className="flex flex-col gap-2">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-primary font-bold text-[15px]">#</span>
+                  <span className="text-foreground font-bold text-[15px]">{f.num}</span>
                 </div>
-                <div className="text-[11px] text-muted-foreground tracking-[0.08em] uppercase mt-2">
-                  {s.l}
-                </div>
+                <p className="text-foreground/80 text-[15px]">{f.label}</p>
               </div>
             ))}
           </motion.div>
         </div>
       </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.8 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10"
-      >
-        <span className="text-[11px] text-muted-foreground tracking-[0.1em] uppercase">rolar</span>
-        <div className="scroll-line" />
-      </motion.div>
     </section>
   );
 };
