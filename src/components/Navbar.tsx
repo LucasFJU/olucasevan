@@ -5,10 +5,8 @@ import { AnimatePresence, motion } from "framer-motion";
 
 const navLinks = [
   { label: "Início", path: "/" },
-  { label: "Serviços", path: "/servicos" },
-  { label: "Projetos", path: "/projetos" },
   { label: "Sobre", path: "/sobre" },
-  { label: "Contato", path: "/contato" },
+  { label: "Projetos", path: "/projetos" },
 ];
 
 const Navbar = () => {
@@ -19,7 +17,7 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/88 backdrop-blur-[18px] border-b border-border">
       <div className="container mx-auto px-6 md:px-12 h-[68px] flex items-center justify-between">
         <Link to="/" className="font-display text-lg font-extrabold tracking-tight text-foreground select-none">
-          Folio<span className="text-primary">blox</span>
+          <span className="text-primary">■</span> Folio<span className="text-primary">blox</span>
         </Link>
 
         {/* Desktop */}
@@ -46,7 +44,7 @@ const Navbar = () => {
             to="/contato"
             className="btn-primary px-6 py-2.5 text-[14px]"
           >
-            Fale Comigo <span className="text-xs">●</span>
+            Fale Comigo
           </Link>
         </div>
 
@@ -87,7 +85,7 @@ const Navbar = () => {
                 onClick={() => setIsOpen(false)}
                 className="btn-primary justify-center mt-2"
               >
-                Fale Comigo <span className="text-xs">●</span>
+                Fale Comigo
               </Link>
             </div>
           </motion.div>
