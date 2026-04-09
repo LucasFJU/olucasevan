@@ -5,13 +5,13 @@ const Footer = () => {
     <footer className="border-t border-border">
       <div className="container mx-auto px-6 md:px-12 py-11 flex flex-col md:flex-row items-center justify-between gap-4">
         <Link to="/" className="font-display font-extrabold text-[17px] text-foreground">
-          Folio<span className="text-primary">blox</span>
+          <span className="text-primary">■</span> Folio<span className="text-primary">blox</span>
         </Link>
 
         <div className="flex gap-6">
           {[
             { label: "Início", path: "/" },
-            { label: "Serviços", path: "/servicos" },
+            { label: "Sobre", path: "/sobre" },
             { label: "Projetos", path: "/projetos" },
             { label: "Contato", path: "/contato" },
           ].map((link) => (
