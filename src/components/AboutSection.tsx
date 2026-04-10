@@ -21,14 +21,14 @@ const AboutSection = () => (
             className="font-display font-extrabold leading-[1.1] text-foreground"
             style={{ fontSize: "clamp(34px, 5vw, 58px)" }}
           >
-            Moldando experiências que simplificam a vida.
+            Moldando experiências visuais que simplificam marcas.
           </h2>
         </div>
 
         {/* Right - Text + Button */}
         <div className="flex flex-col justify-center gap-8">
           <p className="text-foreground font-bold text-[18px] md:text-[22px] leading-[1.5]">
-            Sou um designer de produto focado em criar interfaces limpas e intuitivas que resolvem problemas reais.
+            Sou um diretor criativo especializado em social media design, brand design e web design — transformando ideias em identidades que convertem.
           </p>
           <div className="flex items-center gap-6 flex-wrap">
             <p className="text-muted-foreground text-[15px] flex-1 min-w-[200px]">
@@ -48,17 +48,25 @@ const AboutSection = () => (
         viewport={{ once: true }}
         className="grid grid-cols-1 md:grid-cols-3 gap-5"
       >
-        {[demoBrand, demoSocial, demoWeb].map((img, i) => (
+        {[
+          { img: demoBrand, label: "Brand Design" },
+          { img: demoSocial, label: "Social Media" },
+          { img: demoWeb, label: "Web Design" },
+        ].map((item, i) => (
           <div
             key={i}
-            className="aspect-[1.04] rounded-[20px] md:rounded-[30px] overflow-hidden"
+            className="group relative aspect-[1.04] rounded-[20px] md:rounded-[30px] overflow-hidden"
           >
             <img
-              src={img}
-              alt={`Projeto ${i + 1}`}
-              className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+              src={item.img}
+              alt={item.label}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               loading="lazy"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <span className="absolute bottom-5 left-5 text-foreground text-[14px] font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              {item.label}
+            </span>
           </div>
         ))}
       </motion.div>

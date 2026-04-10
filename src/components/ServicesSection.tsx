@@ -3,16 +3,16 @@ import { Link } from "react-router-dom";
 
 const services = [
   {
-    title: "Sua marca, visualmente definida.",
-    heading: "Brand Identity",
-    desc: "Criamos identidades visuais completas que transmitem a essência da sua marca com clareza e impacto.",
-    items: ["Logotipo + variações", "Paleta de cores e tipografia", "Manual de identidade visual", "Brandbook completo"],
-  },
-  {
     title: "Conteúdo que para o scroll.",
     heading: "Social Media Design",
     desc: "Design estratégico para redes sociais que engaja, comunica e converte seguidores em clientes.",
     items: ["Posts e Stories", "Carrosséis e Reels Cover", "Templates editáveis", "Calendário visual mensal"],
+  },
+  {
+    title: "Sua marca, visualmente definida.",
+    heading: "Brand Design",
+    desc: "Identidades visuais completas que transmitem a essência da sua marca com clareza e impacto.",
+    items: ["Logotipo + variações", "Paleta de cores e tipografia", "Manual de identidade visual", "Brandbook completo"],
   },
   {
     title: "Experiências digitais que convertem.",
