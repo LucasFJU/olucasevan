@@ -2,11 +2,10 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import heroBg from "@/assets/hero-bg.jpg";
 
-const features = [
-  { num: "01", label: "Brand Strategy" },
-  { num: "02", label: "Brand Identity Design" },
-  { num: "03", label: "Packaging Design" },
-  { num: "04", label: "Creative Direction" },
+const stats = [
+  { value: "08+", label: "Anos de Experiência" },
+  { value: "120+", label: "Projetos Entregues" },
+  { value: "45+", label: "Clientes Ativos" },
 ];
 
 const Hero = () => {
@@ -15,25 +14,26 @@ const Hero = () => {
       {/* Background image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat rounded-b-[40px] md:rounded-b-[80px]"
-        style={{ backgroundImage: `url(${heroBg})` }}
+        style={{ backgroundImage: `url(${heroBg})`, backgroundPosition: "70% center" }}
       />
 
       {/* Dark overlay gradient from bottom */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/10 rounded-b-[40px] md:rounded-b-[80px]" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/5 rounded-b-[40px] md:rounded-b-[80px]" />
 
       {/* Content */}
       <div className="w-full max-w-[1600px] mx-auto relative z-10 pb-16 md:pb-24 pt-32 px-6 md:px-10">
         <div className="flex flex-col gap-16 md:gap-24">
           {/* Header area */}
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-10">
-            {/* Headline */}
-            <div className="max-w-[1110px]">
+            {/* Headline - left side only */}
+            <div className="max-w-[600px]">
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="text-primary font-bold text-[20px] md:text-[30px] leading-[1.4] mb-5"
+                className="text-primary font-bold text-[18px] md:text-[28px] leading-[1.4] mb-4 flex items-center gap-3"
               >
+                <span className="w-6 h-[3px] bg-primary rounded-full inline-block" />
                 Olá, sou um
               </motion.p>
 
@@ -42,54 +42,62 @@ const Hero = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.2 }}
                 className="font-display font-extrabold leading-[0.95] tracking-tighter text-foreground"
-                style={{ fontSize: "clamp(56px, 8.5vw, 116px)" }}
+                style={{ fontSize: "clamp(52px, 7.5vw, 110px)" }}
               >
                 Diretor<br />
-                Criativo
+                <span className="text-primary">Criativo</span>
               </motion.h1>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.35 }}
+                className="mt-6 flex flex-col gap-3 max-w-[480px]"
+              >
+                <p className="text-foreground/80 text-[15px] leading-[1.85]">
+                  O bom design deve ser invisível. Crio identidades visuais, interfaces e marcas que conectam e convertem.
+                </p>
+
+                <div className="flex flex-wrap gap-3 mt-4">
+                  <Link to="/projetos" className="btn-primary">
+                    Ver Projetos →
+                  </Link>
+                  <Link to="/contato" className="btn-ghost border-foreground/20 text-foreground hover:border-primary/50 hover:bg-primary/5">
+                    Solicitar Orçamento
+                  </Link>
+                </div>
+              </motion.div>
             </div>
-
-            {/* Right text + buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.35 }}
-              className="max-w-[480px] flex flex-col gap-5"
-            >
-              <p className="text-foreground font-bold text-[18px] md:text-[22px] leading-[1.5]">
-                O bom design deve ser invisível.
-              </p>
-              <p className="text-foreground/60 text-[15px] leading-[1.85]">
-                Do logotipo à linguagem visual, crio marcas que conectam e convertem.
-              </p>
-
-              <div className="flex flex-wrap gap-3 mt-2">
-                <Link to="/projetos" className="btn-primary">
-                  Ver Projetos →
-                </Link>
-                <Link to="/contato" className="btn-ghost border-foreground/20 text-foreground hover:border-primary/50 hover:bg-primary/5">
-                  Solicitar Orçamento
-                </Link>
-              </div>
-            </motion.div>
           </div>
 
-          {/* Features bar */}
+          {/* Stats bar */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10"
+            className="flex flex-wrap gap-10 md:gap-16"
           >
-            {features.map((f) => (
-              <div key={f.num} className="flex flex-col gap-2">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-primary font-bold text-[15px]">#</span>
-                  <span className="text-foreground font-bold text-[15px]">{f.num}</span>
-                </div>
-                <p className="text-foreground/80 text-[15px]">{f.label}</p>
+            {stats.map((s) => (
+              <div key={s.label} className="flex flex-col gap-1">
+                <span className="font-display text-[36px] md:text-[44px] font-extrabold text-foreground leading-none tracking-tight">
+                  {s.value}
+                </span>
+                <span className="text-[11px] text-foreground/50 font-bold tracking-[0.12em] uppercase">
+                  {s.label}
+                </span>
               </div>
             ))}
+          </motion.div>
+
+          {/* Scroll indicator */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2 }}
+            className="hidden md:flex flex-col items-center gap-2 absolute bottom-10 left-1/2 -translate-x-1/2"
+          >
+            <div className="w-[1px] h-8 bg-gradient-to-b from-primary to-transparent" />
+            <span className="text-[10px] text-foreground/40 tracking-[0.2em] uppercase">Rolar</span>
           </motion.div>
         </div>
       </div>
