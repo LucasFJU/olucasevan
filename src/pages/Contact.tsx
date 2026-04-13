@@ -47,119 +47,125 @@ const Contact = () => {
 
   return (
     <Layout>
-      <section className="pt-32 pb-24">
-        <div className="container mx-auto px-6 md:px-12">
-          {/* Banner CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="rounded-lg p-12 md:p-20 text-center relative overflow-hidden mb-16"
-            style={{ background: "linear-gradient(135deg, #ff5c1a 0%, #c03000 55%, #0a0a0a 100%)" }}
-          >
-            <div className="absolute inset-0" style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E")`
-            }} />
-            <div className="relative z-10">
-              <p className="tag-label mb-3" style={{ color: "rgba(255,255,255,0.7)" }}>Vamos trabalhar juntos</p>
-              <h1
-                className="font-display font-extrabold text-white mb-4"
-                style={{ fontSize: "clamp(38px, 6vw, 72px)" }}
-              >
-                Sua marca merece design que funciona.
-              </h1>
-              <p className="text-white/75 text-base max-w-[440px] mx-auto leading-[1.8]">
-                Conte seu projeto. Respondemos em até 24h com uma proposta personalizada.
-              </p>
-            </div>
-          </motion.div>
+      {/* Page Banner */}
+      <section className="min-h-[350px] md:min-h-[600px] flex items-center justify-center border-b border-border relative" style={{
+        background: "radial-gradient(ellipse 80% 60% at 50% 0%, hsl(15 100% 50% / 0.12), transparent 70%), hsl(var(--background))"
+      }}>
+        <motion.h1
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="font-display text-foreground text-center"
+          style={{ fontSize: "clamp(44px, 8vw, 120px)", fontWeight: 500, lineHeight: 1, letterSpacing: "-0.02em" }}
+        >
+          Contact
+        </motion.h1>
+      </section>
 
-          {/* Form */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="max-w-[640px] mx-auto"
-          >
-            {sent ? (
-              <div className="bg-card border border-border rounded-lg p-12 text-center">
-                <div className="w-16 h-16 mx-auto rounded-full bg-ember-gradient flex items-center justify-center mb-6">
-                  <Send size={24} className="text-primary-foreground" />
-                </div>
-                <h3 className="font-display text-2xl font-extrabold text-foreground">Mensagem enviada!</h3>
-                <p className="text-muted-foreground mt-3">Retornaremos em até 24 horas.</p>
+      {/* Contact content */}
+      <section className="border-b border-border">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-0 py-[120px]">
+          <div className="flex flex-col md:flex-row gap-16">
+            {/* Left — Info */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="md:w-1/2"
+            >
+              <div className="section-label mb-4">
+                <span className="label-num">[ 01 ]</span> Get in Touch
               </div>
-            ) : (
-              <>
-                <h2
-                  className="font-display font-extrabold text-foreground mb-2"
-                  style={{ fontSize: "clamp(30px, 4vw, 46px)" }}
-                >
-                  Vamos começar?
-                </h2>
-                <p className="text-muted-foreground mb-10 text-[15px] leading-[1.8]">
-                  Preencha o formulário e nossa equipe entra em contato para entender seu projeto e apresentar a melhor solução.
-                </p>
+              <h2
+                className="font-display text-foreground mb-6"
+                style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 400, lineHeight: 1.15 }}
+              >
+                Conecte-se Conosco Hoje!
+              </h2>
+              <p className="text-muted-foreground text-[16px] leading-[1.6] mb-8">
+                Conte sobre seu projeto e receba uma proposta personalizada em até 24h.
+              </p>
 
-                <form onSubmit={handleSubmit} className="space-y-3.5">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              {/* Contact info cards */}
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  { label: "Email", value: "hello@folioblox.com" },
+                  { label: "Phone", value: "+55 11 9999-0000" },
+                  { label: "Location", value: "São Paulo, BR" },
+                  { label: "Hours", value: "Seg–Sex, 9h–18h" },
+                ].map((item) => (
+                  <div key={item.label} className="border border-border rounded-lg p-4">
+                    <p className="text-primary text-[12px] font-medium mb-1">[ {item.label.toUpperCase()} ]</p>
+                    <p className="text-foreground text-[14px]">{item.value}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Right — Form */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="md:w-1/2"
+            >
+              {sent ? (
+                <div className="border border-border rounded-lg p-12 text-center">
+                  <div className="w-16 h-16 mx-auto rounded-full bg-primary flex items-center justify-center mb-6">
+                    <Send size={24} className="text-primary-foreground" />
+                  </div>
+                  <h3 className="font-display text-2xl font-medium text-foreground">Mensagem enviada!</h3>
+                  <p className="text-muted-foreground mt-3">Retornaremos em até 24 horas.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="text-[11px] text-muted-foreground font-semibold uppercase tracking-[0.08em] mb-2 block">Nome *</label>
+                      <label className="text-[12px] text-muted-foreground font-medium uppercase tracking-[0.05em] mb-2 block">Nome *</label>
                       <input
                         type="text"
                         value={form.nome}
                         onChange={(e) => setForm({ ...form, nome: e.target.value })}
-                        className="w-full bg-card border border-border rounded-md px-4 py-3.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                        placeholder="Seu nome"
+                        className="w-full bg-foreground/[0.02] border border-border rounded-lg px-4 py-3.5 text-[16px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
+                        placeholder="Your name"
                         required
                       />
                     </div>
                     <div>
-                      <label className="text-[11px] text-muted-foreground font-semibold uppercase tracking-[0.08em] mb-2 block">E-mail *</label>
+                      <label className="text-[12px] text-muted-foreground font-medium uppercase tracking-[0.05em] mb-2 block">E-mail *</label>
                       <input
                         type="email"
                         value={form.email}
                         onChange={(e) => setForm({ ...form, email: e.target.value })}
-                        className="w-full bg-card border border-border rounded-md px-4 py-3.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                        placeholder="seu@email.com"
+                        className="w-full bg-foreground/[0.02] border border-border rounded-lg px-4 py-3.5 text-[16px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
+                        placeholder="your@email.com"
                         required
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="text-[11px] text-muted-foreground font-semibold uppercase tracking-[0.08em] mb-2 block">Assunto</label>
-                    <input
-                      type="text"
-                      value={form.assunto}
-                      onChange={(e) => setForm({ ...form, assunto: e.target.value })}
-                      className="w-full bg-card border border-border rounded-md px-4 py-3.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                      placeholder="Assunto da mensagem"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-[11px] text-muted-foreground font-semibold uppercase tracking-[0.08em] mb-2 block">Serviço de interesse</label>
+                    <label className="text-[12px] text-muted-foreground font-medium uppercase tracking-[0.05em] mb-2 block">Serviço</label>
                     <select
                       value={form.tipo_projeto}
                       onChange={(e) => setForm({ ...form, tipo_projeto: e.target.value })}
-                      className="w-full bg-card border border-border rounded-md px-4 py-3.5 text-sm text-foreground focus:border-primary focus:outline-none transition-colors"
+                      className="w-full bg-foreground/[0.02] border border-border rounded-lg px-4 py-3.5 text-[16px] text-foreground focus:border-primary focus:outline-none transition-colors"
                     >
-                      <option value="">Selecione...</option>
+                      <option value="">Select a service...</option>
                       <option value="Social Media Design">Social Media Design</option>
-                      <option value="Brand Design">Brand Design</option>
+                      <option value="Brand Identity">Brand Identity</option>
                       <option value="Web Design">Web Design</option>
-                      <option value="Pacote Completo">Pacote Completo</option>
+                      <option value="UI/UX Design">UI/UX Design</option>
+                      <option value="Creative Strategy">Creative Strategy</option>
                     </select>
                   </div>
 
                   <div>
-                    <label className="text-[11px] text-muted-foreground font-semibold uppercase tracking-[0.08em] mb-2 block">Mensagem *</label>
+                    <label className="text-[12px] text-muted-foreground font-medium uppercase tracking-[0.05em] mb-2 block">Mensagem *</label>
                     <textarea
                       value={form.mensagem}
                       onChange={(e) => setForm({ ...form, mensagem: e.target.value })}
                       rows={5}
-                      className="w-full bg-card border border-border rounded-md px-4 py-3.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors resize-y min-h-[130px]"
-                      placeholder="Fale sobre seu projeto, prazo e orçamento..."
+                      className="w-full bg-foreground/[0.02] border border-border rounded-lg px-4 py-3.5 text-[16px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors resize-y min-h-[130px]"
+                      placeholder="Tell us about your project..."
                       required
                     />
                   </div>
@@ -167,14 +173,14 @@ const Contact = () => {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-ember-gradient text-primary-foreground py-4 rounded-full font-display text-base font-bold transition-all hover:translate-y-[-2px] disabled:opacity-50 disabled:hover:translate-y-0 mt-2"
+                    className="w-full btn-primary justify-center py-4 text-[16px] disabled:opacity-50"
                   >
-                    {loading ? "Enviando..." : "Enviar Mensagem →"}
+                    {loading ? "Sending..." : "Send Message →"}
                   </button>
                 </form>
-              </>
-            )}
-          </motion.div>
+              )}
+            </motion.div>
+          </div>
         </div>
       </section>
     </Layout>

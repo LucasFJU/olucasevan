@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import ProjectCard from "./ProjectCard";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
@@ -20,61 +19,100 @@ const FeaturedProjects = () => {
   });
 
   return (
-    <section className="sec-pad">
-      <div className="container mx-auto px-6 md:px-12">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="flex items-end justify-between mb-10 flex-wrap gap-4"
-        >
-          <div>
-            <p className="tag-label mb-3">Portfólio</p>
-            <h2
-              className="font-display font-extrabold leading-[1.05] text-foreground"
-              style={{ fontSize: "clamp(32px, 5vw, 54px)" }}
-            >
-              Projetos que falam por si.
-            </h2>
-          </div>
-          <Link
-            to="/projetos"
-            className="hidden md:inline-flex text-primary text-sm font-semibold hover:underline items-center gap-2"
+    <section className="section-border-top section-border-bottom">
+      <div className="max-w-[1200px] mx-auto px-6 md:px-0 py-[120px]">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row justify-between items-start gap-6 flex-wrap">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="section-label"
           >
-            Ver todos →
-          </Link>
-        </motion.div>
+            <span className="label-num">[ 03 ]</span> Featured Works
+          </motion.div>
 
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="font-display text-foreground max-w-[600px]"
+            style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 400, lineHeight: 1.15 }}
+          >
+            Dando Vida a Ideias Através do Design
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-muted-foreground text-[16px] max-w-[305px] leading-[1.5]"
+          >
+            Ajudo marcas ambiciosas a transformar ideias em experiências digitais intuitivas e de alta performance.
+          </motion.p>
+        </div>
+
+        {/* Projects grid */}
         {isLoading ? (
-          <div className="grid grid-cols-12 gap-4">
-            {[6, 6, 6, 6].map((_, i) => (
-              <div
-                key={i}
-                className="col-span-12 md:col-span-6 h-[340px] bg-card rounded-lg animate-pulse"
-              />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="h-[400px] bg-card rounded-lg animate-pulse" />
             ))}
           </div>
         ) : projects && projects.length > 0 ? (
-          <div className="grid grid-cols-12 gap-4">
-            {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
+            {projects.map((project, i) => (
+              <motion.div
+                key={project.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="group"
+              >
+                <Link to={`/projetos/${project.id}`} className="block">
+                  <div className="h-[350px] md:h-[450px] rounded-lg overflow-hidden bg-card mb-6 relative">
+                    {project.imagem_capa ? (
+                      <img
+                        src={project.imagem_capa}
+                        alt={project.titulo}
+                        className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className="w-full h-full" style={{
+                        background: "linear-gradient(135deg, hsl(var(--border)) 0%, hsl(var(--background)) 100%)"
+                      }} />
+                    )}
+                  </div>
+                  <h3 className="font-display text-[20px] text-foreground font-medium mb-1">
+                    {project.titulo}
+                  </h3>
+                  <p className="text-muted-foreground text-[14px] leading-[1.6] line-clamp-2 mb-3">
+                    {project.descricao}
+                  </p>
+                  <span className="text-foreground text-[14px] font-medium hover:text-primary transition-colors">
+                    View Project →
+                  </span>
+                </Link>
+              </motion.div>
             ))}
           </div>
         ) : (
-          <div className="text-center py-20 text-muted-foreground">
-            <div className="text-[40px] mb-3 opacity-30">🎨</div>
-            <p className="font-display text-lg font-bold text-foreground mb-2">Nenhum projeto em destaque</p>
+          <div className="text-center py-20 text-muted-foreground mt-10">
+            <p className="font-display text-lg font-medium text-foreground mb-2">Nenhum projeto em destaque</p>
             <p className="text-sm">Adicione projetos pelo painel admin.</p>
           </div>
         )}
 
-        <Link
-          to="/projetos"
-          className="md:hidden flex items-center justify-center gap-2 text-primary text-sm font-semibold mt-8"
-        >
-          Ver todos os projetos →
-        </Link>
+        {/* View all button */}
+        <div className="flex justify-center mt-16">
+          <Link to="/projetos" className="btn-ghost">
+            View All Work →
+          </Link>
+        </div>
       </div>
     </section>
   );
