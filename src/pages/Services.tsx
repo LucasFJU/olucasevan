@@ -12,7 +12,7 @@ const services = [
   },
   {
     num: "02",
-    title: "Brand Design",
+    title: "Brand Identity",
     desc: "Identidades visuais que transmitem profissionalismo, geram confiança e tornam sua marca inesquecível.",
     items: ["Logotipo + variações", "Paleta de cores e tipografia", "Manual de identidade visual", "Papelaria e materiais gráficos", "Brandbook completo"],
   },
@@ -24,129 +24,74 @@ const services = [
   },
 ];
 
-const process = [
-  { num: "01", title: "Briefing & Imersão", desc: "Mergulhamos no seu negócio, público e objetivos antes de criar qualquer pixel." },
-  { num: "02", title: "Estratégia Visual", desc: "Definimos direção criativa, referências e conceito antes da execução." },
-  { num: "03", title: "Design & Refinamento", desc: "Criamos, apresentamos e refinamos com foco em clareza, conversão e identidade." },
-  { num: "04", title: "Entrega & Suporte", desc: "Arquivos organizados, manual de uso e suporte pós-entrega incluso." },
-];
-
 const Services = () => {
   return (
     <Layout>
-      <section className="pt-32 pb-24">
-        <div className="container mx-auto px-6 md:px-12">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-14"
-          >
-            <p className="tag-label mb-3">O que fazemos</p>
-            <h1
-              className="font-display font-extrabold leading-[1.05] text-foreground max-w-[600px] mx-auto"
-              style={{ fontSize: "clamp(34px, 5vw, 58px)" }}
-            >
-              Três especialidades. Um propósito: fazer sua marca crescer.
-            </h1>
-          </motion.div>
+      {/* Page Banner */}
+      <section className="min-h-[400px] md:min-h-[600px] flex items-center justify-center border-b border-border relative" style={{
+        background: "radial-gradient(ellipse 80% 60% at 50% 0%, hsl(15 100% 50% / 0.12), transparent 70%), hsl(var(--background))"
+      }}>
+        <motion.h1
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="font-display text-foreground text-center"
+          style={{ fontSize: "clamp(44px, 8vw, 120px)", fontWeight: 500, lineHeight: 1, letterSpacing: "-0.02em" }}
+        >
+          Services
+        </motion.h1>
+      </section>
 
-          {/* Services Big Grid */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-[2px]"
-          >
-            {services.map((srv, i) => (
-              <div
-                key={srv.title}
-                className={`group relative bg-card border border-border p-10 md:p-12 cursor-pointer transition-colors hover:bg-secondary overflow-hidden ${
-                  i === 0 ? "md:rounded-l-lg" : i === 2 ? "md:rounded-r-lg" : ""
-                }`}
-              >
-                <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="relative z-10">
-                  <div className="font-display text-[64px] font-extrabold text-border leading-none mb-5 group-hover:text-primary transition-colors">
-                    {srv.num}
-                  </div>
-                  <h3 className="font-display text-2xl font-extrabold text-foreground mb-3">{srv.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-[1.8] mb-6">{srv.desc}</p>
-                  <ul className="space-y-0">
-                    {srv.items.map((item) => (
-                      <li key={item} className="text-[13px] text-muted-foreground py-2 border-b border-border last:border-b-0 flex items-center gap-2">
-                        <span className="text-primary text-[12px] flex-shrink-0">→</span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+      {/* Services List */}
+      <section className="max-w-[2000px] mx-auto">
+        {services.map((srv, i) => (
+          <div key={srv.title} className="flex flex-col md:flex-row border-b border-border">
+            {/* Left label area */}
+            <div className="md:w-[30%] py-16 md:py-[120px] px-6">
+              <div className="section-label mb-4">
+                <span className="label-num">[ {srv.num} ]</span> Services
               </div>
-            ))}
-          </motion.div>
-
-          <hr className="border-border my-24" />
-
-          {/* Process */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-14"
-          >
-            <p className="tag-label mb-3">Como trabalhamos</p>
-            <h2 className="font-display font-extrabold text-foreground" style={{ fontSize: "clamp(30px, 4vw, 50px)" }}>
-              Processo simples. Resultado excepcional.
-            </h2>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4"
-          >
-            {process.map((step) => (
-              <div
-                key={step.num}
-                className="group bg-card border border-border rounded-lg p-8 hover:border-primary transition-colors"
-              >
-                <div className="font-display text-[56px] font-extrabold text-border leading-none mb-4 group-hover:text-primary transition-colors">
-                  {step.num}
-                </div>
-                <h3 className="font-display text-[17px] font-bold text-foreground mb-2">{step.title}</h3>
-                <p className="text-[13px] text-muted-foreground leading-[1.7]">{step.desc}</p>
-              </div>
-            ))}
-          </motion.div>
-
-          <hr className="border-border my-24" />
-
-          {/* CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="rounded-lg p-12 md:p-20 text-center relative overflow-hidden"
-            style={{ background: "linear-gradient(135deg, #ff5c1a 0%, #c03000 55%, #0a0a0a 100%)" }}
-          >
-            <div className="absolute inset-0" style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E")`
-            }} />
-            <div className="relative z-10">
-              <h2
-                className="font-display font-extrabold text-white mb-4"
-                style={{ fontSize: "clamp(38px, 6vw, 72px)" }}
-              >
-                Solicitar orçamento
-              </h2>
-              <p className="text-white/75 text-base max-w-[440px] mx-auto mb-8 leading-[1.8]">
-                Pronto para transformar sua marca? Respondemos em até 24h.
-              </p>
-              <Link to="/contato" className="btn-primary">
-                Fale Comigo <ArrowRight size={16} />
-              </Link>
             </div>
+
+            {/* Right content */}
+            <div className="md:w-[70%] border-l border-border py-16 md:py-[120px] px-6 md:px-8">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                <h2 className="font-display text-foreground text-[28px] md:text-[36px] font-medium mb-4">{srv.title}</h2>
+                <p className="text-muted-foreground text-[16px] leading-[1.6] max-w-[500px] mb-8">{srv.desc}</p>
+                <ul className="space-y-0">
+                  {srv.items.map((item) => (
+                    <li key={item} className="text-[15px] text-muted-foreground py-3 border-b border-border last:border-b-0 flex items-center gap-3">
+                      <span className="text-primary text-[13px]">→</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            </div>
+          </div>
+        ))}
+      </section>
+
+      {/* CTA */}
+      <section className="py-[120px] px-6">
+        <div className="max-w-[1200px] mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2
+              className="font-display text-foreground mb-6"
+              style={{ fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 400, lineHeight: 1.1 }}
+            >
+              Pronto para começar?
+            </h2>
+            <Link to="/contato" className="btn-primary">
+              Solicitar Orçamento <ArrowRight size={16} />
+            </Link>
           </motion.div>
         </div>
       </section>
