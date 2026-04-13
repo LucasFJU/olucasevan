@@ -1,77 +1,70 @@
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import demoBrand from "@/assets/demo-brand-identity.jpg";
-import demoSocial from "@/assets/demo-social-media.jpg";
-import demoWeb from "@/assets/demo-web-design.jpg";
+import { motion } from "framer-motion";
 
-const AboutSection = () => (
-  <section className="sec-pad" id="sobre">
-    <div className="container mx-auto px-6 md:px-12">
-      {/* Two-column header */}
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-24 mb-20"
-      >
-        {/* Left - Title */}
-        <div>
-          <p className="tag-label mb-4">Por trás dos designs</p>
-          <h2
-            className="font-display font-extrabold leading-[1.1] text-foreground"
-            style={{ fontSize: "clamp(34px, 5vw, 58px)" }}
+const AboutSection = () => {
+  return (
+    <section className="section-border-top">
+      <div className="max-w-[1200px] mx-auto px-6 md:px-0 py-[120px]">
+        <div className="flex flex-col md:flex-row justify-between items-start gap-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="section-label shrink-0"
           >
-            Moldando experiências visuais que simplificam marcas.
-          </h2>
+            <span className="label-num">[ 01 ]</span> About
+          </motion.div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="font-display text-foreground max-w-[820px]"
+            style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 400, lineHeight: 1.15 }}
+          >
+            <span className="font-semibold">Unir</span> design e estratégia para criar experiências criativas que engajam, inspiram e performam.
+          </motion.h2>
         </div>
 
-        {/* Right - Text + Button */}
-        <div className="flex flex-col justify-center gap-8">
-          <p className="text-foreground font-bold text-[18px] md:text-[22px] leading-[1.5]">
-            Sou um diretor criativo especializado em social media design, brand design e web design — transformando ideias em identidades que convertem.
-          </p>
-          <div className="flex items-center gap-6 flex-wrap">
-            <p className="text-muted-foreground text-[15px] flex-1 min-w-[200px]">
-              Vamos construir algo significativo juntos
-            </p>
-            <Link to="/contato" className="btn-primary shrink-0">
-              Fale comigo →
-            </Link>
-          </div>
+        {/* Stats row */}
+        <div className="grid grid-cols-1 md:grid-cols-3 mt-16">
+          {[
+            { num: "120+", text: "Projetos entregues. Design que funciona, do briefing ao resultado.", cta: "Ver Portfólio" },
+            { num: "50+", text: "Clientes globais. Startups e marcas confiam no nosso trabalho.", cta: "Saiba Mais" },
+            { num: "8+", text: "Anos de experiência. Criatividade, estratégia e tecnologia em cada projeto.", cta: "Saiba Mais" },
+          ].map((item, i) => (
+            <motion.div
+              key={item.num}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className={`group flex flex-col items-start gap-10 p-10 md:p-20 transition-colors duration-500 hover:bg-primary ${
+                i < 2 ? "md:border-r border-b md:border-b-0 border-border" : "border-b md:border-b-0"
+              }`}
+            >
+              <span
+                className="font-display font-normal text-foreground leading-none"
+                style={{ fontSize: "clamp(48px, 6vw, 72px)" }}
+              >
+                {item.num}
+              </span>
+              <p className="text-muted-foreground text-[16px] leading-[1.5] max-w-[320px] group-hover:text-foreground/80 transition-colors">
+                {item.text}
+              </p>
+              <Link
+                to={i === 0 ? "/projetos" : "/sobre"}
+                className="text-foreground text-[16px] font-medium hover:text-primary group-hover:text-foreground transition-colors"
+              >
+                {item.cta} →
+              </Link>
+            </motion.div>
+          ))}
         </div>
-      </motion.div>
-
-      {/* Three images */}
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="grid grid-cols-1 md:grid-cols-3 gap-5"
-      >
-        {[
-          { img: demoBrand, label: "Brand Design" },
-          { img: demoSocial, label: "Social Media" },
-          { img: demoWeb, label: "Web Design" },
-        ].map((item, i) => (
-          <div
-            key={i}
-            className="group relative aspect-[1.04] rounded-[20px] md:rounded-[30px] overflow-hidden"
-          >
-            <img
-              src={item.img}
-              alt={item.label}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              loading="lazy"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <span className="absolute bottom-5 left-5 text-foreground text-[14px] font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              {item.label}
-            </span>
-          </div>
-        ))}
-      </motion.div>
-    </div>
-  </section>
-);
+      </div>
+    </section>
+  );
+};
 
 export default AboutSection;
