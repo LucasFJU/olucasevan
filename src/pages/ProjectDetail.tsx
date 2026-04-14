@@ -2,11 +2,13 @@ import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import Layout from "@/components/Layout";
-import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
-import { motion } from "framer-motion";
+import { ArrowLeft, ArrowRight, ExternalLink, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useCallback, useEffect } from "react";
 
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const { data: project, isLoading } = useQuery({
     queryKey: ["project", id],
@@ -39,6 +41,34 @@ const ProjectDetail = () => {
   const nextProject = currentIndex >= 0 && currentIndex < (allProjects?.length ?? 0) - 1
     ? allProjects![currentIndex + 1]
     : null;
+
+  const galleryLength = project?.galeria?.length ?? 0;
+
+  const openLightbox = (index: number) => setLightboxIndex(index);
+  const closeLightbox = () => setLightboxIndex(null);
+
+  const goNext = useCallback(() => {
+    setLightboxIndex((prev) => (prev !== null && prev < galleryLength - 1 ? prev + 1 : prev));
+  }, [galleryLength]);
+
+  const goPrev = useCallback(() => {
+    setLightboxIndex((prev) => (prev !== null && prev > 0 ? prev - 1 : prev));
+  }, []);
+
+  useEffect(() => {
+    if (lightboxIndex === null) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowRight") goNext();
+      if (e.key === "ArrowLeft") goPrev();
+    };
+    document.addEventListener("keydown", handler);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handler);
+      document.body.style.overflow = "";
+    };
+  }, [lightboxIndex, goNext, goPrev]);
 
   if (isLoading) {
     return (
@@ -137,6 +167,7 @@ const ProjectDetail = () => {
                     className={`rounded-md overflow-hidden bg-secondary cursor-pointer hover:scale-[1.01] transition-transform ${
                       i % 3 === 0 ? "aspect-[16/9]" : ""
                     } ${i % 3 !== 0 && i + 1 < project.galeria!.length && (i + 1) % 3 !== 0 ? "inline-block w-[calc(50%-6px)] mr-3 aspect-[4/3] align-top" : i % 3 !== 0 ? "inline-block w-[calc(50%-6px)] aspect-[4/3] align-top" : ""}`}
+                    onClick={() => openLightbox(i)}
                   >
                     <img src={img} alt="" className="w-full h-full object-cover" loading="lazy" />
                   </motion.div>
@@ -220,6 +251,66 @@ const ProjectDetail = () => {
           ) : <div />}
         </div>
       </div>
+
+      {/* Lightbox Modal */}
+      <AnimatePresence>
+        {lightboxIndex !== null && project?.galeria && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-sm"
+            onClick={closeLightbox}
+          >
+            {/* Close */}
+            <button
+              onClick={closeLightbox}
+              className="absolute top-6 right-6 z-50 p-2 rounded-full bg-card/80 border border-border text-foreground hover:bg-card transition-colors"
+            >
+              <X size={20} />
+            </button>
+
+            {/* Counter */}
+            <div className="absolute top-6 left-6 text-muted-foreground text-sm font-display">
+              {lightboxIndex + 1} / {project.galeria.length}
+            </div>
+
+            {/* Prev */}
+            {lightboxIndex > 0 && (
+              <button
+                onClick={(e) => { e.stopPropagation(); goPrev(); }}
+                className="absolute left-4 md:left-8 z-50 p-3 rounded-full bg-card/80 border border-border text-foreground hover:bg-card transition-colors"
+              >
+                <ChevronLeft size={24} />
+              </button>
+            )}
+
+            {/* Next */}
+            {lightboxIndex < project.galeria.length - 1 && (
+              <button
+                onClick={(e) => { e.stopPropagation(); goNext(); }}
+                className="absolute right-4 md:right-8 z-50 p-3 rounded-full bg-card/80 border border-border text-foreground hover:bg-card transition-colors"
+              >
+                <ChevronRight size={24} />
+              </button>
+            )}
+
+            {/* Image */}
+            <motion.img
+              key={lightboxIndex}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              src={project.galeria[lightboxIndex]}
+              alt=""
+              className="max-h-[85vh] max-w-[90vw] object-contain rounded-lg"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Layout>
   );
 };
