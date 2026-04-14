@@ -20,7 +20,7 @@ const FeaturedProjects = () => {
 
   return (
     <section className="section-border-top section-border-bottom">
-      <div className="max-w-[1200px] mx-auto px-6 md:px-0 py-[120px]">
+      <div className="max-w-[1200px] mx-auto px-6 md:px-0 py-[80px] md:py-[120px]">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start gap-6 flex-wrap">
           <motion.div
@@ -29,7 +29,7 @@ const FeaturedProjects = () => {
             viewport={{ once: true }}
             className="section-label"
           >
-            <span className="label-num">[ 03 ]</span> Featured Works
+            <span className="label-num">[ 03 ]</span> Projetos em Destaque
           </motion.div>
 
           <motion.h2
@@ -56,13 +56,13 @@ const FeaturedProjects = () => {
 
         {/* Projects grid */}
         {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 md:mt-16">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-[400px] bg-card rounded-lg animate-pulse" />
+              <div key={i} className="h-[300px] md:h-[400px] bg-card rounded-lg animate-pulse" />
             ))}
           </div>
         ) : projects && projects.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 md:mt-16">
             {projects.map((project, i) => (
               <motion.div
                 key={project.id}
@@ -73,7 +73,7 @@ const FeaturedProjects = () => {
                 className="group"
               >
                 <Link to={`/projetos/${project.id}`} className="block">
-                  <div className="h-[350px] md:h-[450px] rounded-lg overflow-hidden bg-card mb-6 relative">
+                  <div className="h-[280px] md:h-[450px] rounded-lg overflow-hidden bg-card mb-4 md:mb-6 relative">
                     {project.imagem_capa ? (
                       <img
                         src={project.imagem_capa}
@@ -87,14 +87,14 @@ const FeaturedProjects = () => {
                       }} />
                     )}
                   </div>
-                  <h3 className="font-display text-[20px] text-foreground font-medium mb-1">
+                  <h3 className="font-display text-[18px] md:text-[20px] text-foreground font-medium mb-1">
                     {project.titulo}
                   </h3>
                   <p className="text-muted-foreground text-[14px] leading-[1.6] line-clamp-2 mb-3">
                     {project.descricao}
                   </p>
                   <span className="text-foreground text-[14px] font-medium hover:text-primary transition-colors">
-                    View Project →
+                    Ver Projeto →
                   </span>
                 </Link>
               </motion.div>
@@ -108,9 +108,9 @@ const FeaturedProjects = () => {
         )}
 
         {/* View all button */}
-        <div className="flex justify-center mt-16">
+        <div className="flex justify-center mt-12 md:mt-16">
           <Link to="/projetos" className="btn-ghost">
-            View All Work →
+            Ver Todos os Projetos →
           </Link>
         </div>
       </div>

@@ -48,7 +48,7 @@ const Contact = () => {
   return (
     <Layout>
       {/* Page Banner */}
-      <section className="min-h-[350px] md:min-h-[600px] flex items-center justify-center border-b border-border relative" style={{
+      <section className="min-h-[300px] md:min-h-[600px] flex items-center justify-center border-b border-border relative" style={{
         background: "radial-gradient(ellipse 80% 60% at 50% 0%, hsl(15 100% 50% / 0.12), transparent 70%), hsl(var(--background))"
       }}>
         <motion.h1
@@ -57,14 +57,14 @@ const Contact = () => {
           className="font-display text-foreground text-center"
           style={{ fontSize: "clamp(44px, 8vw, 120px)", fontWeight: 500, lineHeight: 1, letterSpacing: "-0.02em" }}
         >
-          Contact
+          Contato
         </motion.h1>
       </section>
 
       {/* Contact content */}
       <section className="border-b border-border">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-0 py-[120px]">
-          <div className="flex flex-col md:flex-row gap-16">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-0 py-[80px] md:py-[120px]">
+          <div className="flex flex-col md:flex-row gap-12 md:gap-16">
             {/* Left — Info */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -72,7 +72,7 @@ const Contact = () => {
               className="md:w-1/2"
             >
               <div className="section-label mb-4">
-                <span className="label-num">[ 01 ]</span> Get in Touch
+                <span className="label-num">[ 01 ]</span> Fale Conosco
               </div>
               <h2
                 className="font-display text-foreground mb-6"
@@ -85,16 +85,16 @@ const Contact = () => {
               </p>
 
               {/* Contact info cards */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-3 md:gap-4">
                 {[
-                  { label: "Email", value: "hello@folioblox.com" },
-                  { label: "Phone", value: "+55 11 9999-0000" },
-                  { label: "Location", value: "São Paulo, BR" },
-                  { label: "Hours", value: "Seg–Sex, 9h–18h" },
+                  { label: "E-mail", value: "hello@folioblox.com" },
+                  { label: "Telefone", value: "+55 11 9999-0000" },
+                  { label: "Localização", value: "São Paulo, BR" },
+                  { label: "Horário", value: "Seg–Sex, 9h–18h" },
                 ].map((item) => (
                   <div key={item.label} className="border border-border rounded-lg p-4">
                     <p className="text-primary text-[12px] font-medium mb-1">[ {item.label.toUpperCase()} ]</p>
-                    <p className="text-foreground text-[14px]">{item.value}</p>
+                    <p className="text-foreground text-[13px] md:text-[14px]">{item.value}</p>
                   </div>
                 ))}
               </div>
@@ -108,7 +108,7 @@ const Contact = () => {
               className="md:w-1/2"
             >
               {sent ? (
-                <div className="border border-border rounded-lg p-12 text-center">
+                <div className="border border-border rounded-lg p-10 md:p-12 text-center">
                   <div className="w-16 h-16 mx-auto rounded-full bg-primary flex items-center justify-center mb-6">
                     <Send size={24} className="text-primary-foreground" />
                   </div>
@@ -125,7 +125,7 @@ const Contact = () => {
                         value={form.nome}
                         onChange={(e) => setForm({ ...form, nome: e.target.value })}
                         className="w-full bg-foreground/[0.02] border border-border rounded-lg px-4 py-3.5 text-[16px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                        placeholder="Your name"
+                        placeholder="Seu nome"
                         required
                       />
                     </div>
@@ -136,7 +136,7 @@ const Contact = () => {
                         value={form.email}
                         onChange={(e) => setForm({ ...form, email: e.target.value })}
                         className="w-full bg-foreground/[0.02] border border-border rounded-lg px-4 py-3.5 text-[16px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                        placeholder="your@email.com"
+                        placeholder="seu@email.com"
                         required
                       />
                     </div>
@@ -149,12 +149,12 @@ const Contact = () => {
                       onChange={(e) => setForm({ ...form, tipo_projeto: e.target.value })}
                       className="w-full bg-foreground/[0.02] border border-border rounded-lg px-4 py-3.5 text-[16px] text-foreground focus:border-primary focus:outline-none transition-colors"
                     >
-                      <option value="">Select a service...</option>
+                      <option value="">Selecione um serviço...</option>
                       <option value="Social Media Design">Social Media Design</option>
                       <option value="Brand Identity">Brand Identity</option>
                       <option value="Web Design">Web Design</option>
                       <option value="UI/UX Design">UI/UX Design</option>
-                      <option value="Creative Strategy">Creative Strategy</option>
+                      <option value="Estratégia Criativa">Estratégia Criativa</option>
                     </select>
                   </div>
 
@@ -165,7 +165,7 @@ const Contact = () => {
                       onChange={(e) => setForm({ ...form, mensagem: e.target.value })}
                       rows={5}
                       className="w-full bg-foreground/[0.02] border border-border rounded-lg px-4 py-3.5 text-[16px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors resize-y min-h-[130px]"
-                      placeholder="Tell us about your project..."
+                      placeholder="Conte sobre seu projeto..."
                       required
                     />
                   </div>
@@ -175,7 +175,7 @@ const Contact = () => {
                     disabled={loading}
                     className="w-full btn-primary justify-center py-4 text-[16px] disabled:opacity-50"
                   >
-                    {loading ? "Sending..." : "Send Message →"}
+                    {loading ? "Enviando..." : "Enviar Mensagem →"}
                   </button>
                 </form>
               )}

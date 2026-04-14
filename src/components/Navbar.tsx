@@ -4,12 +4,12 @@ import { Menu, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 
 const navLinks = [
-  { label: "Home", path: "/" },
-  { label: "About", path: "/sobre" },
-  { label: "Work", path: "/projetos" },
-  { label: "Services", path: "/servicos" },
-  { label: "Process", path: "/processo" },
-  { label: "Contact", path: "/contato" },
+  { label: "Início", path: "/" },
+  { label: "Sobre", path: "/sobre" },
+  { label: "Projetos", path: "/projetos" },
+  { label: "Serviços", path: "/servicos" },
+  { label: "Processo", path: "/processo" },
+  { label: "Contato", path: "/contato" },
 ];
 
 const Navbar = () => {
@@ -18,7 +18,7 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-3 left-0 right-0 z-50 px-4 md:px-6">
-      <div className="max-w-[1200px] mx-auto flex items-center justify-between rounded-full border border-foreground/[0.06] bg-foreground/[0.02] backdrop-blur-xl px-5 md:px-6 py-3">
+      <div className="max-w-[1200px] mx-auto flex items-center justify-between rounded-full border border-foreground/[0.06] bg-background/80 backdrop-blur-xl px-5 md:px-6 py-3">
         {/* Logo */}
         <Link to="/" className="font-display text-lg font-semibold tracking-tight text-foreground select-none shrink-0">
           <span className="text-primary">■</span> Folio<span className="text-primary">blox</span>
@@ -42,7 +42,7 @@ const Navbar = () => {
           to="/contato"
           className="hidden md:inline-flex btn-primary px-5 py-2.5 text-[14px]"
         >
-          Let's Talk
+          Fale Conosco
         </Link>
 
         {/* Mobile toggle */}
@@ -62,7 +62,7 @@ const Navbar = () => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="md:hidden mt-2 mx-0 rounded-2xl bg-border/80 backdrop-blur-xl border border-foreground/[0.06] overflow-hidden"
+            className="md:hidden mt-2 mx-0 rounded-2xl bg-background/95 backdrop-blur-xl border border-foreground/[0.06] overflow-hidden"
           >
             <div className="px-6 py-5 flex flex-col gap-3">
               {navLinks.map((link) => (
@@ -82,7 +82,7 @@ const Navbar = () => {
                 onClick={() => setIsOpen(false)}
                 className="btn-primary justify-center mt-2 text-[14px]"
               >
-                Let's Talk
+                Fale Conosco
               </Link>
             </div>
           </motion.div>
