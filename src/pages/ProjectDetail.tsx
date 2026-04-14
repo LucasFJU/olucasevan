@@ -8,6 +8,38 @@ import { useState, useCallback, useEffect } from "react";
 
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
+  const openLightbox = (index: number) => setLightboxIndex(index);
+  const closeLightbox = () => setLightboxIndex(null);
+
+  const goNext = useCallback(() => {
+    if (lightboxIndex === null) return;
+    setLightboxIndex((prev) => {
+      const total = project?.galeria?.length ?? 0;
+      return prev !== null && prev < total - 1 ? prev + 1 : prev;
+    });
+  }, [lightboxIndex, project?.galeria?.length]);
+
+  const goPrev = useCallback(() => {
+    if (lightboxIndex === null) return;
+    setLightboxIndex((prev) => (prev !== null && prev > 0 ? prev - 1 : prev));
+  }, [lightboxIndex]);
+
+  useEffect(() => {
+    if (lightboxIndex === null) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowRight") goNext();
+      if (e.key === "ArrowLeft") goPrev();
+    };
+    document.addEventListener("keydown", handler);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handler);
+      document.body.style.overflow = "";
+    };
+  }, [lightboxIndex, goNext, goPrev]);
 
   const { data: project, isLoading } = useQuery({
     queryKey: ["project", id],
