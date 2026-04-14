@@ -2,10 +2,10 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 
 const steps = [
-  { num: "01", title: "Discovery & Brief", desc: "Mergulhamos no seu negócio, público e objetivos. Entendemos antes de criar qualquer pixel." },
-  { num: "02", title: "Strategy & Concept", desc: "Definimos direção criativa, referências visuais e conceito estratégico antes da execução." },
-  { num: "03", title: "Design & Iteration", desc: "Criamos, apresentamos e refinamos com foco em clareza, conversão e identidade da marca." },
-  { num: "04", title: "Delivery & Support", desc: "Arquivos organizados, manual de uso e suporte pós-entrega. Tudo pronto para escalar." },
+  { num: "01", title: "Briefing & Descoberta", desc: "Mergulhamos no seu negócio, público e objetivos. Entendemos antes de criar qualquer pixel." },
+  { num: "02", title: "Estratégia & Conceito", desc: "Definimos direção criativa, referências visuais e conceito estratégico antes da execução." },
+  { num: "03", title: "Design & Iteração", desc: "Criamos, apresentamos e refinamos com foco em clareza, conversão e identidade da marca." },
+  { num: "04", title: "Entrega & Suporte", desc: "Arquivos organizados, manual de uso e suporte pós-entrega. Tudo pronto para escalar." },
 ];
 
 const ProcessSection = () => {
@@ -13,7 +13,7 @@ const ProcessSection = () => {
 
   return (
     <section className="section-border-top section-border-bottom">
-      <div className="max-w-[1200px] mx-auto px-6 md:px-0 py-[120px]">
+      <div className="max-w-[1200px] mx-auto px-6 md:px-0 py-[80px] md:py-[120px]">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 flex-wrap">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -21,7 +21,7 @@ const ProcessSection = () => {
             viewport={{ once: true }}
             className="section-label"
           >
-            <span className="label-num">[ 04 ]</span> Our Process
+            <span className="label-num">[ 04 ]</span> Processo
           </motion.div>
 
           <motion.h2
@@ -45,12 +45,12 @@ const ProcessSection = () => {
           </motion.p>
         </div>
 
-        <div className="flex gap-2 mt-14 mb-10">
+        <div className="flex flex-wrap gap-2 mt-14 mb-10">
           {steps.map((step, i) => (
             <button
               key={step.num}
               onClick={() => setActive(i)}
-              className={`rounded-full px-6 py-3 text-[16px] font-medium border transition-all ${
+              className={`rounded-full px-5 md:px-6 py-2.5 md:py-3 text-[14px] md:text-[16px] font-medium border transition-all ${
                 active === i
                   ? "bg-primary border-primary text-primary-foreground"
                   : "bg-foreground/[0.02] border-border text-muted-foreground hover:border-primary hover:text-foreground"
@@ -66,9 +66,9 @@ const ProcessSection = () => {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="border border-border rounded-lg p-10 md:p-16"
+          className="border border-border rounded-lg p-8 md:p-16"
         >
-          <div className="flex flex-col md:flex-row gap-8 items-start">
+          <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-start">
             <span
               className="font-display text-primary leading-none shrink-0"
               style={{ fontSize: "clamp(48px, 6vw, 80px)", fontWeight: 400 }}
@@ -76,10 +76,10 @@ const ProcessSection = () => {
               {steps[active].num}
             </span>
             <div>
-              <h3 className="font-display text-foreground text-[28px] md:text-[36px] font-medium mb-4">
+              <h3 className="font-display text-foreground text-[24px] md:text-[36px] font-medium mb-4">
                 {steps[active].title}
               </h3>
-              <p className="text-muted-foreground text-[18px] leading-[1.6] max-w-[600px]">
+              <p className="text-muted-foreground text-[16px] md:text-[18px] leading-[1.6] max-w-[600px]">
                 {steps[active].desc}
               </p>
             </div>
