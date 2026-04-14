@@ -2,8 +2,9 @@ import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import Layout from "@/components/Layout";
-import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
-import { motion } from "framer-motion";
+import { ArrowLeft, ArrowRight, ExternalLink, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useCallback, useEffect } from "react";
 
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
