@@ -29,7 +29,7 @@ const About = () => {
           className="font-display text-foreground text-center"
           style={{ fontSize: "clamp(44px, 8vw, 120px)", fontWeight: 500, lineHeight: 1, letterSpacing: "-0.02em" }}
         >
-          About
+          Sobre
         </motion.h1>
       </section>
 
