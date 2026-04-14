@@ -126,15 +126,17 @@ const ProjectDetail = () => {
 
             {/* Gallery */}
             {project.galeria && project.galeria.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="space-y-3">
                 {project.galeria.map((img, i) => (
                   <motion.div
                     key={i}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: i * 0.05 }}
-                    className="rounded-md overflow-hidden aspect-[4/3] bg-secondary cursor-pointer hover:scale-[1.02] transition-transform"
+                    transition={{ delay: i * 0.03 }}
+                    className={`rounded-md overflow-hidden bg-secondary cursor-pointer hover:scale-[1.01] transition-transform ${
+                      i % 3 === 0 ? "aspect-[16/9]" : ""
+                    } ${i % 3 !== 0 && i + 1 < project.galeria!.length && (i + 1) % 3 !== 0 ? "inline-block w-[calc(50%-6px)] mr-3 aspect-[4/3] align-top" : i % 3 !== 0 ? "inline-block w-[calc(50%-6px)] aspect-[4/3] align-top" : ""}`}
                   >
                     <img src={img} alt="" className="w-full h-full object-cover" loading="lazy" />
                   </motion.div>
