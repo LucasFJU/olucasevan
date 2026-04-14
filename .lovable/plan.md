@@ -1,100 +1,43 @@
 
 
-# Plano de Ajustes: Layout, UI/UX, Imagens e Remoção do Processo
+# Projetos Fictícios com Capas e Galerias
 
-## Resumo
-Corrigir responsividade mobile, remover a aba/seção Processo, gerar imagens de capa para projetos demo via IA, inserir projetos no banco, e aplicar melhorias gerais de UI/UX.
+## Situação Atual
+Os 4 projetos (Café Origina, FitPulse, NexTech, Atelier Noir) já existem no banco com capas, mas a galeria está vazia (`[]`). Precisamos gerar 10 imagens de galeria para cada projeto + atualizar as descrições e tags.
 
----
+## Plano
 
-## Problemas Identificados
+### 1. Gerar 44 imagens via IA (4 capas novas + 40 de galeria)
+Usar o AI Gateway (`google/gemini-3-pro-image-preview`) para gerar imagens profissionais de alta qualidade:
 
-### Mobile (360px)
-- **Hero**: O `items-end` faz o conteúdo ficar no fundo da tela, desperdiçando espaço. Social icons ocupam espaço lateral desnecessário
-- **Services**: O layout 30%/70% com `border-l` não funciona no mobile — a coluna de imagem é hidden mas o border permanece
-- **About Stats**: Cards com padding `p-20` no desktop são excessivos; no mobile `p-8` é ok mas os borders ficam inconsistentes
-- **LogosSection**: "Trusted By" em inglês, marquee pode cortar em telas pequenas
-- **Footer**: Grid de 3 colunas empilha bem, mas SOCIAL fica sozinha
-- **Banners de página** (About, Work, Services): Títulos ainda em inglês ("About", "Work", "Services")
+**Café Origina** (Brand Identity):
+- Capa: Mockup de logo em xícara de café
+- Galeria: Logo variations, packaging, cardápio, sacola, cartão de visita, sinalização, website mockup, social media posts, pattern, merchandise
 
-### Desktop
-- **Services**: Imagem placeholder à esquerda é um retângulo vazio com gradiente — parece inacabado
-- **FeaturedProjects**: Seção vazia, sem projetos no banco
-- **Showreel card**: Apenas um placeholder com botão play sem funcionalidade
+**FitPulse** (Social Media):
+- Capa: Grid de Instagram com posts fitness
+- Galeria: Stories, carrossel, reels cover, post motivacional, infográfico, highlight covers, banner, anúncio, feed layout, brand guidelines
 
-### Idioma
-- LogosSection: "Trusted By" → "Parceiros"
-- Banners: "About" → "Sobre", "Work" → "Projetos", "Services" → "Serviços"
-- Search placeholder: "Search..." → "Buscar..."
+**NexTech** (Web Design):
+- Capa: Mockup de laptop com dashboard
+- Galeria: Homepage, about page, pricing, mobile responsive, components, icons, typography, color system, wireframes, final desktop
 
----
+**Atelier Noir** (Brand Design):
+- Capa: Logo dourado em fundo preto
+- Galeria: Cartão de visita, tag de roupa, sacola, lookbook, embalagem, convite, padrão, website, social media, editorial
 
-## Plano de Implementação
+### 2. Upload para Supabase Storage
+Fazer upload de todas as imagens para o bucket `projects` (já existe e é público).
 
-### 1. Remover aba Processo
-- Remover rota `/processo` do `App.tsx`
-- Remover link "Processo" do `Navbar.tsx`
-- Remover link "Processo" do `Footer.tsx`
-- Remover `ProcessSection` do `Index.tsx`
-- Manter o arquivo `ProcessSection.tsx` (sem uso, mas não prejudica)
+### 3. Atualizar banco de dados
+Usar INSERT/UPDATE para preencher o campo `galeria` com os URLs das 10 imagens de cada projeto e atualizar descrições e tags mais completas.
 
-### 2. Gerar 4 imagens de capa via IA
-Usar o script de AI Gateway para gerar imagens profissionais para os projetos demo:
-- **Café Origina** — Brand Identity (café premium, tons terrosos)
-- **FitPulse** — Social Media Design (app fitness, vibrante)
-- **NexTech** — Web Design (tech startup, dark/futurista)
-- **Atelier Noir** — Brand Design (moda luxo, minimalista)
-
-Upload para Supabase Storage e inserir projetos no banco com `destaque = true`.
-
-### 3. Corrigir responsividade mobile
-
-**Hero**:
-- Mudar de `items-end` para `items-center` no mobile
-- Esconder social icons no mobile (já esconde showreel, consistente)
-- Reduzir padding top no mobile
-
-**Services**:
-- Remover a coluna de imagem placeholder completamente (substitui por nada — a seção fica full-width)
-- Remover `border-l` no mobile
-- Reduzir font-size dos serviços listados no mobile
-
-**About Stats**:
-- Reduzir padding no mobile de `p-8` para `p-6`
-
-**Footer**:
-- Ajustar grid SOCIAL para inline no mobile
-
-### 4. Padronizar idioma para PT-BR
-- LogosSection: "Trusted By" → "Parceiros"
-- About.tsx banner: "About" → "Sobre"
-- Projects.tsx banner: "Work" → "Projetos"  
-- Services.tsx banner: "Services" → "Serviços"
-- About.tsx labels: "[ 01 ] About", "[ 02 ] Tools" → "[ 01 ] Sobre", "[ 02 ] Ferramentas"
-- Projects.tsx search: "Search..." → "Buscar..."
-
-### 5. Melhorias UI/UX
-- **Remover imagem placeholder** da ServicesSection (coluna esquerda vazia)
-- **Simplificar ServicesSection**: Tornar full-width sem split 30/70
-- **Melhorar hover states**: Adicionar `scale` sutil nos cards de serviço
-- **CTA Section**: Adicionar ícone ou elemento visual decorativo
-- **Navbar**: Garantir que o link ativo tenha destaque visual claro
-
----
+### 4. Melhorar layout da galeria no ProjectDetail
+Ajustar o grid de galeria para exibir as 10 imagens com layout mais dinâmico (alternando entre imagens full-width e grid 2 colunas).
 
 ## Detalhes Técnicos
-
-### Arquivos editados:
-- `src/App.tsx` — remover rota `/processo`
-- `src/components/Navbar.tsx` — remover link Processo
-- `src/components/Footer.tsx` — remover link Processo
-- `src/pages/Index.tsx` — remover ProcessSection
-- `src/components/Hero.tsx` — ajustar layout mobile
-- `src/components/ServicesSection.tsx` — layout full-width, remover placeholder
-- `src/components/LogosSection.tsx` — traduzir
-- `src/pages/About.tsx`, `Projects.tsx`, `Services.tsx` — traduzir banners
-
-### Banco de dados:
-- INSERT de 4 projetos com imagens geradas por IA
-- Upload de imagens para Supabase Storage bucket "projects"
+- Script Python usando `/tmp/lovable_ai.py` para gerar imagens em batch
+- Upload via `curl` para Supabase Storage REST API
+- UPDATE SQL via insert tool para atualizar galerias
+- Edição de `src/pages/ProjectDetail.tsx` para melhorar o layout da galeria
 
