@@ -1,89 +1,100 @@
 
 
-# Analise Completa do Site Folioblox
+# Plano de Ajustes: Layout, UI/UX, Imagens e Remoção do Processo
 
-## Problemas Identificados
-
-### 1. Mobile (360px) -- Problemas Criticos
-
-**Navbar**: A navbar flutuante fica sobreposta ao conteudo ao rolar a pagina. O logo aparece centralizado e oculta texto por tras dele em varias secoes (About, Services, Featured Works, Process). Isso acontece porque a navbar e `fixed` com `bg-foreground/[0.02]` que nao tem opacidade suficiente.
-
-**Hero**: Os botoes "Ver Projetos" e "Solicitar Orcamento" ficam empilhados verticalmente (ok), mas a secao do Showreel card ocupa muito espaco vertical desnecessario no mobile. Os icones sociais (D, L, B) nao comunicam nada -- deveriam usar icones reais.
-
-**About Section -- Stats**: Os 3 cards de estatisticas empilham corretamente, mas cada um tem `border-bottom` sem consistencia visual no mobile, e o efeito hover (bg-primary) nao faz sentido em touch.
-
-**Services Section**: O layout de duas colunas (30%/70%) com `border-l` no mobile fica estranho -- a imagem placeholder aparece sozinha sem contexto, e os textos dos servicos ficam muito grandes (`clamp(35px, 6vw, 96px)` resulta em ~22px no 360px, OK, mas os `//` prefixos ficam cinza muito claro e quase invisiveis).
-
-**Process Section**: Os 4 botoes de step (01. 02. 03. 04.) ficam apertados em uma linha no mobile -- nao tem `flex-wrap` e podem transbordar.
-
-**Featured Works**: Mostra "Nenhum projeto em destaque" pois nao ha projetos no banco. Precisa de projetos demo.
-
-**Footer**: No mobile, as 3 colunas de links ficam em grid 2 cols, o que funciona, mas a coluna SOCIAL fica sozinha na segunda linha.
-
-### 2. Desktop -- Problemas
-
-**Hero**: O conteudo esta posicionado com `items-end` no flex, o que empurra tudo para baixo. A copy generica "Experiencias Digitais que Funcionam" nao reflete a identidade de Diretor Criativo. O Showreel card e os icones sociais (letras D, L, B) parecem inacabados.
-
-**Services Section**: A imagem placeholder a esquerda (30% width) e apenas um retangulo com gradiente -- parece quebrado/vazio. O `max-w-[2000px]` faz o layout ficar desproporcional em telas grandes.
-
-**Featured Works**: Sem projetos no banco, a secao fica vazia com mensagem de fallback.
-
-**CTA Section**: Os botoes dizem "Start Your Project" e "View Work" em ingles, enquanto o resto do site esta em portugues. Inconsistencia de idioma.
-
-**Navbar**: Os links estao em ingles (Home, About, Work, Services, Process, Contact) mas a copy do site e em portugues. O botao CTA diz "Let's Talk" em ingles.
-
-### 3. Inconsistencias de Idioma (PT vs EN)
-
-Muitos elementos misturam portugues e ingles:
-- Navbar: ingles (Home, About, Work, Services, Process, Contact)
-- Hero: portugues
-- Section labels: ingles ([ 01 ] About, [ 02 ] Services)
-- CTA botoes: ingles (Start Your Project, View Work, View All Work)
-- Footer labels: ingles (COMPANY, SERVICES, SOCIAL, Privacy Policy, Terms)
-- Contact info labels: ingles (Email, Phone, Location, Hours)
-
-### 4. Conteudo Faltante
-
-- Nao ha projetos no banco de dados (os demos anteriores podem ter sido perdidos no remix)
-- Icones sociais usam apenas a primeira letra (D, L, B) em vez de icones reais
-- Imagem placeholder na Services Section e apenas um gradiente vazio
-- Showreel card nao tem conteudo real
-
-### 5. Sugestoes de Melhorias Visuais
-
-- Adicionar efeito de scroll reveal mais suave nas secoes
-- O CTA "Vamos trabalhar juntos" poderia ter uma imagem ou ilustracao
-- Cards de servico poderiam ter icones
-- O Process Section poderia mostrar uma imagem ou ilustracao contextual ao lado do texto
+## Resumo
+Corrigir responsividade mobile, remover a aba/seção Processo, gerar imagens de capa para projetos demo via IA, inserir projetos no banco, e aplicar melhorias gerais de UI/UX.
 
 ---
 
-## Plano de Implementacao
+## Problemas Identificados
 
-### Etapa 1 -- Corrigir Navbar Mobile
-- Adicionar `backdrop-blur-xl` com background mais opaco (`bg-background/80`) para evitar sobreposicao de conteudo
-- Garantir que a navbar nao oculte conteudo em scroll
+### Mobile (360px)
+- **Hero**: O `items-end` faz o conteúdo ficar no fundo da tela, desperdiçando espaço. Social icons ocupam espaço lateral desnecessário
+- **Services**: O layout 30%/70% com `border-l` não funciona no mobile — a coluna de imagem é hidden mas o border permanece
+- **About Stats**: Cards com padding `p-20` no desktop são excessivos; no mobile `p-8` é ok mas os borders ficam inconsistentes
+- **LogosSection**: "Trusted By" em inglês, marquee pode cortar em telas pequenas
+- **Footer**: Grid de 3 colunas empilha bem, mas SOCIAL fica sozinha
+- **Banners de página** (About, Work, Services): Títulos ainda em inglês ("About", "Work", "Services")
 
-### Etapa 2 -- Padronizar Idioma (tudo em Portugues)
-- Navbar: Inicio, Sobre, Projetos, Servicos, Processo, Contato + botao "Fale Conosco"
-- Section labels: manter numeracao mas traduzir ([ 01 ] Sobre, [ 02 ] Servicos, etc.)
-- CTA botoes: "Iniciar Projeto", "Ver Trabalhos", "Ver Todos"
-- Footer: EMPRESA, SERVICOS, SOCIAL, Politica de Privacidade, Termos
+### Desktop
+- **Services**: Imagem placeholder à esquerda é um retângulo vazio com gradiente — parece inacabado
+- **FeaturedProjects**: Seção vazia, sem projetos no banco
+- **Showreel card**: Apenas um placeholder com botão play sem funcionalidade
 
-### Etapa 3 -- Corrigir Layout Mobile
-- Process: adicionar `flex-wrap` nos botoes de step
-- Services: remover layout 30/70 no mobile, empilhar verticalmente sem border-l
-- Hero: reduzir padding do Showreel card, esconder ou simplificar no mobile
-- Footer: ajustar grid para mobile
+### Idioma
+- LogosSection: "Trusted By" → "Parceiros"
+- Banners: "About" → "Sobre", "Work" → "Projetos", "Services" → "Serviços"
+- Search placeholder: "Search..." → "Buscar..."
 
-### Etapa 4 -- Icones Sociais Reais
-- Substituir letras (D, L, B) por icones SVG reais do Dribbble, LinkedIn, Behance e Instagram
+---
 
-### Etapa 5 -- Inserir Projetos Demo
-- Adicionar 4 projetos ficticios no banco com imagens geradas para popular o portfolio
+## Plano de Implementação
 
-### Etapa 6 -- Refinamentos Visuais
-- Melhorar a imagem placeholder na Services Section com uma imagem real ou remover
-- Adicionar consistencia visual ao CTA (traduzir botoes)
-- Ajustar a copy do Hero para refletir "Diretor Criativo"
+### 1. Remover aba Processo
+- Remover rota `/processo` do `App.tsx`
+- Remover link "Processo" do `Navbar.tsx`
+- Remover link "Processo" do `Footer.tsx`
+- Remover `ProcessSection` do `Index.tsx`
+- Manter o arquivo `ProcessSection.tsx` (sem uso, mas não prejudica)
+
+### 2. Gerar 4 imagens de capa via IA
+Usar o script de AI Gateway para gerar imagens profissionais para os projetos demo:
+- **Café Origina** — Brand Identity (café premium, tons terrosos)
+- **FitPulse** — Social Media Design (app fitness, vibrante)
+- **NexTech** — Web Design (tech startup, dark/futurista)
+- **Atelier Noir** — Brand Design (moda luxo, minimalista)
+
+Upload para Supabase Storage e inserir projetos no banco com `destaque = true`.
+
+### 3. Corrigir responsividade mobile
+
+**Hero**:
+- Mudar de `items-end` para `items-center` no mobile
+- Esconder social icons no mobile (já esconde showreel, consistente)
+- Reduzir padding top no mobile
+
+**Services**:
+- Remover a coluna de imagem placeholder completamente (substitui por nada — a seção fica full-width)
+- Remover `border-l` no mobile
+- Reduzir font-size dos serviços listados no mobile
+
+**About Stats**:
+- Reduzir padding no mobile de `p-8` para `p-6`
+
+**Footer**:
+- Ajustar grid SOCIAL para inline no mobile
+
+### 4. Padronizar idioma para PT-BR
+- LogosSection: "Trusted By" → "Parceiros"
+- About.tsx banner: "About" → "Sobre"
+- Projects.tsx banner: "Work" → "Projetos"  
+- Services.tsx banner: "Services" → "Serviços"
+- About.tsx labels: "[ 01 ] About", "[ 02 ] Tools" → "[ 01 ] Sobre", "[ 02 ] Ferramentas"
+- Projects.tsx search: "Search..." → "Buscar..."
+
+### 5. Melhorias UI/UX
+- **Remover imagem placeholder** da ServicesSection (coluna esquerda vazia)
+- **Simplificar ServicesSection**: Tornar full-width sem split 30/70
+- **Melhorar hover states**: Adicionar `scale` sutil nos cards de serviço
+- **CTA Section**: Adicionar ícone ou elemento visual decorativo
+- **Navbar**: Garantir que o link ativo tenha destaque visual claro
+
+---
+
+## Detalhes Técnicos
+
+### Arquivos editados:
+- `src/App.tsx` — remover rota `/processo`
+- `src/components/Navbar.tsx` — remover link Processo
+- `src/components/Footer.tsx` — remover link Processo
+- `src/pages/Index.tsx` — remover ProcessSection
+- `src/components/Hero.tsx` — ajustar layout mobile
+- `src/components/ServicesSection.tsx` — layout full-width, remover placeholder
+- `src/components/LogosSection.tsx` — traduzir
+- `src/pages/About.tsx`, `Projects.tsx`, `Services.tsx` — traduzir banners
+
+### Banco de dados:
+- INSERT de 4 projetos com imagens geradas por IA
+- Upload de imagens para Supabase Storage bucket "projects"
 
