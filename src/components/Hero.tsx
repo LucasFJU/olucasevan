@@ -127,25 +127,6 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* Bottom bar — Clients + Copyright */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="mt-16 md:mt-20 border-t border-border py-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
-        >
-          <div className="flex items-center gap-6 md:gap-8 flex-wrap">
-            {["Startup Lab", "Nova Digital", "Brandhaus"].map((name) => (
-              <span key={name} className="text-[13px] md:text-[14px] text-muted-foreground/40 font-medium tracking-wider uppercase">
-                {name}
-              </span>
-            ))}
-          </div>
-
-          <span className="text-[13px] md:text-[14px] text-muted-foreground">
-            <span className="text-primary">//</span> ©2025 Folioblox. Todos os direitos reservados.
-          </span>
-        </motion.div>
       </div>
     </section>
   );
