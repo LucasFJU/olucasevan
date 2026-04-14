@@ -40,7 +40,7 @@ const AboutSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className={`group flex flex-col items-start gap-6 md:gap-10 p-8 md:p-20 transition-colors duration-500 md:hover:bg-primary ${
+              className={`group flex flex-col items-start gap-6 md:gap-10 p-6 md:p-16 transition-colors duration-500 md:hover:bg-primary ${
                 i < 2 ? "md:border-r border-b md:border-b-0 border-border" : "border-b md:border-b-0"
               }`}
             >
