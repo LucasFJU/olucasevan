@@ -251,6 +251,66 @@ const ProjectDetail = () => {
           ) : <div />}
         </div>
       </div>
+
+      {/* Lightbox Modal */}
+      <AnimatePresence>
+        {lightboxIndex !== null && project?.galeria && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-sm"
+            onClick={closeLightbox}
+          >
+            {/* Close */}
+            <button
+              onClick={closeLightbox}
+              className="absolute top-6 right-6 z-50 p-2 rounded-full bg-card/80 border border-border text-foreground hover:bg-card transition-colors"
+            >
+              <X size={20} />
+            </button>
+
+            {/* Counter */}
+            <div className="absolute top-6 left-6 text-muted-foreground text-sm font-display">
+              {lightboxIndex + 1} / {project.galeria.length}
+            </div>
+
+            {/* Prev */}
+            {lightboxIndex > 0 && (
+              <button
+                onClick={(e) => { e.stopPropagation(); goPrev(); }}
+                className="absolute left-4 md:left-8 z-50 p-3 rounded-full bg-card/80 border border-border text-foreground hover:bg-card transition-colors"
+              >
+                <ChevronLeft size={24} />
+              </button>
+            )}
+
+            {/* Next */}
+            {lightboxIndex < project.galeria.length - 1 && (
+              <button
+                onClick={(e) => { e.stopPropagation(); goNext(); }}
+                className="absolute right-4 md:right-8 z-50 p-3 rounded-full bg-card/80 border border-border text-foreground hover:bg-card transition-colors"
+              >
+                <ChevronRight size={24} />
+              </button>
+            )}
+
+            {/* Image */}
+            <motion.img
+              key={lightboxIndex}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              src={project.galeria[lightboxIndex]}
+              alt=""
+              className="max-h-[85vh] max-w-[90vw] object-contain rounded-lg"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Layout>
   );
 };
