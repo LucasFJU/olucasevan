@@ -45,7 +45,7 @@ const Projects = () => {
           className="font-display text-foreground text-center"
           style={{ fontSize: "clamp(44px, 8vw, 120px)", fontWeight: 500, lineHeight: 1, letterSpacing: "-0.02em" }}
         >
-          Work
+          Projetos
         </motion.h1>
       </section>
 
@@ -73,7 +73,7 @@ const Projects = () => {
             <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <input
               type="text"
-              placeholder="Search..."
+              placeholder="Buscar..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full bg-foreground/[0.02] border border-border rounded-full pl-10 pr-4 py-2.5 text-[14px] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"

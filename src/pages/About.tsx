@@ -43,7 +43,7 @@ const About = () => {
               viewport={{ once: true }}
               className="section-label shrink-0"
             >
-              <span className="label-num">[ 01 ]</span> About
+              <span className="label-num">[ 01 ]</span> Sobre
             </motion.div>
 
             <motion.div
@@ -100,7 +100,7 @@ const About = () => {
         <div className="max-w-[1200px] mx-auto px-6 md:px-0 py-[120px]">
           <div className="flex flex-col md:flex-row justify-between items-start gap-10 mb-12">
             <div className="section-label shrink-0">
-              <span className="label-num">[ 02 ]</span> Tools
+              <span className="label-num">[ 02 ]</span> Ferramentas
             </div>
             <h2
               className="font-display text-foreground max-w-[600px]"

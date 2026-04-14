@@ -37,23 +37,23 @@ const Services = () => {
           className="font-display text-foreground text-center"
           style={{ fontSize: "clamp(44px, 8vw, 120px)", fontWeight: 500, lineHeight: 1, letterSpacing: "-0.02em" }}
         >
-          Services
+          Serviços
         </motion.h1>
       </section>
 
       {/* Services List */}
-      <section className="max-w-[2000px] mx-auto">
+      <section className="max-w-[1200px] mx-auto px-6 md:px-0">
         {services.map((srv, i) => (
           <div key={srv.title} className="flex flex-col md:flex-row border-b border-border">
             {/* Left label area */}
             <div className="md:w-[30%] py-16 md:py-[120px] px-6">
               <div className="section-label mb-4">
-                <span className="label-num">[ {srv.num} ]</span> Services
+                <span className="label-num">[ {srv.num} ]</span> Serviços
               </div>
             </div>
 
             {/* Right content */}
-            <div className="md:w-[70%] border-l border-border py-16 md:py-[120px] px-6 md:px-8">
+            <div className="md:w-[70%] md:border-l border-border py-16 md:py-[120px] px-0 md:px-8">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}

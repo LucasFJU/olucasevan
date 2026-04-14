@@ -30,7 +30,7 @@ const SocialIcon = ({ type }: { type: string }) => {
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-end overflow-hidden">
+    <section className="relative min-h-screen flex items-center md:items-end overflow-hidden">
       {/* Gradient background */}
       <div
         className="absolute inset-0"
@@ -40,7 +40,7 @@ const Hero = () => {
       />
 
       {/* Content */}
-      <div className="w-full max-w-[1200px] mx-auto relative z-10 pt-[140px] md:pt-[195px] pb-0 px-6 md:px-0">
+      <div className="w-full max-w-[1200px] mx-auto relative z-10 pt-[100px] md:pt-[195px] pb-0 px-6 md:px-0">
         <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-8 md:gap-10">
           {/* Left — Headline */}
           <div className="md:w-[60%]">
@@ -85,7 +85,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex md:flex-col md:items-end gap-3"
+              className="hidden md:flex md:flex-col md:items-end gap-3"
             >
               {["Dribbble", "LinkedIn", "Behance", "Instagram"].map((s) => (
                 <a

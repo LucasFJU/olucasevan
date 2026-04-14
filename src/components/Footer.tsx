@@ -25,7 +25,7 @@ const Footer = () => {
               <div className="flex flex-col gap-3 md:gap-4">
                 {[
                   { label: "Sobre", path: "/sobre" },
-                  { label: "Processo", path: "/processo" },
+                  { label: "Projetos", path: "/projetos" },
                   { label: "Contato", path: "/contato" },
                 ].map((link) => (
                   <Link key={link.path} to={link.path} className="text-foreground text-[15px] md:text-[16px] hover:text-primary transition-colors">
