@@ -167,6 +167,7 @@ const ProjectDetail = () => {
                     className={`rounded-md overflow-hidden bg-secondary cursor-pointer hover:scale-[1.01] transition-transform ${
                       i % 3 === 0 ? "aspect-[16/9]" : ""
                     } ${i % 3 !== 0 && i + 1 < project.galeria!.length && (i + 1) % 3 !== 0 ? "inline-block w-[calc(50%-6px)] mr-3 aspect-[4/3] align-top" : i % 3 !== 0 ? "inline-block w-[calc(50%-6px)] aspect-[4/3] align-top" : ""}`}
+                    onClick={() => openLightbox(i)}
                   >
                     <img src={img} alt="" className="w-full h-full object-cover" loading="lazy" />
                   </motion.div>
