@@ -70,6 +70,7 @@ const ProjectDetail = () => {
     };
   }, [lightboxIndex, goNext, goPrev]);
 
+  if (isLoading) {
     return (
       <Layout>
         <div className="pt-32 pb-24 container mx-auto px-6 md:px-12">
