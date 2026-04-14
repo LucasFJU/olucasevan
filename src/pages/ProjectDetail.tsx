@@ -42,7 +42,34 @@ const ProjectDetail = () => {
     ? allProjects![currentIndex + 1]
     : null;
 
-  if (isLoading) {
+  const galleryLength = project?.galeria?.length ?? 0;
+
+  const openLightbox = (index: number) => setLightboxIndex(index);
+  const closeLightbox = () => setLightboxIndex(null);
+
+  const goNext = useCallback(() => {
+    setLightboxIndex((prev) => (prev !== null && prev < galleryLength - 1 ? prev + 1 : prev));
+  }, [galleryLength]);
+
+  const goPrev = useCallback(() => {
+    setLightboxIndex((prev) => (prev !== null && prev > 0 ? prev - 1 : prev));
+  }, []);
+
+  useEffect(() => {
+    if (lightboxIndex === null) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowRight") goNext();
+      if (e.key === "ArrowLeft") goPrev();
+    };
+    document.addEventListener("keydown", handler);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handler);
+      document.body.style.overflow = "";
+    };
+  }, [lightboxIndex, goNext, goPrev]);
+
     return (
       <Layout>
         <div className="pt-32 pb-24 container mx-auto px-6 md:px-12">
