@@ -41,6 +41,7 @@ const Navbar = () => {
         <Link
           to="/contato"
           className="hidden md:inline-flex btn-primary px-5 py-2.5 text-[14px]"
+          style={{ display: undefined }}
         >
           Solicitar Orçamento
         </Link>

@@ -35,7 +35,7 @@ const AnimatedCounter = ({ target, suffix = "+" }: { target: number; suffix?: st
 const AboutSection = () => {
   return (
     <section className="section-border-top">
-      <div className="max-w-[1200px] mx-auto px-6 md:px-0 py-[80px] md:py-[120px]">
+      <div className="max-w-[1200px] mx-auto px-6 md:px-0 py-[60px] md:py-[120px]">
         <div className="flex flex-col md:flex-row justify-between items-start gap-6 md:gap-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

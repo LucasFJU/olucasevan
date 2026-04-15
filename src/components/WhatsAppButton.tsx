@@ -11,7 +11,7 @@ const WhatsAppButton = () => {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Contato via WhatsApp"
-      className="fixed bottom-6 right-6 z-50 flex items-center gap-3 group"
+      className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 flex items-center gap-3 group"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -26,7 +26,7 @@ const WhatsAppButton = () => {
 
       {/* Button */}
       <div
-        className="w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform relative"
+        className="w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform relative"
         style={{ backgroundColor: "#25D366" }}
       >
         {/* Pulse ring */}

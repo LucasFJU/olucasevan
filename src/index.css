@@ -85,7 +85,7 @@
 
   /* Pill button base */
   .btn-pill {
-    @apply inline-flex items-center gap-2 rounded-full font-medium transition-all text-[16px];
+    @apply items-center gap-2 rounded-full font-medium transition-all text-[16px];
   }
 
   .btn-primary {

@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 const CTASection = () => {
   return (
-    <section className="py-[80px] md:py-[120px] px-6 md:px-0">
+    <section className="py-[60px] md:py-[120px] px-6 md:px-0">
       <div className="max-w-[1200px] mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
