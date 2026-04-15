@@ -20,7 +20,7 @@ const About = () => {
   return (
     <Layout>
       {/* Page Banner */}
-      <section className="min-h-[400px] md:min-h-[600px] flex items-center justify-center border-b border-border relative" style={{
+      <section className="min-h-[250px] md:min-h-[350px] flex items-center justify-center border-b border-border relative" style={{
         background: "radial-gradient(ellipse 80% 60% at 50% 0%, hsl(15 100% 50% / 0.12), transparent 70%), hsl(var(--background))"
       }}>
         <motion.h1
@@ -148,7 +148,7 @@ const About = () => {
               Vamos trabalhar juntos?
             </h2>
             <Link to="/contato" className="btn-primary">
-              Entrar em contato <ArrowRight size={16} />
+              Solicitar Orçamento <ArrowRight size={16} />
             </Link>
           </motion.div>
         </div>
