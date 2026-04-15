@@ -55,6 +55,7 @@ export type Database = {
           id: string
           imagem_capa: string | null
           link_projeto: string | null
+          status: string | null
           tags: string[] | null
           titulo: string
           updated_at: string
@@ -69,6 +70,7 @@ export type Database = {
           id?: string
           imagem_capa?: string | null
           link_projeto?: string | null
+          status?: string | null
           tags?: string[] | null
           titulo: string
           updated_at?: string
@@ -83,6 +85,7 @@ export type Database = {
           id?: string
           imagem_capa?: string | null
           link_projeto?: string | null
+          status?: string | null
           tags?: string[] | null
           titulo?: string
           updated_at?: string

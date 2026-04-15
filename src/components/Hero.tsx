@@ -40,7 +40,7 @@ const Hero = () => {
       />
 
       {/* Content */}
-      <div className="w-full max-w-[1200px] mx-auto relative z-10 pt-[100px] md:pt-[195px] pb-0 px-6 md:px-0">
+      <div className="w-full max-w-[1200px] mx-auto relative z-10 pt-[80px] md:pt-[195px] pb-[60px] md:pb-0 px-6 md:px-0">
         <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-8 md:gap-10">
           {/* Left — Headline */}
           <div className="md:w-[60%]">

@@ -1,12 +1,13 @@
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Smartphone, Palette, Layout } from "lucide-react";
+import { Smartphone, Palette, Layout, ArrowRight } from "lucide-react";
 
 const services = [
-  "// Social Media Design",
-  "// Brand Identity",
-  "// Web Design",
-  "// UI/UX Design",
-  "// Estratégia Criativa",
+  { num: "01", label: "Social Media Design" },
+  { num: "02", label: "Brand Identity" },
+  { num: "03", label: "Web Design" },
+  { num: "04", label: "UI/UX Design" },
+  { num: "05", label: "Estratégia Criativa" },
 ];
 
 const ServicesSection = () => {
@@ -25,19 +26,24 @@ const ServicesSection = () => {
         <div className="flex flex-col gap-3 md:gap-4 mb-10">
           {services.map((srv, i) => (
             <motion.div
-              key={srv}
+              key={srv.label}
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08 }}
               className="group cursor-pointer"
             >
-              <span
-                className="font-display text-muted-foreground/60 hover:text-foreground transition-all duration-500 block"
-                style={{ fontSize: "clamp(24px, 5vw, 80px)", fontWeight: 400, lineHeight: 1.1 }}
-              >
-                {srv}
-              </span>
+              <Link to="/servicos" className="flex items-baseline gap-4">
+                <span className="text-primary font-display text-sm md:text-base opacity-60 group-hover:opacity-100 transition-opacity">
+                  {srv.num}
+                </span>
+                <span
+                  className="font-display text-muted-foreground/60 group-hover:text-foreground transition-all duration-500 block"
+                  style={{ fontSize: "clamp(22px, 4.5vw, 72px)", fontWeight: 400, lineHeight: 1.1 }}
+                >
+                  {srv.label}
+                </span>
+              </Link>
             </motion.div>
           ))}
         </div>
@@ -54,11 +60,18 @@ const ServicesSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="border border-border rounded-lg p-6 hover:border-primary hover:scale-[1.02] transition-all duration-300"
             >
-              <card.icon size={24} className="text-primary mb-3" />
-              <h4 className="font-display text-foreground text-[18px] font-medium mb-2">{card.title}</h4>
-              <p className="text-muted-foreground text-[14px] leading-[1.6]">{card.desc}</p>
+              <Link
+                to="/servicos"
+                className="block bg-card border border-border rounded-lg p-8 hover:border-primary hover:scale-[1.02] transition-all duration-300 h-full"
+              >
+                <card.icon size={24} className="text-primary mb-4" />
+                <h4 className="font-display text-foreground text-[18px] font-medium mb-2">{card.title}</h4>
+                <p className="text-muted-foreground text-[14px] leading-[1.6] mb-5">{card.desc}</p>
+                <span className="inline-flex items-center gap-1.5 text-primary text-[13px] font-medium">
+                  Saiba mais <ArrowRight size={14} />
+                </span>
+              </Link>
             </motion.div>
           ))}
         </div>
