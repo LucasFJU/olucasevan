@@ -5,7 +5,7 @@ const Footer = () => {
     <footer className="border-t border-border" style={{
       background: "radial-gradient(ellipse 60% 40% at 50% 0%, hsl(15 100% 50% / 0.06), transparent 60%)"
     }}>
-      <div className="max-w-[1200px] mx-auto px-6 md:px-0 py-[80px] md:py-[120px]">
+      <div className="max-w-[1200px] mx-auto px-6 md:px-0 py-[60px] md:py-[120px]">
         {/* Top row */}
         <div className="flex flex-col md:flex-row justify-between items-start gap-10 md:gap-20">
           {/* Logo + Description */}

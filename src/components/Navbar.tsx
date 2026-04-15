@@ -38,12 +38,14 @@ const Navbar = () => {
         </div>
 
         {/* Desktop CTA */}
-        <Link
-          to="/contato"
-          className="hidden md:inline-flex btn-primary px-5 py-2.5 text-[14px]"
-        >
-          Solicitar Orçamento
-        </Link>
+        <div className="hidden md:block">
+          <Link
+            to="/contato"
+            className="btn-primary inline-flex px-5 py-2.5 text-[14px]"
+          >
+            Solicitar Orçamento
+          </Link>
+        </div>
 
         {/* Mobile toggle */}
         <button
