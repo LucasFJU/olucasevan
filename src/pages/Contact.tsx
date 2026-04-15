@@ -48,7 +48,7 @@ const Contact = () => {
   return (
     <Layout>
       {/* Page Banner */}
-      <section className="min-h-[300px] md:min-h-[600px] flex items-center justify-center border-b border-border relative" style={{
+      <section className="min-h-[250px] md:min-h-[350px] flex items-center justify-center border-b border-border relative" style={{
         background: "radial-gradient(ellipse 80% 60% at 50% 0%, hsl(15 100% 50% / 0.12), transparent 70%), hsl(var(--background))"
       }}>
         <motion.h1
@@ -72,7 +72,7 @@ const Contact = () => {
               className="md:w-1/2"
             >
               <div className="section-label mb-4">
-                <span className="label-num">[ 01 ]</span> Fale Conosco
+                <span className="label-num">[ 01 ]</span> Solicitar Orçamento
               </div>
               <h2
                 className="font-display text-foreground mb-6"
@@ -80,9 +80,12 @@ const Contact = () => {
               >
                 Conecte-se Conosco Hoje!
               </h2>
-              <p className="text-muted-foreground text-[16px] leading-[1.6] mb-8">
+              <p className="text-muted-foreground text-[16px] leading-[1.6] mb-2">
                 Conte sobre seu projeto e receba uma proposta personalizada em até 24h.
               </p>
+              <span className="inline-flex items-center gap-1.5 text-[13px] font-medium text-primary mb-8">
+                ⚡ Resposta em até 24h
+              </span>
 
               {/* Contact info cards */}
               <div className="grid grid-cols-2 gap-3 md:gap-4">

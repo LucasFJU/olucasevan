@@ -41,7 +41,7 @@ const Services = () => {
     <Layout>
       {/* Hero Banner */}
       <section
-        className="min-h-[50vh] md:min-h-[70vh] flex flex-col items-center justify-center border-b border-border relative overflow-hidden px-6"
+        className="min-h-[250px] md:min-h-[350px] flex flex-col items-center justify-center border-b border-border relative overflow-hidden px-6"
         style={{
           background:
             "radial-gradient(ellipse 80% 50% at 50% 0%, hsl(15 100% 50% / 0.10), transparent 60%), hsl(var(--background))",
