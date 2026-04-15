@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import profilePhoto from "@/assets/profile-photo.png";
 
 const SocialIcon = ({ type }: { type: string }) => {
   const icons: Record<string, JSX.Element> = {
@@ -40,16 +41,16 @@ const Hero = () => {
       />
 
       {/* Content */}
-      <div className="w-full max-w-[1200px] mx-auto relative z-10 pt-[80px] md:pt-[195px] pb-[60px] md:pb-0 px-6 md:px-0">
-        <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-8 md:gap-10">
+      <div className="w-full max-w-[1200px] mx-auto relative z-10 pt-[120px] md:pt-[160px] pb-[60px] md:pb-[80px] px-6 md:px-0">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-10 md:gap-10">
           {/* Left — Headline */}
-          <div className="md:w-[60%]">
+          <div className="md:w-[55%]">
             <motion.h1
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.1 }}
               className="font-display font-normal leading-[1] tracking-[-0.02em] text-foreground"
-              style={{ fontSize: "clamp(42px, 7vw, 88px)" }}
+              style={{ fontSize: "clamp(38px, 6.5vw, 82px)" }}
             >
               Designer criando marcas e experiências digitais <span className="text-primary">memoráveis</span>
             </motion.h1>
@@ -58,7 +59,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.25 }}
-              className="text-muted-foreground text-[17px] md:text-[18px] leading-[1.5] mt-6 max-w-[400px]"
+              className="text-muted-foreground text-[16px] md:text-[18px] leading-[1.6] mt-6 max-w-[420px]"
             >
               Diretor criativo especializado em social media, brand design e web design — transformando ideias em experiências visuais que conectam e convertem.
             </motion.p>
@@ -67,7 +68,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex flex-wrap gap-2 mt-8"
+              className="flex flex-wrap gap-3 mt-8"
             >
               <Link to="/projetos" className="btn-primary">
                 Ver Projetos →
@@ -76,16 +77,13 @@ const Hero = () => {
                 Solicitar Orçamento
               </Link>
             </motion.div>
-          </div>
 
-          {/* Right — Social + Showreel card */}
-          <div className="md:w-[30%] flex flex-col justify-between gap-8">
-            {/* Social Icons */}
+            {/* Social Icons — inline on desktop */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="hidden md:flex md:flex-col md:items-end gap-3"
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="hidden md:flex gap-3 mt-10"
             >
               {["Dribbble", "LinkedIn", "Behance", "Instagram"].map((s) => (
                 <a
@@ -98,35 +96,29 @@ const Hero = () => {
                 </a>
               ))}
             </motion.div>
-
-            {/* Showreel card — hidden on mobile */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.45 }}
-              className="hidden md:block rounded-lg border border-foreground/[0.08] bg-foreground/[0.04] overflow-hidden"
-            >
-              <div className="flex items-center justify-between px-3 pt-2">
-                <span className="text-[13px] text-foreground font-medium">Showreel</span>
-                <span className="text-[13px] text-primary font-medium">// 2025</span>
-              </div>
-              <div className="h-[200px] md:h-[220px] bg-card flex items-center justify-center m-2 rounded-md overflow-hidden relative">
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    background: "linear-gradient(135deg, hsl(var(--border)) 0%, hsl(var(--background)) 100%)"
-                  }}
-                />
-                <button className="relative z-10 w-14 h-14 rounded-full bg-primary flex items-center justify-center text-primary-foreground hover:scale-110 transition-transform">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                </button>
-              </div>
-            </motion.div>
           </div>
-        </div>
 
+          {/* Right — Profile Photo */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="md:w-[38%] flex justify-center md:justify-end"
+          >
+            <div className="relative w-[280px] h-[340px] md:w-[340px] md:h-[420px] rounded-2xl overflow-hidden border border-foreground/[0.08]">
+              {/* Orange glow behind */}
+              <div
+                className="absolute -inset-4 blur-3xl opacity-20 z-0"
+                style={{ background: "hsl(var(--primary))" }}
+              />
+              <img
+                src={profilePhoto}
+                alt="Lucas Evan — Designer de Marcas"
+                className="relative z-10 w-full h-full object-cover"
+              />
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

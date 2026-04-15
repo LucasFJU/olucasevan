@@ -21,7 +21,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
             <img
               src={project.imagem_capa}
               alt={project.titulo}
-              className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-[1.03]"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
               loading="lazy"
             />
           ) : (
@@ -44,7 +44,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
             )}
           </div>
           <span className="text-foreground text-[14px] font-medium shrink-0 mt-1 group-hover:text-primary transition-colors">
-            View Project →
+            Ver Projeto →
           </span>
         </div>
       </Link>
