@@ -1,5 +1,36 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+
+const AnimatedCounter = ({ target, suffix = "+" }: { target: number; suffix?: string }) => {
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!isInView) return;
+    const duration = 2000;
+    const steps = 60;
+    const increment = target / steps;
+    let current = 0;
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        setCount(target);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(current));
+      }
+    }, duration / steps);
+    return () => clearInterval(timer);
+  }, [isInView, target]);
+
+  return (
+    <span ref={ref}>
+      {isInView ? count.toLocaleString("pt-BR") : "0"}{suffix}
+    </span>
+  );
+};
 
 const AboutSection = () => {
   return (
@@ -30,9 +61,9 @@ const AboutSection = () => {
         {/* Stats row */}
         <div className="grid grid-cols-1 md:grid-cols-3 mt-12 md:mt-16">
           {[
-            { num: "120+", text: "Projetos entregues. Design que funciona, do briefing ao resultado.", cta: "Ver Portfólio", path: "/projetos" },
-            { num: "50+", text: "Clientes globais. Startups e marcas confiam no nosso trabalho.", cta: "Saiba Mais", path: "/sobre" },
-            { num: "8+", text: "Anos de experiência. Criatividade, estratégia e tecnologia em cada projeto.", cta: "Saiba Mais", path: "/sobre" },
+            { num: 5000, text: "Projetos entregues. Design que funciona, do briefing ao resultado.", cta: "Ver Portfólio", path: "/projetos" },
+            { num: 500, text: "Clientes globais. Startups e marcas confiam no nosso trabalho.", cta: "Saiba Mais", path: "/sobre" },
+            { num: 13, text: "Anos de experiência. Criatividade, estratégia e tecnologia em cada projeto.", cta: "Saiba Mais", path: "/sobre" },
           ].map((item, i) => (
             <motion.div
               key={item.num}
@@ -48,7 +79,7 @@ const AboutSection = () => {
                 className="font-display font-normal text-foreground leading-none"
                 style={{ fontSize: "clamp(40px, 6vw, 72px)" }}
               >
-                {item.num}
+                <AnimatedCounter target={item.num} />
               </span>
               <p className="text-muted-foreground text-[15px] md:text-[16px] leading-[1.5] max-w-[320px] group-hover:text-foreground/80 transition-colors">
                 {item.text}
