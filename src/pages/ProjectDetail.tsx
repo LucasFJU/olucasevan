@@ -4,11 +4,12 @@ import { supabase } from "@/integrations/supabase/client";
 import Layout from "@/components/Layout";
 import { ArrowLeft, ArrowRight, ExternalLink, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const touchStartX = useRef<number>(0);
 
   const { data: project, isLoading } = useQuery({
     queryKey: ["project", id],
@@ -262,6 +263,12 @@ const ProjectDetail = () => {
             transition={{ duration: 0.2 }}
             className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-sm"
             onClick={closeLightbox}
+            onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
+            onTouchEnd={(e) => {
+              const delta = touchStartX.current - e.changedTouches[0].clientX;
+              if (delta > 50) goNext();
+              else if (delta < -50) goPrev();
+            }}
           >
             {/* Close */}
             <button

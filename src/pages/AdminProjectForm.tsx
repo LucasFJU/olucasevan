@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -8,6 +8,7 @@ import { toast } from "sonner";
 
 const categories = ["Social Media", "Brand Design", "Web Design"];
 const projectStatuses = ["Concluído", "Em andamento", "Em breve"];
+const DRAFT_KEY = "admin-project-draft";
 
 const AdminProjectForm = () => {
   const { id } = useParams<{ id: string }>();
@@ -15,21 +16,40 @@ const AdminProjectForm = () => {
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const draftTimeout = useRef<ReturnType<typeof setTimeout>>();
 
-  const [form, setForm] = useState({
-    titulo: "",
-    descricao: "",
-    categoria: "Social Media",
-    tags: "",
-    link_projeto: "",
-    destaque: false,
-    status: "Concluído",
+  const [form, setForm] = useState(() => {
+    if (!id) {
+      const saved = localStorage.getItem(DRAFT_KEY);
+      if (saved) {
+        try { return JSON.parse(saved); } catch {}
+      }
+    }
+    return {
+      titulo: "",
+      descricao: "",
+      categoria: "Social Media",
+      tags: "",
+      link_projeto: "",
+      destaque: false,
+      status: "Concluído",
+    };
   });
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [coverPreview, setCoverPreview] = useState("");
   const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
   const [existingGallery, setExistingGallery] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
+
+  // Save draft to localStorage (debounced) — only for new projects
+  useEffect(() => {
+    if (isEditing) return;
+    if (draftTimeout.current) clearTimeout(draftTimeout.current);
+    draftTimeout.current = setTimeout(() => {
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(form));
+    }, 500);
+    return () => { if (draftTimeout.current) clearTimeout(draftTimeout.current); };
+  }, [form, isEditing]);
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/admin/login");
@@ -82,7 +102,7 @@ const AdminProjectForm = () => {
         const url = await uploadFile(file, `${projectId}/gallery/${Date.now()}-${i}.${file.name.split('.').pop()}`);
         galleryUrls.push(url);
       }
-      const tags = form.tags.split(",").map((t) => t.trim()).filter(Boolean);
+      const tags = form.tags.split(",").map((t: string) => t.trim()).filter(Boolean);
       const projectData = {
         titulo: form.titulo,
         descricao: form.descricao || null,
@@ -93,7 +113,7 @@ const AdminProjectForm = () => {
         link_projeto: form.link_projeto || null,
         destaque: form.destaque,
         status: form.status,
-      } as any;
+      };
 
       if (isEditing) {
         const { error } = await supabase.from("projects").update(projectData).eq("id", id!);
@@ -104,6 +124,7 @@ const AdminProjectForm = () => {
       }
     },
     onSuccess: () => {
+      localStorage.removeItem(DRAFT_KEY);
       queryClient.invalidateQueries({ queryKey: ["admin-projects"] });
       toast.success(isEditing ? "Projeto atualizado!" : "Projeto criado!");
       navigate("/admin");
@@ -116,7 +137,6 @@ const AdminProjectForm = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-background/88 backdrop-blur-[18px] border-b border-border">
         <div className="container mx-auto px-6 md:px-12 h-[68px] flex items-center gap-4">
           <Link to="/admin" className="text-muted-foreground hover:text-foreground transition-colors">
@@ -133,7 +153,6 @@ const AdminProjectForm = () => {
           onSubmit={(e) => { e.preventDefault(); saveMutation.mutate(); }}
           className="space-y-5"
         >
-          {/* Basic Info */}
           <div className="bg-card border border-border rounded-lg p-9">
             <h3 className="font-display text-[17px] font-bold text-foreground mb-6 pb-4 border-b border-border">
               📋 Informações Básicas
@@ -220,7 +239,6 @@ const AdminProjectForm = () => {
             </div>
           </div>
 
-          {/* Images */}
           <div className="bg-card border border-border rounded-lg p-9">
             <h3 className="font-display text-[17px] font-bold text-foreground mb-6 pb-4 border-b border-border">
               🖼️ Imagens
@@ -292,7 +310,6 @@ const AdminProjectForm = () => {
             </div>
           </div>
 
-          {/* Actions */}
           <div className="flex gap-3 justify-end">
             <Link to="/admin" className="btn-pill border border-border text-muted-foreground px-6 py-3 hover:text-foreground hover:border-muted-foreground/50 transition-all">
               Cancelar
