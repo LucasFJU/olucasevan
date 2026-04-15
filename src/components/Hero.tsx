@@ -125,7 +125,7 @@ const Hero = () => {
             <img
               src={profilePhoto}
               alt="Lucas Evan — Designer de Marcas"
-              className="relative z-10 w-[300px] md:w-[400px] h-auto object-contain drop-shadow-2xl"
+              className="relative z-10 w-[300px] md:w-[400px] h-auto drop-shadow-2xl text-lg text-right rounded-none border-0 object-fill"
             />
           </motion.div>
         </div>
