@@ -1,49 +1,54 @@
 
 
-# Quick Wins + Foto Pessoal na Home
+# Refinamento Mobile - Correções de Layout e Espaçamento
 
-## Resumo
-Implementar os quick wins da auditoria (sem blog e sem chatbot) e adicionar a foto do usuario na homepage.
+## Problemas Identificados
+
+1. **Navbar mobile**: O botao "Solicitar Orcamento" aparece no mobile sobrepondo o logo. A classe `btn-primary` (que aplica `inline-flex` via `@layer utilities`) sobrescreve o `hidden` do Tailwind.
+2. **Hero mobile**: Foto com shape laranja ficam desproporcionais, muito espaco vazio antes da foto, shape mal posicionado.
+3. **Espacamentos gerais**: padding excessivo em mobile em varias secoes.
 
 ## Alteracoes
 
-### 1. Adicionar foto pessoal na Home
-- Copiar a imagem enviada para `src/assets/profile-photo.png`
-- Modificar `Hero.tsx`: substituir o Showreel card (placeholder vazio) pela foto profissional com tratamento visual (recorte, borda sutil, glow laranja)
-- A foto fica no lado direito do hero (desktop) e aparece tambem no mobile
+### 1. Navbar — Esconder CTA no mobile corretamente
+- **Arquivo**: `src/components/Navbar.tsx`
+- Envolver o Link "Solicitar Orcamento" em uma `div` com `hidden md:block`, ou remover `btn-primary` da classe no mobile e usar classes manuais. Solucao mais limpa: adicionar `!hidden md:!inline-flex` ou separar o estilo.
+- Alternativa mais robusta: usar `className="hidden md:inline-flex"` diretamente no wrapper, e mover `btn-primary` para dentro.
 
-### 2. Remover grayscale dos projetos
-- `ProjectCard.tsx`: remover `grayscale group-hover:grayscale-0`, manter apenas scale + shadow no hover
+### 2. Hero — Ajustar foto e layout mobile
+- **Arquivo**: `src/components/Hero.tsx`
+- Reduzir tamanho da foto no mobile de `w-[300px]` para `w-[220px]`
+- Reduzir shape laranja mobile de `w-[200px] h-[240px]` para `w-[160px] h-[200px]`
+- Reduzir `pt-[120px]` para `pt-[100px]` no mobile
+- Reduzir gap entre texto e foto
 
-### 3. Corrigir "View Project" para "Ver Projeto"
-- `ProjectCard.tsx` linha 47: trocar texto
+### 3. AboutSection — Ajustar espacamento mobile
+- **Arquivo**: `src/components/AboutSection.tsx`
+- Reduzir padding vertical mobile de `py-[80px]` para `py-[60px]`
 
-### 4. Botao flutuante de WhatsApp
-- Criar `src/components/WhatsAppButton.tsx` com botao fixo no canto inferior direito (icone verde #25D366)
-- Adicionar no `Layout.tsx`
-- Numero placeholder configuravel
+### 4. CTASection — Ajustar padding mobile
+- **Arquivo**: `src/components/CTASection.tsx`
+- Reduzir padding mobile
 
-### 5. Corrigir titulo do index.html
-- Trocar "Studio" por "Lucas Evan — Designer de Marcas e Experiencias Digitais" (ou nome real)
-- Atualizar OG tags
+### 5. Footer — Ajustar espacamento mobile
+- **Arquivo**: `src/components/Footer.tsx`
+- Reduzir padding vertical mobile
 
-### 6. Reduzir banners de paginas internas
-- `About.tsx`, `Projects.tsx`, `Services.tsx`, `Contact.tsx`: reduzir altura dos banners hero de ~600px para ~300px
+### 6. WhatsAppButton — Nao sobrepor conteudo no mobile
+- **Arquivo**: `src/components/WhatsAppButton.tsx`
+- Reduzir tamanho do botao no mobile (`w-12 h-12` em vez de `w-14 h-14`)
+- Posicionar `bottom-4 right-4` no mobile
 
-### 7. Melhorar CTAs
-- Trocar "Fale Conosco" por "Solicitar Orcamento" onde aplicavel
-- Adicionar badge "Resposta em 24h" no formulario de contato
-
-### 8. LogosSection — trocar texto
-- Substituir "Parceiros" por "Empresas que confiam" ou remover nomes ficticios
+### 7. CSS — Corrigir conflito btn-primary/hidden
+- **Arquivo**: `src/index.css`
+- Garantir que `btn-primary` nao force `inline-flex` quando `hidden` esta presente. Solucao: remover `inline-flex` do `btn-pill` e aplicar separadamente.
 
 ## Arquivos editados
-- `src/assets/profile-photo.png` (novo - copia da imagem)
-- `src/components/Hero.tsx` — foto no lugar do showreel
-- `src/components/ProjectCard.tsx` — remover grayscale, traduzir texto
-- `src/components/WhatsAppButton.tsx` (novo)
-- `src/components/Layout.tsx` — incluir WhatsApp button
-- `index.html` — titulo e meta tags
-- `src/pages/About.tsx`, `Projects.tsx`, `Services.tsx`, `Contact.tsx` — reduzir banners
-- `src/components/LogosSection.tsx` — ajustar nomes
+- `src/components/Navbar.tsx`
+- `src/components/Hero.tsx`
+- `src/components/AboutSection.tsx`
+- `src/components/CTASection.tsx`
+- `src/components/Footer.tsx`
+- `src/components/WhatsAppButton.tsx`
+- `src/index.css`
 
