@@ -1,58 +1,49 @@
 
 
-# Plano: Swipe no Lightbox, Correções Admin e Melhorias UI
+# Quick Wins + Foto Pessoal na Home
 
-## Bug Critico Encontrado
+## Resumo
+Implementar os quick wins da auditoria (sem blog e sem chatbot) e adicionar a foto do usuario na homepage.
 
-O formulario de publicacao de projetos esta falhando porque o campo `status` esta sendo enviado na mutation (`projectData.status`), mas a tabela `projects` no banco **nao tem coluna `status`**. Isso causa erro no INSERT/UPDATE. A solucao e remover `status` do `projectData` ou adicionar a coluna ao banco.
+## Alteracoes
 
-## Implementacao
+### 1. Adicionar foto pessoal na Home
+- Copiar a imagem enviada para `src/assets/profile-photo.png`
+- Modificar `Hero.tsx`: substituir o Showreel card (placeholder vazio) pela foto profissional com tratamento visual (recorte, borda sutil, glow laranja)
+- A foto fica no lado direito do hero (desktop) e aparece tambem no mobile
 
-### 1. Corrigir publicacao de projetos (AdminProjectForm.tsx)
-- Remover o campo `status` do objeto `projectData` enviado ao banco (linhas 86-96), ja que a coluna nao existe
-- OU adicionar coluna `status` ao banco via migracao (mais completo)
-- **Recomendacao**: adicionar a coluna `status` (text, default 'Concluído') para manter a funcionalidade
+### 2. Remover grayscale dos projetos
+- `ProjectCard.tsx`: remover `grayscale group-hover:grayscale-0`, manter apenas scale + shadow no hover
 
-### 2. Persistir rascunho do formulario (AdminProjectForm.tsx)
-- Salvar o estado do formulario em `localStorage` a cada alteracao (debounced)
-- Ao montar o componente (modo criacao), restaurar do `localStorage` se existir
-- Limpar o `localStorage` apos salvar com sucesso
-- Nao aplicar ao modo edicao (que carrega do banco)
+### 3. Corrigir "View Project" para "Ver Projeto"
+- `ProjectCard.tsx` linha 47: trocar texto
 
-### 3. Swipe/Touch no Lightbox (ProjectDetail.tsx)
-- Adicionar `onTouchStart` / `onTouchEnd` handlers no container do lightbox
-- Detectar direcao do swipe (deltaX > 50px = trocar imagem)
-- Swipe left = proxima, swipe right = anterior
+### 4. Botao flutuante de WhatsApp
+- Criar `src/components/WhatsAppButton.tsx` com botao fixo no canto inferior direito (icone verde #25D366)
+- Adicionar no `Layout.tsx`
+- Numero placeholder configuravel
 
-### 4. Ajustar espacamentos do Hero (Hero.tsx)
-- Reduzir `pt-[100px]` para `pt-[80px]` no mobile
-- Adicionar `pb-[60px] md:pb-0` para dar respiro na parte inferior
-- Centralizar melhor o conteudo verticalmente no mobile
+### 5. Corrigir titulo do index.html
+- Trocar "Studio" por "Lucas Evan — Designer de Marcas e Experiencias Digitais" (ou nome real)
+- Atualizar OG tags
 
-### 5. Remover rota `/processo` (App.tsx)
-- A rota `/processo` na linha 32 ainda existe apontando para `Services`. Remover
+### 6. Reduzir banners de paginas internas
+- `About.tsx`, `Projects.tsx`, `Services.tsx`, `Contact.tsx`: reduzir altura dos banners hero de ~600px para ~300px
 
-### 6. Melhorar ServicesSection (ServicesSection.tsx)
-- Adicionar link "Saiba mais" em cada card apontando para `/servicos`
-- Melhorar os cards com background sutil (`bg-card`) e padding maior
-- Adicionar numeracao nos titulos dos servicos grandes (01, 02, 03...)
-- No mobile, reduzir o tamanho da tipografia dos servicos listados
+### 7. Melhorar CTAs
+- Trocar "Fale Conosco" por "Solicitar Orcamento" onde aplicavel
+- Adicionar badge "Resposta em 24h" no formulario de contato
 
-### 7. Sugestoes extras de melhoria
-- Adicionar `loading="lazy"` nas imagens da galeria do ProjectDetail (ja tem)
-- Melhorar transicao entre imagens no lightbox com animacao de slide em vez de fade
+### 8. LogosSection — trocar texto
+- Substituir "Parceiros" por "Empresas que confiam" ou remover nomes ficticios
 
-## Detalhes Tecnicos
-
-### Arquivos editados:
-- `src/pages/AdminProjectForm.tsx` — fix status bug + localStorage draft
-- `src/pages/ProjectDetail.tsx` — swipe touch handlers
-- `src/components/Hero.tsx` — espacamentos mobile
-- `src/components/ServicesSection.tsx` — melhorias visuais
-- `src/App.tsx` — remover rota `/processo`
-
-### Migracao SQL (se aprovado):
-```sql
-ALTER TABLE public.projects ADD COLUMN status text DEFAULT 'Concluído';
-```
+## Arquivos editados
+- `src/assets/profile-photo.png` (novo - copia da imagem)
+- `src/components/Hero.tsx` — foto no lugar do showreel
+- `src/components/ProjectCard.tsx` — remover grayscale, traduzir texto
+- `src/components/WhatsAppButton.tsx` (novo)
+- `src/components/Layout.tsx` — incluir WhatsApp button
+- `index.html` — titulo e meta tags
+- `src/pages/About.tsx`, `Projects.tsx`, `Services.tsx`, `Contact.tsx` — reduzir banners
+- `src/components/LogosSection.tsx` — ajustar nomes
 
