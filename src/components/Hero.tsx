@@ -31,7 +31,7 @@ const SocialIcon = ({ type }: { type: string }) => {
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center md:items-end overflow-hidden">
+    <section className="relative min-h-screen flex items-center overflow-hidden">
       {/* Gradient background */}
       <div
         className="absolute inset-0"
@@ -41,27 +41,39 @@ const Hero = () => {
       />
 
       {/* Content */}
-      <div className="w-full max-w-[1200px] mx-auto relative z-10 pt-[120px] md:pt-[160px] pb-[60px] md:pb-[80px] px-6 md:px-0">
-        <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-10 md:gap-10">
+      <div className="w-full max-w-[1200px] mx-auto relative z-10 pt-[120px] md:pt-[140px] pb-[40px] md:pb-[80px] px-6 md:px-0">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-8 md:gap-10">
           {/* Left — Headline */}
           <div className="md:w-[55%]">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 mb-6"
+            >
+              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+              <span className="text-primary text-[13px] font-medium">Disponível para novos projetos</span>
+            </motion.div>
+
             <motion.h1
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.1 }}
               className="font-display font-normal leading-[1] tracking-[-0.02em] text-foreground"
-              style={{ fontSize: "clamp(38px, 6.5vw, 82px)" }}
+              style={{ fontSize: "clamp(36px, 6vw, 76px)" }}
             >
-              Designer criando marcas e experiências digitais <span className="text-primary">memoráveis</span>
+              Design estratégico que{" "}
+              <span className="text-primary">posiciona</span> sua marca e{" "}
+              <span className="text-primary">converte</span>
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.25 }}
-              className="text-muted-foreground text-[16px] md:text-[18px] leading-[1.6] mt-6 max-w-[420px]"
+              className="text-muted-foreground text-[16px] md:text-[18px] leading-[1.6] mt-6 max-w-[460px]"
             >
-              Diretor criativo especializado em social media, brand design e web design — transformando ideias em experiências visuais que conectam e convertem.
+              Ajudo empresas a vender mais com identidades visuais, social media e sites que geram autoridade e atraem clientes todos os dias.
             </motion.p>
 
             <motion.div
@@ -70,11 +82,11 @@ const Hero = () => {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="flex flex-wrap gap-3 mt-8"
             >
-              <Link to="/projetos" className="btn-primary">
-                Ver Projetos →
+              <Link to="/contato" className="btn-primary">
+                Solicitar Orçamento →
               </Link>
-              <Link to="/contato" className="btn-ghost">
-                Solicitar Orçamento
+              <Link to="/projetos" className="btn-ghost">
+                Ver Projetos
               </Link>
             </motion.div>
 
@@ -98,25 +110,23 @@ const Hero = () => {
             </motion.div>
           </div>
 
-          {/* Right — Profile Photo */}
+          {/* Right — Profile Photo (floating, matching reference) */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="md:w-[38%] flex justify-center md:justify-end"
+            className="md:w-[42%] flex justify-center md:justify-end relative"
           >
-            <div className="relative w-[280px] h-[340px] md:w-[340px] md:h-[420px] rounded-2xl overflow-hidden border border-foreground/[0.08]">
-              {/* Orange glow behind */}
-              <div
-                className="absolute -inset-4 blur-3xl opacity-20 z-0"
-                style={{ background: "hsl(var(--primary))" }}
-              />
-              <img
-                src={profilePhoto}
-                alt="Lucas Evan — Designer de Marcas"
-                className="relative z-10 w-full h-full object-cover"
-              />
-            </div>
+            {/* Orange geometric shape behind */}
+            <div
+              className="absolute top-[15%] right-[5%] w-[200px] h-[240px] md:w-[260px] md:h-[320px] rounded-2xl z-0"
+              style={{ background: "hsl(var(--primary))" }}
+            />
+            <img
+              src={profilePhoto}
+              alt="Lucas Evan — Designer de Marcas"
+              className="relative z-10 w-[300px] md:w-[400px] h-auto object-contain drop-shadow-2xl"
+            />
           </motion.div>
         </div>
       </div>

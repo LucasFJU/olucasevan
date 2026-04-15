@@ -42,7 +42,7 @@ const Navbar = () => {
           to="/contato"
           className="hidden md:inline-flex btn-primary px-5 py-2.5 text-[14px]"
         >
-          Fale Conosco
+          Solicitar Orçamento
         </Link>
 
         {/* Mobile toggle */}
@@ -82,7 +82,7 @@ const Navbar = () => {
                 onClick={() => setIsOpen(false)}
                 className="btn-primary justify-center mt-2 text-[14px]"
               >
-                Fale Conosco
+                Solicitar Orçamento
               </Link>
             </div>
           </motion.div>

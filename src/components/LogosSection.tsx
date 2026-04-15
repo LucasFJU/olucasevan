@@ -8,7 +8,7 @@ const LogosSection = () => (
     <div className="max-w-[1200px] mx-auto px-6 md:px-0 py-8">
       <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16">
         <p className="text-[13px] font-medium text-foreground tracking-[0.05em] uppercase whitespace-nowrap shrink-0">
-          Clientes
+          Empresas que confiam
         </p>
         <div className="flex-1 overflow-hidden relative">
           <div className="flex items-center gap-16 animate-marquee">
