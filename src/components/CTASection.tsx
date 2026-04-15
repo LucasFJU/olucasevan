@@ -20,19 +20,19 @@ const CTASection = () => {
                 className="font-display text-foreground mb-4"
                 style={{ fontSize: "clamp(28px, 5vw, 56px)", fontWeight: 400, lineHeight: 1.1 }}
               >
-                Vamos <span className="text-primary">trabalhar</span> juntos?
+                Pronto para <span className="text-primary">vender mais</span> com design?
               </h2>
               <p className="text-muted-foreground text-[16px] md:text-[18px] leading-[1.5]">
-                Pronto para transformar sua marca? Conte seu projeto e receba uma proposta personalizada em até 24h.
+                Conte seu projeto e receba uma proposta personalizada em até 24h. Sem compromisso.
               </p>
             </div>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-col gap-3">
               <Link to="/contato" className="btn-primary">
-                Iniciar Projeto →
+                Solicitar Orçamento →
               </Link>
-              <Link to="/projetos" className="btn-ghost">
-                Ver Trabalhos
-              </Link>
+              <span className="text-muted-foreground text-[13px] text-center">
+                ⚡ Resposta em até 24h
+              </span>
             </div>
           </div>
         </motion.div>
