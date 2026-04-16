@@ -120,19 +120,8 @@ const Hero = () => {
             </motion.div>
           </div>
 
-          {/* Right — Profile Photo (floating, matching reference) */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="md:w-[55%] lg:w-[58%] flex justify-center md:justify-end relative md:self-stretch md:items-end"
-          >
-            <img
-              src={profilePhoto}
-              alt="Lucas Evan — Designer de Marcas"
-              className="relative z-10 w-[320px] md:w-[760px] lg:w-[860px] xl:w-[940px] h-auto drop-shadow-2xl rounded-none border-0 object-fill"
-            />
-          </motion.div>
+          {/* Right — spacer to keep desktop grid balance */}
+          <div className="hidden md:block md:w-[55%] lg:w-[58%]" />
         </div>
       </div>
     </section>
