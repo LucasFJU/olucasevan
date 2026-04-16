@@ -115,17 +115,17 @@ const Hero = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="md:w-[50%] flex justify-center md:justify-end relative md:self-stretch md:items-end"
+            className="md:w-[55%] lg:w-[58%] flex justify-center md:justify-end relative md:self-stretch md:items-end"
           >
             {/* Orange geometric shape behind */}
             <div
-              className="absolute top-[15%] right-[5%] w-[160px] h-[200px] md:top-[5%] md:right-0 md:w-[500px] md:h-[620px] lg:w-[560px] lg:h-[680px] rounded-2xl z-0"
+              className="absolute top-[15%] right-[5%] w-[160px] h-[200px] md:top-0 md:right-0 md:w-[560px] md:h-[680px] lg:w-[640px] lg:h-[760px] rounded-2xl z-0"
               style={{ background: "hsl(var(--primary))" }}
             />
             <img
               src={profilePhoto}
               alt="Lucas Evan — Designer de Marcas"
-              className="relative z-10 w-[260px] md:w-[680px] lg:w-[760px] h-auto drop-shadow-2xl rounded-none border-0 object-contain"
+              className="relative z-10 w-[280px] md:w-[780px] lg:w-[880px] xl:w-[940px] h-auto drop-shadow-2xl rounded-none border-0 object-contain"
             />
           </motion.div>
         </div>
