@@ -25,8 +25,8 @@ const testimonials = [
 const TestimonialsSection = () => {
   return (
     <section className="section-border-top">
-      <div className="max-w-[1200px] mx-auto px-6 md:px-0 py-[80px] md:py-[120px]">
-        <div className="flex flex-col md:flex-row justify-between items-start gap-6 mb-12 md:mb-16">
+      <div className="max-w-[1200px] mx-auto px-6 md:px-0 py-[60px] md:py-[120px]">
+        <div className="flex flex-col md:flex-row justify-between items-start gap-4 md:gap-6 mb-8 md:mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -48,7 +48,7 @@ const TestimonialsSection = () => {
           </motion.h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
           {testimonials.map((t, i) => (
             <motion.div
               key={t.name}
@@ -56,7 +56,7 @@ const TestimonialsSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="bg-card border border-border rounded-xl p-8 flex flex-col justify-between hover:border-primary/30 transition-colors duration-300"
+              className="bg-card border border-border rounded-xl p-6 md:p-8 flex flex-col justify-between hover:border-primary/30 transition-colors duration-300"
             >
               <div>
                 <div className="flex gap-1 mb-4">

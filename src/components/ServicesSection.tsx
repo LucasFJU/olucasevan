@@ -13,7 +13,7 @@ const services = [
 const ServicesSection = () => {
   return (
     <section className="section-border-top">
-      <div className="max-w-[1200px] mx-auto py-[80px] md:py-[120px] px-6 md:px-0">
+      <div className="max-w-[1200px] mx-auto py-[60px] md:py-[120px] px-6 md:px-0">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -48,7 +48,7 @@ const ServicesSection = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-border pt-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 border-t border-border pt-8 md:pt-10">
           {[
             { title: "Social Media", desc: "Conteúdo visual estratégico que para o scroll e converte seguidores em clientes.", icon: Smartphone },
             { title: "Brand Design", desc: "Identidades visuais que transmitem profissionalismo e tornam sua marca inesquecível.", icon: Palette },
@@ -63,7 +63,7 @@ const ServicesSection = () => {
             >
               <Link
                 to="/servicos"
-                className="block bg-card border border-border rounded-lg p-8 hover:border-primary hover:scale-[1.02] transition-all duration-300 h-full"
+                className="block bg-card border border-border rounded-lg p-6 md:p-8 hover:border-primary hover:scale-[1.02] transition-all duration-300 h-full"
               >
                 <card.icon size={24} className="text-primary mb-4" />
                 <h4 className="font-display text-foreground text-[18px] font-medium mb-2">{card.title}</h4>

@@ -20,14 +20,14 @@ const About = () => {
   return (
     <Layout>
       {/* Page Banner */}
-      <section className="min-h-[250px] md:min-h-[350px] flex items-center justify-center border-b border-border relative" style={{
+      <section className="min-h-[180px] md:min-h-[350px] flex items-center justify-center border-b border-border relative pt-[80px] md:pt-0" style={{
         background: "radial-gradient(ellipse 80% 60% at 50% 0%, hsl(15 100% 50% / 0.12), transparent 70%), hsl(var(--background))"
       }}>
         <motion.h1
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           className="font-display text-foreground text-center"
-          style={{ fontSize: "clamp(44px, 8vw, 120px)", fontWeight: 500, lineHeight: 1, letterSpacing: "-0.02em" }}
+          style={{ fontSize: "clamp(36px, 8vw, 120px)", fontWeight: 500, lineHeight: 1, letterSpacing: "-0.02em" }}
         >
           Sobre
         </motion.h1>
@@ -35,8 +35,8 @@ const About = () => {
 
       {/* About Content */}
       <section className="border-b border-border">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-0 py-[120px]">
-          <div className="flex flex-col md:flex-row justify-between items-start gap-10">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-0 py-[60px] md:py-[120px]">
+          <div className="flex flex-col md:flex-row justify-between items-start gap-6 md:gap-10">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -59,10 +59,10 @@ const About = () => {
               >
                 Não sou apenas um designer. Sou um <span className="font-semibold">parceiro de crescimento</span> para a sua marca.
               </h2>
-              <p className="text-muted-foreground text-[18px] leading-[1.6] mb-4">
+              <p className="text-muted-foreground text-[16px] md:text-[18px] leading-[1.6] mb-4">
                 Sou diretor criativo especializado em social media design, brand identity e web design. Combino estratégia, criatividade e execução impecável para criar experiências digitais que conectam marcas a pessoas.
               </p>
-              <p className="text-muted-foreground text-[18px] leading-[1.6]">
+              <p className="text-muted-foreground text-[16px] md:text-[18px] leading-[1.6]">
                 Cada projeto começa com o entendimento profundo do seu negócio. Antes de abrir o Figma, já sei exatamente o que sua marca precisa comunicar.
               </p>
             </motion.div>
@@ -84,9 +84,9 @@ const About = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className={`p-10 md:p-16 ${i < 2 ? "md:border-r border-b md:border-b-0 border-border" : "border-b md:border-b-0"}`}
+              className={`p-6 md:p-16 ${i < 2 ? "md:border-r border-b md:border-b-0 border-border" : "border-b md:border-b-0"}`}
             >
-              <span className="font-display text-[56px] text-foreground leading-none block mb-4" style={{ fontWeight: 400 }}>
+              <span className="font-display text-[40px] md:text-[56px] text-foreground leading-none block mb-3 md:mb-4" style={{ fontWeight: 400 }}>
                 {item.num}
               </span>
               <p className="text-muted-foreground text-[16px] leading-[1.5]">{item.text}</p>
@@ -97,8 +97,8 @@ const About = () => {
 
       {/* Tools */}
       <section className="border-b border-border">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-0 py-[120px]">
-          <div className="flex flex-col md:flex-row justify-between items-start gap-10 mb-12">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-0 py-[60px] md:py-[120px]">
+          <div className="flex flex-col md:flex-row justify-between items-start gap-6 md:gap-10 mb-8 md:mb-12">
             <div className="section-label shrink-0">
               <span className="label-num">[ 02 ]</span> Ferramentas
             </div>
@@ -110,7 +110,7 @@ const About = () => {
             </h2>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
             {[
               { name: "Figma", desc: "UI/UX Design" },
               { name: "Adobe Suite", desc: "Branding & Ilustração" },
@@ -123,9 +123,9 @@ const About = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="border border-border rounded-lg p-6 hover:border-primary transition-colors"
+                className="border border-border rounded-lg p-4 md:p-6 hover:border-primary transition-colors"
               >
-                <h3 className="font-display text-foreground text-[18px] font-medium">{tool.name}</h3>
+                <h3 className="font-display text-foreground text-[16px] md:text-[18px] font-medium">{tool.name}</h3>
                 <p className="text-muted-foreground text-[14px] mt-1">{tool.desc}</p>
               </motion.div>
             ))}
@@ -134,7 +134,7 @@ const About = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-[120px] px-6">
+      <section className="py-[60px] md:py-[120px] px-6">
         <div className="max-w-[1200px] mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 24 }}

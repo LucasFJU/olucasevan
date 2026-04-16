@@ -36,23 +36,23 @@ const Projects = () => {
   return (
     <Layout>
       {/* Page Banner */}
-      <section className="min-h-[250px] md:min-h-[350px] flex items-center justify-center border-b border-border relative" style={{
+      <section className="min-h-[180px] md:min-h-[350px] flex items-center justify-center border-b border-border relative pt-[80px] md:pt-0" style={{
         background: "radial-gradient(ellipse 80% 60% at 50% 0%, hsl(15 100% 50% / 0.12), transparent 70%), hsl(var(--background))"
       }}>
         <motion.h1
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           className="font-display text-foreground text-center"
-          style={{ fontSize: "clamp(44px, 8vw, 120px)", fontWeight: 500, lineHeight: 1, letterSpacing: "-0.02em" }}
+          style={{ fontSize: "clamp(36px, 8vw, 120px)", fontWeight: 500, lineHeight: 1, letterSpacing: "-0.02em" }}
         >
           Projetos
         </motion.h1>
       </section>
 
       {/* Filters + Grid */}
-      <section className="max-w-[1200px] mx-auto px-6 md:px-0 py-[120px]">
+      <section className="max-w-[1200px] mx-auto px-6 md:px-0 py-[60px] md:py-[120px]">
         {/* Filters */}
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-12">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 md:mb-12">
           <div className="flex flex-wrap gap-2">
             {categories.map((cat) => (
               <button
@@ -69,7 +69,7 @@ const Projects = () => {
             ))}
           </div>
 
-          <div className="relative min-w-[200px] max-w-sm">
+          <div className="relative w-full md:min-w-[200px] md:max-w-sm">
             <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <input
               type="text"
@@ -82,17 +82,17 @@ const Projects = () => {
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-12 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
           {isLoading
             ? Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} className="col-span-12 md:col-span-6 h-[400px] bg-card rounded-lg animate-pulse" />
+                <div key={i} className="col-span-1 md:col-span-6 h-[300px] md:h-[400px] bg-card rounded-lg animate-pulse" />
               ))
             : filtered && filtered.length > 0
             ? filtered.map((project) => (
                 <ProjectCard key={project.id} project={project} />
               ))
             : (
-              <div className="col-span-12 text-center py-20 text-muted-foreground">
+              <div className="col-span-1 md:col-span-12 text-center py-16 md:py-20 text-muted-foreground">
                 <p className="font-display text-lg font-medium text-foreground mb-2">Nenhum projeto encontrado</p>
                 <p className="text-sm">Tente outro filtro ou busca.</p>
               </div>
