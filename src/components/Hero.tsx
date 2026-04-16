@@ -40,6 +40,16 @@ const Hero = () => {
         }}
       />
 
+      {/* Orange glow behind the figure */}
+      <div
+        aria-hidden
+        className="absolute right-[5%] top-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-primary/30 blur-3xl z-[1] pointer-events-none"
+      />
+      <div
+        aria-hidden
+        className="absolute right-[15%] top-[35%] w-[400px] h-[400px] rounded-full bg-primary/40 blur-2xl z-[1] pointer-events-none"
+      />
+
       {/* Full-bleed Profile Photo background */}
       <motion.img
         initial={{ opacity: 0, scale: 1.02 }}
