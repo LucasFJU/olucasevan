@@ -41,7 +41,7 @@ const Services = () => {
     <Layout>
       {/* Hero Banner */}
       <section
-        className="min-h-[250px] md:min-h-[350px] flex flex-col items-center justify-center border-b border-border relative overflow-hidden px-6"
+        className="min-h-[220px] md:min-h-[350px] flex flex-col items-center justify-center border-b border-border relative overflow-hidden px-6 pt-[80px] md:pt-0"
         style={{
           background:
             "radial-gradient(ellipse 80% 50% at 50% 0%, hsl(15 100% 50% / 0.10), transparent 60%), hsl(var(--background))",
@@ -94,7 +94,7 @@ const Services = () => {
             className="grid grid-cols-1 md:grid-cols-12 border-b border-border"
           >
             {/* Left */}
-            <div className="md:col-span-4 py-12 md:py-[100px]">
+            <div className="md:col-span-4 py-8 md:py-[100px]">
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-primary font-display text-[13px] tracking-wider opacity-70">
                   [ {srv.num} ]
@@ -112,7 +112,7 @@ const Services = () => {
             </div>
 
             {/* Right — items grid */}
-            <div className="md:col-span-8 md:border-l border-border py-8 md:py-[100px] md:pl-12">
+            <div className="md:col-span-8 md:border-l border-border pb-8 md:py-[100px] md:pl-12">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {srv.items.map((item, j) => (
                   <motion.div
@@ -134,7 +134,7 @@ const Services = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-[100px] md:py-[140px] px-6 border-t border-border">
+      <section className="py-[60px] md:py-[140px] px-6 border-t border-border">
         <div className="max-w-[800px] mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
