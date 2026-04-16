@@ -51,7 +51,7 @@ const AboutSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="font-display text-foreground max-w-[820px]"
+            className="font-display text-foreground max-w-[820px] text-2xl"
             style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 400, lineHeight: 1.15 }}
           >
             <span className="font-semibold">Unir</span> design e estratégia para criar experiências criativas que engajam, inspiram e performam.
