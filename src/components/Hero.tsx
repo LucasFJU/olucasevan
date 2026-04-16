@@ -41,10 +41,10 @@ const Hero = () => {
       />
 
       {/* Content */}
-      <div className="w-full max-w-[1200px] mx-auto relative z-10 pt-[100px] md:pt-[140px] pb-[30px] md:pb-[80px] px-6 md:px-0">
+      <div className="w-full max-w-[1200px] mx-auto relative z-10 pt-[100px] md:pt-[140px] pb-[30px] md:pb-0 px-6 md:px-0">
         <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-6 md:gap-10">
           {/* Left — Headline */}
-          <div className="md:w-[55%]">
+          <div className="md:w-[50%] md:pb-[80px]">
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -115,17 +115,17 @@ const Hero = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="md:w-[42%] flex justify-center md:justify-end relative"
+            className="md:w-[48%] flex justify-center md:justify-end relative md:self-end"
           >
             {/* Orange geometric shape behind */}
             <div
-              className="absolute top-[15%] right-[5%] w-[160px] h-[200px] md:w-[260px] md:h-[320px] rounded-2xl z-0"
+              className="absolute top-[15%] right-[5%] w-[160px] h-[200px] md:top-[10%] md:right-0 md:w-[420px] md:h-[520px] rounded-2xl z-0"
               style={{ background: "hsl(var(--primary))" }}
             />
             <img
               src={profilePhoto}
               alt="Lucas Evan — Designer de Marcas"
-              className="relative z-10 w-[220px] md:w-[400px] h-auto drop-shadow-2xl text-lg text-right rounded-none border-0 object-fill"
+              className="relative z-10 w-[220px] md:w-[560px] lg:w-[620px] h-auto drop-shadow-2xl rounded-none border-0 object-contain"
             />
           </motion.div>
         </div>
