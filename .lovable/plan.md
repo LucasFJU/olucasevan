@@ -1,54 +1,50 @@
 
 
-# Refinamento Mobile - Correções de Layout e Espaçamento
+## Análise da Home (Desktop)
 
-## Problemas Identificados
+Comparando o seu Hero atual com a referência (Folioblox):
 
-1. **Navbar mobile**: O botao "Solicitar Orcamento" aparece no mobile sobrepondo o logo. A classe `btn-primary` (que aplica `inline-flex` via `@layer utilities`) sobrescreve o `hidden` do Tailwind.
-2. **Hero mobile**: Foto com shape laranja ficam desproporcionais, muito espaco vazio antes da foto, shape mal posicionado.
-3. **Espacamentos gerais**: padding excessivo em mobile em varias secoes.
+**Na referência:**
+- A foto ocupa **~50% da largura** da tela e quase toda a altura do hero (do topo ao fundo)
+- A foto é **muito grande** — domina o lado direito
+- O shape laranja aparece atrás da foto, alinhado à direita, como uma "moldura"
+- O texto fica à esquerda com bastante respiro
 
-## Alteracoes
+**No seu site atual:**
+- A foto está com `md:w-[400px]` — pequena demais comparada ao hero
+- O container é `max-w-[1200px]` mas a foto não preenche o espaço
+- O shape laranja está pequeno (`260x320px`) e mal posicionado
 
-### 1. Navbar — Esconder CTA no mobile corretamente
-- **Arquivo**: `src/components/Navbar.tsx`
-- Envolver o Link "Solicitar Orcamento" em uma `div` com `hidden md:block`, ou remover `btn-primary` da classe no mobile e usar classes manuais. Solucao mais limpa: adicionar `!hidden md:!inline-flex` ou separar o estilo.
-- Alternativa mais robusta: usar `className="hidden md:inline-flex"` diretamente no wrapper, e mover `btn-primary` para dentro.
+## Plano de Ajustes
 
-### 2. Hero — Ajustar foto e layout mobile
-- **Arquivo**: `src/components/Hero.tsx`
-- Reduzir tamanho da foto no mobile de `w-[300px]` para `w-[220px]`
-- Reduzir shape laranja mobile de `w-[200px] h-[240px]` para `w-[160px] h-[200px]`
-- Reduzir `pt-[120px]` para `pt-[100px]` no mobile
-- Reduzir gap entre texto e foto
+### 1. `Hero.tsx` — Aumentar foto desktop
+- Foto: `md:w-[400px]` → `md:w-[560px] lg:w-[620px]`
+- Shape laranja: `md:w-[260px] md:h-[320px]` → `md:w-[420px] md:h-[520px]`
+- Reposicionar shape: `top-[10%] right-0`
+- Container do lado direito: `md:w-[42%]` → `md:w-[48%]`
+- Ajustar `align-items` para `items-end` para a foto "encostar" no chão do hero
+- Remover `pb-[80px]` no desktop para a foto ir até a base
 
-### 3. AboutSection — Ajustar espacamento mobile
-- **Arquivo**: `src/components/AboutSection.tsx`
-- Reduzir padding vertical mobile de `py-[80px]` para `py-[60px]`
+### 2. Texto lado esquerdo
+- Reduzir `md:w-[55%]` → `md:w-[50%]` para dar mais espaço à foto
 
-### 4. CTASection — Ajustar padding mobile
-- **Arquivo**: `src/components/CTASection.tsx`
-- Reduzir padding mobile
+---
 
-### 5. Footer — Ajustar espacamento mobile
-- **Arquivo**: `src/components/Footer.tsx`
-- Reduzir padding vertical mobile
+## Medida da Home Mobile (para você criar a imagem de referência)
 
-### 6. WhatsAppButton — Nao sobrepor conteudo no mobile
-- **Arquivo**: `src/components/WhatsAppButton.tsx`
-- Reduzir tamanho do botao no mobile (`w-12 h-12` em vez de `w-14 h-14`)
-- Posicionar `bottom-4 right-4` no mobile
+**Viewport mobile padrão** que recomendo usar como base:
 
-### 7. CSS — Corrigir conflito btn-primary/hidden
-- **Arquivo**: `src/index.css`
-- Garantir que `btn-primary` nao force `inline-flex` quando `hidden` esta presente. Solucao: remover `inline-flex` do `btn-pill` e aplicar separadamente.
+| Dispositivo | Largura | Altura |
+|---|---|---|
+| **iPhone 14/15 Pro** (recomendado) | **390px** | **844px** |
+| iPhone SE (mínimo) | 375px | 667px |
+| Android padrão | 360px | 800px |
 
-## Arquivos editados
-- `src/components/Navbar.tsx`
-- `src/components/Hero.tsx`
-- `src/components/AboutSection.tsx`
-- `src/components/CTASection.tsx`
-- `src/components/Footer.tsx`
-- `src/components/WhatsAppButton.tsx`
-- `src/index.css`
+**Crie sua imagem de referência em: `390 x 844px`** (proporção 9:19.5)
+
+Para o **hero mobile** especificamente, considere a área visível inicial:
+- **Largura: 390px**
+- **Altura: ~700px** (descontando barra de status/navegador do celular)
+
+Assim consigo replicar fielmente o que você desenhar.
 
