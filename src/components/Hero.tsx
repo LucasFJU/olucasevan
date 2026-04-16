@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import profilePhoto from "@/assets/profile-photo.png";
+import profilePhoto from "@/assets/profile-photo-new.png";
 
 const SocialIcon = ({ type }: { type: string }) => {
   const icons: Record<string, JSX.Element> = {
