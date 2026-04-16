@@ -40,6 +40,16 @@ const Hero = () => {
         }}
       />
 
+      {/* Full-bleed Profile Photo background */}
+      <motion.img
+        initial={{ opacity: 0, scale: 1.02 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.9, delay: 0.2 }}
+        src={profilePhoto}
+        alt="Lucas Evan — Designer de Marcas"
+        className="absolute inset-0 w-full h-full object-cover object-right z-[1] pointer-events-none"
+      />
+
       {/* Content */}
       <div className="w-full max-w-[1200px] mx-auto relative z-10 pt-[100px] md:pt-[140px] pb-[30px] md:pb-0 px-6 md:px-0">
         <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-6 md:gap-10">
