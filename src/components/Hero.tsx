@@ -40,38 +40,32 @@ const Hero = () => {
         }}
       />
 
-      {/* Vertical light streaks (left side) */}
+      {/* Full-width vertical light curtains (cinematic streaks) */}
       <div
         aria-hidden
-        className="absolute left-0 top-0 bottom-0 w-[35%] z-[1] pointer-events-none opacity-60"
+        className="absolute inset-0 z-[1] pointer-events-none"
         style={{
           background:
-            "repeating-linear-gradient(90deg, transparent 0px, transparent 40px, hsl(15 100% 50% / 0.08) 41px, transparent 60px, transparent 120px, hsl(15 100% 50% / 0.04) 121px, transparent 140px)",
-          maskImage: "linear-gradient(to right, black, transparent)",
-          WebkitMaskImage: "linear-gradient(to right, black, transparent)",
+            "repeating-linear-gradient(90deg, transparent 0px, transparent 90px, hsl(15 100% 50% / 0.32) 110px, hsl(25 100% 55% / 0.22) 150px, transparent 180px, transparent 280px, hsl(15 100% 50% / 0.18) 300px, transparent 340px)",
+          filter: "blur(24px)",
+          maskImage: "radial-gradient(ellipse 90% 100% at 70% 50%, black 20%, rgba(0,0,0,0.6) 60%, transparent 95%)",
+          WebkitMaskImage: "radial-gradient(ellipse 90% 100% at 70% 50%, black 20%, rgba(0,0,0,0.6) 60%, transparent 95%)",
         }}
       />
 
-      {/* Orange glow behind the figure */}
+      {/* Massive orange "sun" glow behind the figure */}
       <div
         aria-hidden
-        className="absolute right-[5%] top-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-primary/30 blur-3xl z-[1] pointer-events-none"
+        className="absolute right-[2%] top-1/2 -translate-y-1/2 w-[1100px] h-[1100px] rounded-full bg-primary/60 blur-3xl z-[1] pointer-events-none"
       />
       <div
         aria-hidden
-        className="absolute right-[15%] top-[35%] w-[400px] h-[400px] rounded-full bg-primary/40 blur-2xl z-[1] pointer-events-none"
+        className="absolute right-[12%] top-[35%] w-[600px] h-[600px] rounded-full bg-primary/70 blur-3xl z-[1] pointer-events-none"
       />
-
-      {/* Vertical orange glow streaks behind figure (right side) */}
       <div
         aria-hidden
-        className="absolute right-0 top-0 bottom-0 w-[55%] z-[1] pointer-events-none opacity-70"
-        style={{
-          background:
-            "repeating-linear-gradient(90deg, transparent 0px, transparent 60px, hsl(15 100% 50% / 0.12) 61px, transparent 90px, transparent 180px, hsl(15 100% 55% / 0.08) 181px, transparent 220px)",
-          maskImage: "radial-gradient(ellipse 70% 90% at 70% 50%, black 30%, transparent 80%)",
-          WebkitMaskImage: "radial-gradient(ellipse 70% 90% at 70% 50%, black 30%, transparent 80%)",
-        }}
+        className="absolute right-[18%] top-[40%] w-[400px] h-[400px] rounded-full blur-2xl z-[1] pointer-events-none"
+        style={{ background: "hsl(35 100% 60% / 0.55)" }}
       />
 
       {/* Full-bleed Profile Photo background */}
