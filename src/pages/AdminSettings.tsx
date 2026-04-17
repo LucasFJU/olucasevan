@@ -13,6 +13,7 @@ const AdminSettings = () => {
 
   const [contactEmail, setContactEmail] = useState("");
   const [siteName, setSiteName] = useState("");
+  const [whatsappNumber, setWhatsappNumber] = useState("");
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -33,8 +34,10 @@ const AdminSettings = () => {
     if (settings) {
       const emailSetting = settings.find((s: any) => s.key === "contact_email");
       const nameSetting = settings.find((s: any) => s.key === "site_name");
+      const waSetting = settings.find((s: any) => s.key === "whatsapp_number");
       if (emailSetting) setContactEmail(emailSetting.value || "");
       if (nameSetting) setSiteName(nameSetting.value || "");
+      if (waSetting) setWhatsappNumber(waSetting.value || "");
     }
   }, [settings]);
 
@@ -44,6 +47,7 @@ const AdminSettings = () => {
       const upserts = [
         { key: "contact_email", value: contactEmail },
         { key: "site_name", value: siteName },
+        { key: "whatsapp_number", value: whatsappNumber.replace(/\D/g, "") },
       ];
       for (const item of upserts) {
         const { data: existing } = await supabase
@@ -101,6 +105,17 @@ const AdminSettings = () => {
               placeholder="contato@studio.com"
             />
             <p className="text-xs text-muted-foreground mt-1">Email de destino dos formulários de contato.</p>
+          </div>
+          <div>
+            <label className="text-sm font-medium text-foreground block mb-2">WhatsApp</label>
+            <input
+              type="tel"
+              value={whatsappNumber}
+              onChange={(e) => setWhatsappNumber(e.target.value)}
+              className="w-full bg-secondary border border-border rounded-xl px-4 py-3 text-sm text-foreground focus:border-primary focus:outline-none transition-colors"
+              placeholder="5511999990000"
+            />
+            <p className="text-xs text-muted-foreground mt-1">Com DDI + DDD, só números (ex: 5511999990000). Usado no botão flutuante e nas propostas.</p>
           </div>
           <button
             onClick={() => saveMutation.mutate()}
