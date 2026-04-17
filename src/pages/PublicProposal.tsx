@@ -4,9 +4,11 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Calendar, CheckCircle2, MessageCircle } from "lucide-react";
 import { formatBRL, type ProcessoEtapa, type FormaPagamento } from "@/lib/proposalUtils";
+import { useSiteSetting, buildWhatsAppUrl } from "@/hooks/useSiteSetting";
 
 const PublicProposal = () => {
   const { slug } = useParams<{ slug: string }>();
+  const whatsapp = useSiteSetting("whatsapp_number");
 
   const { data: proposal, isLoading, error } = useQuery({
     queryKey: ["public-proposal", slug],
