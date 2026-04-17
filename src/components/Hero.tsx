@@ -71,7 +71,7 @@ const Hero = () => {
       <div className="w-full max-w-[1200px] mx-auto relative z-10 pt-[100px] md:pt-[140px] pb-[30px] md:pb-0 px-6 md:px-0">
         <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-6 md:gap-10">
           {/* Left — Headline */}
-          <div className="md:w-[50%] md:pb-[80px]">
+          <div className="md:w-[50%] md:pb-[80px] relative z-10">
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -138,14 +138,14 @@ const Hero = () => {
           </div>
 
           {/* Right — Lucas image aligned with text height */}
-          <div className="hidden md:flex md:w-[55%] lg:w-[58%] justify-end items-end relative">
+          <div className="hidden md:flex md:w-[60%] lg:w-[62%] justify-end items-end relative">
             <motion.img
               src={lucasHero}
               alt="Lucas Evangelista"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.3 }}
-              className="w-auto max-h-[600px] object-contain object-bottom relative z-[2]"
+              className="w-auto h-[85vh] max-h-[780px] object-contain object-bottom relative z-[2]"
             />
           </div>
         </div>
