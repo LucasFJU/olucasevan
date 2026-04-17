@@ -205,7 +205,7 @@ const PublicProposal = () => {
           </div>
           <div className="flex flex-wrap gap-3 justify-center">
             <a
-              href={`https://wa.me/?text=${encodeURIComponent(`Olá! Aceito a proposta "${proposal.titulo}".`)}`}
+              href={buildWhatsAppUrl(whatsapp, `Olá! Aceito a proposta "${proposal.titulo}".`)}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary"
@@ -213,7 +213,7 @@ const PublicProposal = () => {
               <CheckCircle2 size={18} /> Aceitar proposta
             </a>
             <a
-              href={`https://wa.me/?text=${encodeURIComponent(`Olá! Tenho dúvidas sobre a proposta "${proposal.titulo}".`)}`}
+              href={buildWhatsAppUrl(whatsapp, `Olá! Tenho dúvidas sobre a proposta "${proposal.titulo}".`)}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-ghost"
