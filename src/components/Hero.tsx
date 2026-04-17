@@ -40,6 +40,18 @@ const Hero = () => {
         }}
       />
 
+      {/* Vertical light streaks (left side) */}
+      <div
+        aria-hidden
+        className="absolute left-0 top-0 bottom-0 w-[35%] z-[1] pointer-events-none opacity-60"
+        style={{
+          background:
+            "repeating-linear-gradient(90deg, transparent 0px, transparent 40px, hsl(15 100% 50% / 0.08) 41px, transparent 60px, transparent 120px, hsl(15 100% 50% / 0.04) 121px, transparent 140px)",
+          maskImage: "linear-gradient(to right, black, transparent)",
+          WebkitMaskImage: "linear-gradient(to right, black, transparent)",
+        }}
+      />
+
       {/* Orange glow behind the figure */}
       <div
         aria-hidden
@@ -50,6 +62,18 @@ const Hero = () => {
         className="absolute right-[15%] top-[35%] w-[400px] h-[400px] rounded-full bg-primary/40 blur-2xl z-[1] pointer-events-none"
       />
 
+      {/* Vertical orange glow streaks behind figure (right side) */}
+      <div
+        aria-hidden
+        className="absolute right-0 top-0 bottom-0 w-[55%] z-[1] pointer-events-none opacity-70"
+        style={{
+          background:
+            "repeating-linear-gradient(90deg, transparent 0px, transparent 60px, hsl(15 100% 50% / 0.12) 61px, transparent 90px, transparent 180px, hsl(15 100% 55% / 0.08) 181px, transparent 220px)",
+          maskImage: "radial-gradient(ellipse 70% 90% at 70% 50%, black 30%, transparent 80%)",
+          WebkitMaskImage: "radial-gradient(ellipse 70% 90% at 70% 50%, black 30%, transparent 80%)",
+        }}
+      />
+
       {/* Full-bleed Profile Photo background */}
       <motion.img
         initial={{ opacity: 0, scale: 1.02 }}
@@ -57,7 +81,23 @@ const Hero = () => {
         transition={{ duration: 0.9, delay: 0.2 }}
         src={profilePhoto}
         alt="Lucas Evan — Designer de Marcas"
-        className="absolute inset-0 w-full h-full object-cover object-right z-[1] pointer-events-none"
+        className="absolute inset-0 w-full h-full object-cover object-right z-[2] pointer-events-none"
+      />
+
+      {/* Floating glassmorphism cards (over the figure) */}
+      <motion.div
+        aria-hidden
+        initial={{ opacity: 0, x: 20, y: -10 }}
+        animate={{ opacity: 1, x: 0, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.6 }}
+        className="hidden md:block absolute right-[18%] top-[22%] w-[180px] h-[120px] rounded-2xl border border-white/15 bg-white/[0.03] backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.3)] z-[3] pointer-events-none"
+      />
+      <motion.div
+        aria-hidden
+        initial={{ opacity: 0, x: 30, y: 10 }}
+        animate={{ opacity: 1, x: 0, y: 0 }}
+        transition={{ duration: 0.9, delay: 0.75 }}
+        className="hidden md:block absolute right-[8%] top-[48%] w-[220px] h-[150px] rounded-2xl border border-white/15 bg-white/[0.03] backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.3)] z-[3] pointer-events-none"
       />
 
       {/* Content */}
