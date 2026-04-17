@@ -6,10 +6,11 @@ import { motion } from "framer-motion";
 const FeaturedProjects = () => {
   const { data: projects, isLoading } = useQuery({
     queryKey: ["featured-projects"],
+    staleTime: 5 * 60 * 1000,
     queryFn: async () => {
       const { data, error } = await supabase
         .from("projects")
-        .select("*")
+        .select("id, titulo, descricao, categoria, imagem_capa, tags, data_publicacao")
         .eq("destaque", true)
         .order("data_publicacao", { ascending: false })
         .limit(4);
@@ -17,6 +18,13 @@ const FeaturedProjects = () => {
       return data;
     },
   });
+
+  const optimizeImage = (url: string | null) => {
+    if (!url) return null;
+    if (!url.includes("/storage/v1/object/public/")) return url;
+    const optimized = url.replace("/object/public/", "/render/image/public/");
+    return `${optimized}${optimized.includes("?") ? "&" : "?"}width=900&quality=75`;
+  };
 
   return (
     <section className="section-border-top section-border-bottom">
@@ -76,10 +84,11 @@ const FeaturedProjects = () => {
                   <div className="h-[280px] md:h-[450px] rounded-lg overflow-hidden bg-card mb-4 md:mb-6 relative">
                     {project.imagem_capa ? (
                       <img
-                        src={project.imagem_capa}
+                        src={optimizeImage(project.imagem_capa) || project.imagem_capa}
                         alt={project.titulo}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                         loading="lazy"
+                        decoding="async"
                       />
                     ) : (
                       <div className="w-full h-full" style={{

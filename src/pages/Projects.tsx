@@ -14,10 +14,11 @@ const Projects = () => {
 
   const { data: projects, isLoading } = useQuery({
     queryKey: ["projects"],
+    staleTime: 5 * 60 * 1000,
     queryFn: async () => {
       const { data, error } = await supabase
         .from("projects")
-        .select("*")
+        .select("id, titulo, descricao, categoria, imagem_capa, tags, data_publicacao")
         .order("data_publicacao", { ascending: false });
       if (error) throw error;
       return data;

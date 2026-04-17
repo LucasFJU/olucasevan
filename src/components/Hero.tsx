@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import heroBg from "@/assets/hero-bg.png";
-import lucasHero from "@/assets/lucas-hero.png";
+import heroBg from "@/assets/hero-bg.webp";
+import lucasHero from "@/assets/lucas-hero.webp";
 
 const SocialIcon = ({ type }: { type: string }) => {
   const icons: Record<string, JSX.Element> = {
@@ -38,6 +38,8 @@ const Hero = () => {
         src={heroBg}
         alt=""
         aria-hidden
+        loading="eager"
+        decoding="async"
         className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
       />
       {/* Subtle overlay to keep text legible */}
@@ -142,6 +144,10 @@ const Hero = () => {
             <motion.img
               src={lucasHero}
               alt="Lucas Evangelista"
+              loading="eager"
+              decoding="async"
+              // @ts-expect-error fetchpriority is a valid HTML attribute
+              fetchpriority="high"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.3 }}
