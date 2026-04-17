@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import heroBg from "@/assets/hero-bg.png";
+import lucasHero from "@/assets/lucas-hero.png";
 
 const SocialIcon = ({ type }: { type: string }) => {
   const icons: Record<string, JSX.Element> = {
@@ -136,8 +137,17 @@ const Hero = () => {
             </motion.div>
           </div>
 
-          {/* Right — spacer to keep desktop grid balance */}
-          <div className="hidden md:block md:w-[55%] lg:w-[58%]" />
+          {/* Right — Lucas image aligned with text height */}
+          <div className="hidden md:flex md:w-[55%] lg:w-[58%] justify-end items-end relative">
+            <motion.img
+              src={lucasHero}
+              alt="Lucas Evangelista"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.3 }}
+              className="w-auto max-h-[600px] object-contain object-bottom relative z-[2]"
+            />
+          </div>
         </div>
       </div>
     </section>
