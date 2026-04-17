@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import profilePhoto from "@/assets/profile-photo-new.png";
+import profilePhoto from "@/assets/profile-photo-cutout.png";
 import heroBg from "@/assets/hero-bg.png";
 
 const SocialIcon = ({ type }: { type: string }) => {
@@ -50,15 +50,14 @@ const Hero = () => {
         }}
       />
 
-      {/* Full-bleed Profile Photo background */}
+      {/* Cutout profile photo, anchored to the right */}
       <motion.img
         initial={{ opacity: 0, scale: 1.02 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.9, delay: 0.2 }}
         src={profilePhoto}
         alt="Lucas Evan — Designer de Marcas"
-        className="absolute inset-0 w-full h-full object-cover z-[2] pointer-events-none"
-        style={{ objectPosition: "70% center" }}
+        className="absolute right-0 bottom-0 h-[85%] md:h-[95%] w-auto object-contain object-bottom z-[2] pointer-events-none"
       />
 
       {/* Floating glassmorphism cards (over the figure) */}
