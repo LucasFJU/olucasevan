@@ -148,6 +148,7 @@ const Hero = () => {
               className="w-auto max-h-[600px] object-contain object-bottom relative z-[2]"
             />
           </div>
+        </div>
       </div>
     </section>
   );
