@@ -19,6 +19,7 @@ const Projects = () => {
       const { data, error } = await supabase
         .from("projects")
         .select("id, titulo, descricao, categoria, imagem_capa, tags, data_publicacao")
+        .neq("status", "Rascunho")
         .order("data_publicacao", { ascending: false });
       if (error) throw error;
       return data;

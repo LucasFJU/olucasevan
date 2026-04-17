@@ -7,7 +7,7 @@ import { ArrowLeft, Upload, X, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 const categories = ["Social Media", "Brand Design", "Web Design"];
-const projectStatuses = ["Concluído", "Em andamento", "Em breve"];
+const projectStatuses = ["Concluído", "Em andamento", "Em breve", "Rascunho"];
 const DRAFT_KEY = "admin-project-draft";
 
 const AdminProjectForm = () => {
