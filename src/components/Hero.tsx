@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import profilePhoto from "@/assets/profile-photo-new.png";
+import heroBg from "@/assets/hero-bg.png";
 
 const SocialIcon = ({ type }: { type: string }) => {
   const icons: Record<string, JSX.Element> = {
@@ -31,41 +32,22 @@ const SocialIcon = ({ type }: { type: string }) => {
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Gradient background */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background: "radial-gradient(ellipse 80% 60% at 50% 0%, hsl(15 100% 50% / 0.12), transparent 70%), hsl(var(--background))"
-        }}
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-background">
+      {/* Background image */}
+      <img
+        src={heroBg}
+        alt=""
+        aria-hidden
+        className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
       />
-
-      {/* Full-width vertical light curtains (cinematic streaks) */}
+      {/* Subtle overlay to keep text legible */}
       <div
         aria-hidden
         className="absolute inset-0 z-[1] pointer-events-none"
         style={{
           background:
-            "repeating-linear-gradient(90deg, transparent 0px, transparent 90px, hsl(15 100% 50% / 0.32) 110px, hsl(25 100% 55% / 0.22) 150px, transparent 180px, transparent 280px, hsl(15 100% 50% / 0.18) 300px, transparent 340px)",
-          filter: "blur(24px)",
-          maskImage: "radial-gradient(ellipse 90% 100% at 70% 50%, black 20%, rgba(0,0,0,0.6) 60%, transparent 95%)",
-          WebkitMaskImage: "radial-gradient(ellipse 90% 100% at 70% 50%, black 20%, rgba(0,0,0,0.6) 60%, transparent 95%)",
+            "linear-gradient(90deg, hsl(var(--background) / 0.55) 0%, hsl(var(--background) / 0.25) 45%, transparent 70%)",
         }}
-      />
-
-      {/* Massive orange "sun" glow behind the figure */}
-      <div
-        aria-hidden
-        className="absolute right-[2%] top-1/2 -translate-y-1/2 w-[1100px] h-[1100px] rounded-full bg-primary/60 blur-3xl z-[1] pointer-events-none"
-      />
-      <div
-        aria-hidden
-        className="absolute right-[12%] top-[35%] w-[600px] h-[600px] rounded-full bg-primary/70 blur-3xl z-[1] pointer-events-none"
-      />
-      <div
-        aria-hidden
-        className="absolute right-[18%] top-[40%] w-[400px] h-[400px] rounded-full blur-2xl z-[1] pointer-events-none"
-        style={{ background: "hsl(35 100% 60% / 0.55)" }}
       />
 
       {/* Full-bleed Profile Photo background */}
