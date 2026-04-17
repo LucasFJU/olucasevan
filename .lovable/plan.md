@@ -1,34 +1,65 @@
 
-O usuário relata lentidão no carregamento da home e da página de projetos. Investigando:
+O usuário quer melhorar a gestão de projetos no admin. Vou propor um pacote de melhorias baseado no que já existe (`AdminDashboard.tsx` + `AdminProjectForm.tsx`).
 
-**Causas prováveis (baseado no código já visto):**
+## O que pode melhorar (diagnóstico rápido)
 
-1. **Imagens enormes não otimizadas** — `lucas-hero.png` (PNG, provavelmente vários MB), `hero-bg.png`, e as imagens de capa dos projetos vindas do Supabase Storage são servidas em tamanho original sem compressão/redimensionamento. Cada projeto tem galeria de 10 imagens carregadas sem necessidade na listagem.
+**Hoje:**
+- Lista com busca por texto e ações editar/excluir
+- Stats fixos no topo
+- Toggle de destaque só dentro do formulário
+- Status só editável dentro do formulário
+- `confirm()` nativo feio na exclusão
+- Sem ordenação manual, sem filtros, sem duplicação, sem rascunho
 
-2. **`FeaturedProjects` e `Projects` fazem `select("*")`** — trazem o array `galeria` inteiro (10 URLs por projeto) mesmo precisando só da `imagem_capa` na listagem. Payload inflado.
+## Pacote de melhorias proposto
 
-3. **Hero image sem `loading` adequado e sem versões responsivas** — PNG carregado em altura `85vh` mesmo em mobile (apesar de `hidden md:flex`, ainda é baixado pelo browser em alguns casos).
+### 1. Ações rápidas inline na tabela
+- **Estrela clicável** para alternar destaque sem abrir o formulário
+- **Dropdown de status** na coluna (Concluído / Em andamento / Rascunho) — atualiza com 1 clique
+- **Botão de preview** (ícone olho) que abre `/projetos/:id` em nova aba
+- **Botão duplicar** — clona o projeto (útil para projetos parecidos)
 
-4. **Sem cache no React Query** — staleTime padrão é 0, refaz fetch toda navegação.
+### 2. Filtros inteligentes
+- Chips no topo da lista: **Todos · Destaques · Rascunhos · Por categoria**
+- Busca atual continua, mas combinada com os filtros
 
-## Plano
+### 3. Status "Rascunho"
+- Novo valor de status para projetos não publicados
+- Projetos em Rascunho **não aparecem** no site público (`Index.tsx`, `Projects.tsx`, `ProjectDetail.tsx`)
+- Aparecem destacados na admin com badge cinza
 
-**1. `src/components/FeaturedProjects.tsx` e `src/pages/Projects.tsx`**
-- Trocar `select("*")` por `select("id, titulo, descricao, categoria, imagem_capa, tags, data_publicacao")` — remove o array `galeria` pesado da listagem.
-- Adicionar `staleTime: 5 * 60 * 1000` (5 min) no `useQuery` para evitar refetch ao navegar entre páginas.
+### 4. Exclusão elegante
+- Substituir `confirm()` por `AlertDialog` do shadcn (componente já instalado)
+- Mostra nome do projeto, avisa que é irreversível
 
-**2. `src/components/Hero.tsx`**
-- Adicionar `fetchpriority="high"` na `lucasHero` (LCP) e `loading="eager"`.
-- Adicionar `loading="lazy"` no `heroBg` se for decorativo (ou manter eager se for crítico).
-- Converter as imagens para formato otimizado: instruir conversão de `lucas-hero.png` e `hero-bg.png` para `.webp` (redução de 60-80% no tamanho). Vou usar `code--exec` no modo default para converter via `cwebp`/imagemagick e atualizar os imports.
+### 5. Reordenação manual (drag-and-drop)
+- Adicionar coluna `ordem` na tabela `projects`
+- Arrastar linhas para reordenar — afeta a ordem de exibição em `/projetos` e `Projetos em destaque` na home
+- Usar `@dnd-kit/core` (leve, acessível)
 
-**3. Imagens de capa dos projetos (Supabase Storage)**
-- Usar transformação de imagem do Supabase Storage adicionando `?width=800&quality=75` nas URLs renderizadas em `ProjectCard` e `FeaturedProjects` — serve versão redimensionada/comprimida sem mexer nos arquivos originais.
-- Garantir `loading="lazy"` em todas as imagens de capa fora do viewport inicial.
+## Mudanças técnicas
 
-**4. Bonus — Code splitting**
-- Verificar se `framer-motion` está sendo importado em todo lugar. Não é crítico agora, mas pode ser otimizado depois.
+**Banco (migration):**
+- `ALTER TABLE projects ADD COLUMN ordem integer DEFAULT 0`
+- Sem mudança em status (já é `text` livre, aceita "Rascunho")
 
-**Resultado esperado:** redução significativa do payload (de ~10-20MB para ~1-2MB no first load) e tempo de carregamento muito menor, especialmente na home e em /projetos.
+**Arquivos afetados:**
+- `src/pages/AdminDashboard.tsx` — filtros, ações inline, drag-and-drop, AlertDialog
+- `src/pages/AdminProjectForm.tsx` — adicionar opção "Rascunho" no select de status, mutação de duplicar
+- `src/components/FeaturedProjects.tsx` — filtrar `status != 'Rascunho'`, ordenar por `ordem`
+- `src/pages/Projects.tsx` — filtrar `status != 'Rascunho'`, ordenar por `ordem`
+- `src/pages/ProjectDetail.tsx` — retornar 404 se status = 'Rascunho'
+- Adicionar dependência: `@dnd-kit/core` + `@dnd-kit/sortable`
 
-Vou implementar os passos 1, 2 e 3. O passo 4 fica como sugestão futura.
+## Sugiro dividir em duas fases
+
+**Fase 1 (rápido, alto impacto):** ações inline (estrela, status, preview, duplicar) + AlertDialog + filtros + status Rascunho
+
+**Fase 2:** drag-and-drop de reordenação (precisa migration + nova lib)
+
+Posso implementar **a Fase 1 inteira de uma vez**, ou só partes específicas. Me diga qual preferir:
+
+- **A)** Fase 1 completa (ações inline + filtros + Rascunho + AlertDialog)
+- **B)** Fase 1 + Fase 2 (tudo, incluindo drag-and-drop)
+- **C)** Só ações inline (estrela, status, preview, duplicar) — o mais rápido
+- **D)** Outro recorte — me diga qual
