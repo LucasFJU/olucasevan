@@ -31,7 +31,7 @@ const SocialIcon = ({ type }: { type: string }) => {
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-background">
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-secondary">
       {/* Background image */}
       <img
         src={heroBg}

@@ -24,7 +24,7 @@ const testimonials = [
 
 const TestimonialsSection = () => {
   return (
-    <section className="section-border-top">
+    <section className="section-border-top bg-primary-foreground">
       <div className="max-w-[1200px] mx-auto px-6 md:px-0 py-[60px] md:py-[120px]">
         <div className="flex flex-col md:flex-row justify-between items-start gap-4 md:gap-6 mb-8 md:mb-16">
           <motion.div
