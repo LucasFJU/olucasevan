@@ -13,6 +13,9 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AdminProjectForm from "./pages/AdminProjectForm";
 import AdminSettings from "./pages/AdminSettings";
 import AdminAbout from "./pages/AdminAbout";
+import AdminProposals from "./pages/AdminProposals";
+import AdminProposalForm from "./pages/AdminProposalForm";
+import PublicProposal from "./pages/PublicProposal";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +39,10 @@ const App = () => (
           <Route path="/admin/editar/:id" element={<AdminProjectForm />} />
           <Route path="/admin/configuracoes" element={<AdminSettings />} />
           <Route path="/admin/sobre" element={<AdminAbout />} />
+          <Route path="/admin/propostas" element={<AdminProposals />} />
+          <Route path="/admin/propostas/nova" element={<AdminProposalForm />} />
+          <Route path="/admin/propostas/editar/:id" element={<AdminProposalForm />} />
+          <Route path="/proposta/:slug" element={<PublicProposal />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
