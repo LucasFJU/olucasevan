@@ -31,6 +31,7 @@ const ProjectDetail = () => {
       const { data, error } = await supabase
         .from("projects")
         .select("id, titulo")
+        .neq("status", "Rascunho")
         .order("data_publicacao", { ascending: false });
       if (error) throw error;
       return data;
@@ -84,7 +85,7 @@ const ProjectDetail = () => {
     );
   }
 
-  if (!project) {
+  if (!project || project.status === "Rascunho") {
     return (
       <Layout>
         <div className="pt-32 pb-24 container mx-auto px-6 md:px-12 text-center">

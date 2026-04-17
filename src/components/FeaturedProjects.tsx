@@ -12,6 +12,7 @@ const FeaturedProjects = () => {
         .from("projects")
         .select("id, titulo, descricao, categoria, imagem_capa, tags, data_publicacao")
         .eq("destaque", true)
+        .neq("status", "Rascunho")
         .order("data_publicacao", { ascending: false })
         .limit(4);
       if (error) throw error;

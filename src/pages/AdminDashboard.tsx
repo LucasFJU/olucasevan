@@ -3,14 +3,56 @@ import { useNavigate, Link } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { Plus, Pencil, Trash2, LogOut, Star, Search, Settings, FileText } from "lucide-react";
+import { Plus, LogOut, Star, Settings, FileText, Eye, Copy, Trash2, Pencil } from "lucide-react";
 import { toast } from "sonner";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+
+const STATUS_OPTIONS = ["Concluído", "Em andamento", "Em breve", "Rascunho"] as const;
+type ProjectRow = {
+  id: string;
+  titulo: string;
+  categoria: string;
+  imagem_capa: string | null;
+  destaque: boolean | null;
+  status: string | null;
+  descricao: string | null;
+  tags: string[] | null;
+  link_projeto: string | null;
+  galeria: string[] | null;
+  data_publicacao: string | null;
+};
+
+const statusBadgeClass = (status: string | null) => {
+  switch (status) {
+    case "Concluído":
+      return "bg-green-500/10 text-green-400";
+    case "Em andamento":
+      return "bg-yellow-500/10 text-yellow-400";
+    case "Rascunho":
+      return "bg-white/[0.07] text-muted-foreground";
+    case "Em breve":
+      return "bg-blue-500/10 text-blue-400";
+    default:
+      return "bg-white/[0.07] text-muted-foreground";
+  }
+};
 
 const AdminDashboard = () => {
   const { user, loading: authLoading, signOut } = useAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState<"all" | "destaques" | "rascunhos" | string>("all");
+  const [toDelete, setToDelete] = useState<ProjectRow | null>(null);
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/admin/login");
@@ -24,16 +66,24 @@ const AdminDashboard = () => {
         .select("*")
         .order("created_at", { ascending: false });
       if (error) throw error;
-      return data;
+      return data as ProjectRow[];
     },
     enabled: !!user,
   });
 
-  const filtered = projects?.filter((p) =>
-    !search ||
-    p.titulo.toLowerCase().includes(search.toLowerCase()) ||
-    p.categoria.toLowerCase().includes(search.toLowerCase())
-  );
+  const categories = Array.from(new Set((projects || []).map((p) => p.categoria))).filter(Boolean);
+
+  const filtered = projects?.filter((p) => {
+    const matchesSearch =
+      !search ||
+      p.titulo.toLowerCase().includes(search.toLowerCase()) ||
+      p.categoria.toLowerCase().includes(search.toLowerCase());
+    if (!matchesSearch) return false;
+    if (filter === "all") return true;
+    if (filter === "destaques") return !!p.destaque;
+    if (filter === "rascunhos") return p.status === "Rascunho";
+    return p.categoria === filter;
+  });
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
@@ -43,8 +93,49 @@ const AdminDashboard = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-projects"] });
       toast.success("Projeto excluído");
+      setToDelete(null);
     },
     onError: () => toast.error("Erro ao excluir projeto"),
+  });
+
+  const updateField = useMutation({
+    mutationFn: async ({ id, patch }: { id: string; patch: Partial<ProjectRow> }) => {
+      const { error } = await supabase.from("projects").update(patch).eq("id", id);
+      if (error) throw error;
+    },
+    onMutate: async ({ id, patch }) => {
+      await queryClient.cancelQueries({ queryKey: ["admin-projects"] });
+      const prev = queryClient.getQueryData<ProjectRow[]>(["admin-projects"]);
+      queryClient.setQueryData<ProjectRow[]>(["admin-projects"], (old) =>
+        old?.map((p) => (p.id === id ? { ...p, ...patch } : p)) || old,
+      );
+      return { prev };
+    },
+    onError: (_e, _v, ctx) => {
+      if (ctx?.prev) queryClient.setQueryData(["admin-projects"], ctx.prev);
+      toast.error("Erro ao atualizar");
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-projects"] });
+    },
+  });
+
+  const duplicateMutation = useMutation({
+    mutationFn: async (project: ProjectRow) => {
+      const { id, ...rest } = project;
+      const { error } = await supabase.from("projects").insert({
+        ...rest,
+        titulo: `${project.titulo} (cópia)`,
+        destaque: false,
+        status: "Rascunho",
+      });
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-projects"] });
+      toast.success("Projeto duplicado como Rascunho");
+    },
+    onError: () => toast.error("Erro ao duplicar projeto"),
   });
 
   if (authLoading) {
@@ -53,9 +144,16 @@ const AdminDashboard = () => {
   if (!user) return null;
 
   const totalProjects = projects?.length || 0;
-  const published = projects?.filter((p) => (p as any).status === "Concluído").length || 0;
-  const inProgress = projects?.filter((p) => (p as any).status === "Em andamento").length || 0;
+  const published = projects?.filter((p) => p.status === "Concluído").length || 0;
+  const drafts = projects?.filter((p) => p.status === "Rascunho").length || 0;
   const featured = projects?.filter((p) => p.destaque).length || 0;
+
+  const filterChips: { key: string; label: string }[] = [
+    { key: "all", label: "Todos" },
+    { key: "destaques", label: "Destaques" },
+    { key: "rascunhos", label: "Rascunhos" },
+    ...categories.map((c) => ({ key: c, label: c })),
+  ];
 
   return (
     <div className="min-h-screen bg-background">
@@ -91,7 +189,7 @@ const AdminDashboard = () => {
           {[
             { n: totalProjects, l: "Total de Projetos" },
             { n: published, l: "Concluídos" },
-            { n: inProgress, l: "Em andamento" },
+            { n: drafts, l: "Rascunhos" },
             { n: featured, l: "Em destaque" },
           ].map((s) => (
             <div key={s.l} className="bg-card border border-border rounded-md p-6">
@@ -101,7 +199,7 @@ const AdminDashboard = () => {
           ))}
         </div>
 
-        {/* Table header */}
+        {/* Table */}
         <div className="bg-card border border-border rounded-lg overflow-hidden">
           <div className="px-6 py-4 flex items-center justify-between border-b border-border flex-wrap gap-3">
             <h2 className="font-display text-base font-bold text-foreground">Lista de Projetos</h2>
@@ -116,7 +214,23 @@ const AdminDashboard = () => {
             </div>
           </div>
 
-          {/* Table */}
+          {/* Filter chips */}
+          <div className="px-6 py-3 border-b border-border flex flex-wrap gap-2 bg-background/40">
+            {filterChips.map((c) => (
+              <button
+                key={c.key}
+                onClick={() => setFilter(c.key)}
+                className={`px-3.5 py-1.5 rounded-full text-[12px] font-medium border transition-all ${
+                  filter === c.key
+                    ? "bg-primary border-primary text-primary-foreground"
+                    : "border-border text-muted-foreground hover:border-primary hover:text-foreground"
+                }`}
+              >
+                {c.label}
+              </button>
+            ))}
+          </div>
+
           {isLoading ? (
             <div className="p-6 space-y-3">
               {Array.from({ length: 3 }).map((_, i) => (
@@ -140,15 +254,26 @@ const AdminDashboard = () => {
                       <div className="flex items-center gap-3">
                         <div className="w-[52px] h-10 rounded-sm overflow-hidden bg-secondary flex-shrink-0">
                           {project.imagem_capa ? (
-                            <img src={project.imagem_capa} alt="" className="w-full h-full object-cover" />
+                            <img src={project.imagem_capa} alt="" className="w-full h-full object-cover" loading="lazy" />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center text-xs text-muted-foreground">{project.titulo[0]}</div>
                           )}
                         </div>
-                        <div>
+                        <div className="min-w-0">
                           <div className="font-display text-[15px] font-semibold text-foreground flex items-center gap-1.5">
-                            {project.titulo}
-                            {project.destaque && <Star size={12} className="text-primary" />}
+                            <span className="truncate">{project.titulo}</span>
+                            <button
+                              onClick={() =>
+                                updateField.mutate({ id: project.id, patch: { destaque: !project.destaque } })
+                              }
+                              title={project.destaque ? "Remover destaque" : "Marcar como destaque"}
+                              className="text-muted-foreground hover:text-primary transition-colors"
+                            >
+                              <Star
+                                size={14}
+                                className={project.destaque ? "text-primary fill-primary" : ""}
+                              />
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -157,31 +282,51 @@ const AdminDashboard = () => {
                       {project.categoria}
                     </td>
                     <td className="px-5 py-4 border-b border-border hidden md:table-cell">
-                      {(project as any).status === "Concluído" ? (
-                        <span className="inline-flex px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-[0.04em] bg-green-500/10 text-green-400">● Concluído</span>
-                      ) : (project as any).status === "Em andamento" ? (
-                        <span className="inline-flex px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-[0.04em] bg-yellow-500/10 text-yellow-400">Em andamento</span>
-                      ) : (
-                        <span className="inline-flex px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-[0.04em] bg-white/[0.07] text-muted-foreground">{(project as any).status || "—"}</span>
-                      )}
+                      <select
+                        value={project.status || "Concluído"}
+                        onChange={(e) =>
+                          updateField.mutate({ id: project.id, patch: { status: e.target.value } })
+                        }
+                        className={`appearance-none cursor-pointer inline-flex px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-[0.04em] border-0 focus:outline-none focus:ring-1 focus:ring-primary ${statusBadgeClass(project.status)}`}
+                      >
+                        {STATUS_OPTIONS.map((s) => (
+                          <option key={s} value={s} className="bg-card text-foreground normal-case">
+                            {s}
+                          </option>
+                        ))}
+                      </select>
                     </td>
                     <td className="px-5 py-4 border-b border-border">
-                      <div className="flex gap-2">
+                      <div className="flex gap-1.5">
+                        <Link
+                          to={`/projetos/${project.id}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="Ver projeto"
+                          className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"
+                        >
+                          <Eye size={14} />
+                        </Link>
                         <Link
                           to={`/admin/editar/${project.id}`}
-                          className="px-3.5 py-1.5 rounded-full text-[12px] border border-border text-muted-foreground hover:text-primary hover:border-primary transition-all"
+                          title="Editar"
+                          className="p-2 rounded-full text-muted-foreground hover:text-primary hover:bg-secondary transition-all"
                         >
-                          ✏
+                          <Pencil size={14} />
                         </Link>
                         <button
-                          onClick={() => {
-                            if (confirm("Tem certeza que deseja excluir este projeto?")) {
-                              deleteMutation.mutate(project.id);
-                            }
-                          }}
-                          className="px-3.5 py-1.5 rounded-full text-[12px] border border-border text-muted-foreground hover:text-destructive hover:border-destructive hover:bg-destructive/5 transition-all"
+                          onClick={() => duplicateMutation.mutate(project)}
+                          title="Duplicar"
+                          className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"
                         >
-                          🗑
+                          <Copy size={14} />
+                        </button>
+                        <button
+                          onClick={() => setToDelete(project)}
+                          title="Excluir"
+                          className="p-2 rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all"
+                        >
+                          <Trash2 size={14} />
                         </button>
                       </div>
                     </td>
@@ -192,8 +337,8 @@ const AdminDashboard = () => {
           ) : (
             <div className="text-center py-20 px-10">
               <div className="text-[48px] mb-4 opacity-30">📁</div>
-              <p className="font-display text-xl font-bold text-foreground mb-2">Nenhum projeto ainda</p>
-              <p className="text-sm text-muted-foreground mb-7">Comece adicionando seu primeiro projeto ao portfólio.</p>
+              <p className="font-display text-xl font-bold text-foreground mb-2">Nenhum projeto encontrado</p>
+              <p className="text-sm text-muted-foreground mb-7">Tente outro filtro, busca, ou crie um novo projeto.</p>
               <Link to="/admin/novo" className="btn-primary">
                 <Plus size={16} /> Novo Projeto
               </Link>
@@ -201,6 +346,26 @@ const AdminDashboard = () => {
           )}
         </div>
       </div>
+
+      <AlertDialog open={!!toDelete} onOpenChange={(open) => !open && setToDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Excluir projeto?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Você está prestes a excluir <strong className="text-foreground">{toDelete?.titulo}</strong>. Esta ação é irreversível e removerá o projeto permanentemente do site.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => toDelete && deleteMutation.mutate(toDelete.id)}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Excluir
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
