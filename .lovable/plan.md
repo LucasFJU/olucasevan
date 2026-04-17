@@ -1,48 +1,30 @@
 
+The user wants the Lucas image in the Hero enlarged to match the reference mockup, where he occupies roughly the right half of the viewport and extends from near the top of the hero down to the bottom — much larger than the current `max-h-[600px]`.
 
-## Análise: por que o hero não está igual à referência
+Looking at current `Hero.tsx`:
+- Image container: `md:w-[55%] lg:w-[58%]` with `items-end`
+- Image: `max-h-[600px] object-contain object-bottom`
+- Text column: `md:w-[50%] md:pb-[80px]`
 
-Comparei a imagem de referência (`04-2.png`) com o estado atual do `Hero.tsx` e identifiquei as divergências principais:
+In the reference, the figure is bold and tall, roughly full-height of the hero section, anchored bottom-right, slightly overlapping the text column's right edge.
 
-### Diferenças encontradas
+## Plan
 
-| Elemento | Referência | Atual | Problema |
-|---|---|---|---|
-| **Listras de luz laterais** | Listras verticais largas, suaves, em laranja quente cobrindo TODO o fundo (esquerda + direita), como cortinas de luz | 2 camadas de `repeating-linear-gradient` finas e fracas, com máscaras que limitam muito a área | Listras quase invisíveis e pequenas demais |
-| **Glow atrás da figura** | Halo laranja MUITO intenso e amplo ao redor de toda a silhueta (parece um "sol" atrás dele) | 2 círculos `bg-primary/30` e `/40` com `blur-3xl` — opacidade baixa e pequenos | Glow fraco, não envolve a figura |
-| **Cards glassmorphism** | 2 cards grandes, claramente visíveis, com bordas brilhantes brancas e bem posicionados sobre o ombro/torso | Cards com `bg-white/[0.03]` e `border-white/15` — quase invisíveis | Opacidade baixíssima — não aparecem |
-| **Posição da figura** | Figura centralizada-direita, ocupando ~50% da largura | `object-right` faz a figura colar na borda direita | Cortando parte da figura |
-| **Fundo** | Preto puro com gradiente vertical de listras coloridas (laranja → âmbar) ocupando toda a tela | Background quase liso com leve glow no topo | Sem o "wall of light" colorido de fundo |
+**File:** `src/components/Hero.tsx`
 
-### Causa raiz
+1. **Enlarge the image** — replace `max-h-[600px]` with a viewport-based height so it scales with the hero:
+   - `h-[85vh] max-h-[780px]` (or similar) instead of `max-h-[600px]`
+   - Keep `object-contain object-bottom` so it stays anchored to the floor
 
-As camadas existem no código, mas com **opacidades e tamanhos muito tímidos** — o efeito visual final é sutil demais. A referência tem efeitos **cinematográficos e dramáticos**, com cores saturadas e elementos bem visíveis.
+2. **Widen the right column** slightly and allow overflow toward the text side:
+   - Change `md:w-[55%] lg:w-[58%]` → `md:w-[60%] lg:w-[62%]`
+   - Adjust flex alignment so image sits flush right: keep `justify-end items-end`
 
----
+3. **Adjust left column** so the bigger figure doesn't crowd the headline:
+   - Keep `md:w-[50%]` but add `relative z-10` to ensure text stays above any image overlap
 
-## Plano de correção
+4. **Reposition the floating glass cards** if needed so they still frame the (now larger) figure — keep positions since they're already relative to the viewport right edge.
 
-### 1. Substituir o sistema de listras de luz (`Hero.tsx`)
-Trocar os `repeating-linear-gradient` por **uma única camada full-width** com listras verticais largas e saturadas:
-- Cobertura: `inset-0` (tela inteira, não apenas 35%/55%)
-- Listras de 80-120px de largura, espaçadas, em laranja quente (`hsl(15 100% 50%)` e `hsl(25 100% 55%)`)
-- Opacidade alta (0.25-0.4) com `blur-2xl` para suavizar
-- Máscara radial centrada na figura para concentrar o brilho ao redor dela
+No changes needed in mobile (image remains hidden below `md`).
 
-### 2. Intensificar o glow atrás da figura
-- Aumentar opacidade: `bg-primary/30` → `bg-primary/60`
-- Aumentar tamanho: `w-[800px]` → `w-[1100px]`
-- Adicionar uma 3ª camada amarelo-âmbar (`hsl(35 100% 60% / 0.5)`) para o efeito de "sol"
-
-### 3. Tornar os cards glassmorphism visíveis
-- Borda: `border-white/15` → `border-white/30`
-- Fundo: `bg-white/[0.03]` → `bg-white/[0.08]`
-- Adicionar leve `inset` highlight com `shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]`
-- Aumentar tamanho dos cards (~250x180px e ~280x200px)
-
-### 4. Reposicionar a figura
-- Trocar `object-right` por `object-[70%_center]` para deixar a figura mais centralizada-direita (não colada na borda)
-
-### Arquivo alterado
-- `src/components/Hero.tsx` — reescrever camadas de fundo, glow e cards
-
+This is a small, single-file CSS-class-only change.
