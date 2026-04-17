@@ -167,11 +167,8 @@ const AdminDashboard = () => {
             <span className="text-[11px] text-primary font-bold uppercase tracking-[0.08em] bg-primary/10 px-2 py-1 rounded-full shrink-0">Admin</span>
           </div>
           <div className="flex items-center gap-1 md:gap-2">
-            <Link to="/admin/propostas" className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors" title="Propostas comerciais">
+            <Link to="/admin/sobre" className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors" title="Editar Sobre">
               <FileText size={18} />
-            </Link>
-            <Link to="/admin/sobre" className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors text-[11px] font-bold" title="Editar Sobre">
-              Sobre
             </Link>
             <Link to="/admin/configuracoes" className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors" title="Configurações">
               <Settings size={18} />

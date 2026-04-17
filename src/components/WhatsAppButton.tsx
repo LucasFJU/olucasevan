@@ -1,15 +1,13 @@
 import { useState } from "react";
-import { useSiteSetting, buildWhatsAppUrl } from "@/hooks/useSiteSetting";
+
+const WHATSAPP_NUMBER = "5511999990000";
 
 const WhatsAppButton = () => {
   const [hovered, setHovered] = useState(false);
-  const number = useSiteSetting("whatsapp_number");
-
-  if (!number) return null;
 
   return (
     <a
-      href={buildWhatsAppUrl(number, "Olá! Gostaria de solicitar um orçamento para meu projeto.")}
+      href={`https://wa.me/${WHATSAPP_NUMBER}?text=Olá! Gostaria de solicitar um orçamento para meu projeto.`}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Contato via WhatsApp"

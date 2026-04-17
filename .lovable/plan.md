@@ -1,115 +1,65 @@
 
-O usuário quer um sistema de **Propostas Comerciais** dentro do admin. Funcionalidade:
+O usuário quer melhorar a gestão de projetos no admin. Vou propor um pacote de melhorias baseado no que já existe (`AdminDashboard.tsx` + `AdminProjectForm.tsx`).
 
-- Criar uma proposta selecionando projetos do portfólio
-- Adicionar processo de trabalho (etapas)
-- Definir formas de pagamento e valor
-- Gerar link público compartilhável para enviar ao cliente
-- Cliente abre o link e vê uma página bonita com tudo
+## O que pode melhorar (diagnóstico rápido)
 
-## Análise rápida
+**Hoje:**
+- Lista com busca por texto e ações editar/excluir
+- Stats fixos no topo
+- Toggle de destaque só dentro do formulário
+- Status só editável dentro do formulário
+- `confirm()` nativo feio na exclusão
+- Sem ordenação manual, sem filtros, sem duplicação, sem rascunho
 
-**O que já temos:**
-- Tabela `projects` com portfólio
-- Admin autenticado com RLS via `has_role`
-- Storage bucket `projects` para imagens
-- Padrão visual Folioblox (dark, ember, Bricolage)
+## Pacote de melhorias proposto
 
-**O que falta criar:**
-- Tabelas no banco para propostas
-- Telas no admin (lista + formulário)
-- Página pública da proposta (`/proposta/:slug`)
+### 1. Ações rápidas inline na tabela
+- **Estrela clicável** para alternar destaque sem abrir o formulário
+- **Dropdown de status** na coluna (Concluído / Em andamento / Rascunho) — atualiza com 1 clique
+- **Botão de preview** (ícone olho) que abre `/projetos/:id` em nova aba
+- **Botão duplicar** — clona o projeto (útil para projetos parecidos)
 
-## Plano de implementação
+### 2. Filtros inteligentes
+- Chips no topo da lista: **Todos · Destaques · Rascunhos · Por categoria**
+- Busca atual continua, mas combinada com os filtros
 
-### 1. Banco de dados (migration)
+### 3. Status "Rascunho"
+- Novo valor de status para projetos não publicados
+- Projetos em Rascunho **não aparecem** no site público (`Index.tsx`, `Projects.tsx`, `ProjectDetail.tsx`)
+- Aparecem destacados na admin com badge cinza
 
-**Tabela `proposals`:**
-- `id` uuid PK
-- `slug` text unique (link público, ex: `abc123-empresa-x`)
-- `cliente_nome` text
-- `cliente_empresa` text (opcional)
-- `cliente_email` text (opcional)
-- `titulo` text (ex: "Proposta de Identidade Visual")
-- `introducao` text (texto livre/markdown)
-- `valor_total` numeric
-- `prazo_entrega` text (ex: "30 dias")
-- `validade_dias` int (default 15)
-- `status` text ('Rascunho' | 'Enviada' | 'Aceita' | 'Recusada' | 'Expirada')
-- `projeto_ids` uuid[] (referências aos projetos do portfólio para mostrar como referências)
-- `processo` jsonb (array de etapas: `[{titulo, descricao, prazo}]`)
-- `formas_pagamento` jsonb (array: `[{titulo, descricao, valor}]` ex: "50% início + 50% entrega")
-- `observacoes` text
-- `created_at`, `updated_at` timestamps
+### 4. Exclusão elegante
+- Substituir `confirm()` por `AlertDialog` do shadcn (componente já instalado)
+- Mostra nome do projeto, avisa que é irreversível
 
-**RLS:**
-- Admins podem CRUD tudo (`has_role(auth.uid(), 'admin')`)
-- Público pode SELECT apenas se acessar via `slug` (policy permissiva no SELECT pra qualquer um — a obscuridade do slug protege)
+### 5. Reordenação manual (drag-and-drop)
+- Adicionar coluna `ordem` na tabela `projects`
+- Arrastar linhas para reordenar — afeta a ordem de exibição em `/projetos` e `Projetos em destaque` na home
+- Usar `@dnd-kit/core` (leve, acessível)
 
-**Tabela `proposal_views` (opcional, mas útil):**
-- Registra quando cliente abre o link (timestamp + user-agent)
-- Admin vê "Visualizada em X"
+## Mudanças técnicas
 
-### 2. Admin — novas telas
+**Banco (migration):**
+- `ALTER TABLE projects ADD COLUMN ordem integer DEFAULT 0`
+- Sem mudança em status (já é `text` livre, aceita "Rascunho")
 
-**`/admin/propostas`** — Lista de propostas
-- Tabela: cliente, título, valor, status (badge), data, ações
-- Filtros: status (Rascunho/Enviada/Aceita/Recusada)
-- Botão "Nova Proposta"
-- Adicionar link no `AdminDashboard` navbar (ícone documento)
+**Arquivos afetados:**
+- `src/pages/AdminDashboard.tsx` — filtros, ações inline, drag-and-drop, AlertDialog
+- `src/pages/AdminProjectForm.tsx` — adicionar opção "Rascunho" no select de status, mutação de duplicar
+- `src/components/FeaturedProjects.tsx` — filtrar `status != 'Rascunho'`, ordenar por `ordem`
+- `src/pages/Projects.tsx` — filtrar `status != 'Rascunho'`, ordenar por `ordem`
+- `src/pages/ProjectDetail.tsx` — retornar 404 se status = 'Rascunho'
+- Adicionar dependência: `@dnd-kit/core` + `@dnd-kit/sortable`
 
-**`/admin/propostas/nova`** e **`/admin/propostas/editar/:id`** — Formulário
-- **Seção 1 — Cliente**: nome, empresa, email
-- **Seção 2 — Conteúdo**: título, introdução (textarea), prazo, validade
-- **Seção 3 — Projetos de referência**: grid com todos os projetos do portfólio, checkbox para selecionar quais aparecem na proposta
-- **Seção 4 — Processo**: lista editável de etapas (adicionar/remover/reordenar) com título + descrição + prazo
-- **Seção 5 — Formas de pagamento**: lista editável (ex: "Entrada 50% — R$ 2.500", "Entrega 50% — R$ 2.500")
-- **Seção 6 — Valor total + observações**
-- **Botões**: Salvar como Rascunho · Salvar e Copiar Link
+## Sugiro dividir em duas fases
 
-Ao salvar, gera `slug` automaticamente (`nanoid` curto + slug do nome do cliente).
+**Fase 1 (rápido, alto impacto):** ações inline (estrela, status, preview, duplicar) + AlertDialog + filtros + status Rascunho
 
-### 3. Página pública — `/proposta/:slug`
+**Fase 2:** drag-and-drop de reordenação (precisa migration + nova lib)
 
-Página standalone (sem navbar do site, layout próprio):
-- Header com logo Folioblox + nome do cliente
-- Título grande + introdução
-- Seção "Projetos de referência" — grid com os projetos selecionados (capa, título, categoria, link pra `/projetos/:id`)
-- Seção "Processo" — timeline vertical com as etapas
-- Seção "Formas de pagamento" — cards limpos
-- Seção "Valor + prazo" — destaque
-- Validade ("Esta proposta é válida até DD/MM/YYYY")
-- Botões: "Aceitar proposta" (atualiza status, abre WhatsApp) · "Tirar dúvidas" (WhatsApp)
-- Registra view em `proposal_views` ao abrir
+Posso implementar **a Fase 1 inteira de uma vez**, ou só partes específicas. Me diga qual preferir:
 
-Estilo: mesma identidade do site (dark, ember, Bricolage), mas focado/limpo, ótimo em desktop e mobile, imprimível (CSS print).
-
-### 4. Arquivos afetados
-
-**Novos:**
-- `src/pages/AdminProposals.tsx` (lista)
-- `src/pages/AdminProposalForm.tsx` (criar/editar)
-- `src/pages/PublicProposal.tsx` (página pública)
-- Migration: criar tabelas `proposals` + `proposal_views` com RLS
-
-**Editados:**
-- `src/App.tsx` — adicionar 3 rotas novas
-- `src/pages/AdminDashboard.tsx` — botão "Propostas" na navbar admin
-
-### 5. Fora do escopo (pra fases futuras)
-
-- Geração de PDF da proposta (pode adicionar depois com `react-pdf` ou print-to-PDF)
-- Assinatura digital
-- Envio automático por email (precisa Lovable Emails)
-- Templates reutilizáveis de proposta
-
----
-
-**Resumo das entregas desta fase:**
-1. Migration com 2 tabelas + RLS
-2. Lista de propostas no admin
-3. Formulário completo (cliente + projetos + processo + pagamento)
-4. Página pública compartilhável via link único
-5. Tracking básico de visualização
-
-Quer que eu implemente assim, ou prefere ajustar algo (ex: tirar tracking de views, adicionar campo X, simplificar formas de pagamento)?
+- **A)** Fase 1 completa (ações inline + filtros + Rascunho + AlertDialog)
+- **B)** Fase 1 + Fase 2 (tudo, incluindo drag-and-drop)
+- **C)** Só ações inline (estrela, status, preview, duplicar) — o mais rápido
+- **D)** Outro recorte — me diga qual
