@@ -13,6 +13,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AdminProjectForm from "./pages/AdminProjectForm";
 import AdminSettings from "./pages/AdminSettings";
 import AdminAbout from "./pages/AdminAbout";
+import AdminUsers from "./pages/AdminUsers";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +37,7 @@ const App = () => (
           <Route path="/admin/editar/:id" element={<AdminProjectForm />} />
           <Route path="/admin/configuracoes" element={<AdminSettings />} />
           <Route path="/admin/sobre" element={<AdminAbout />} />
+          <Route path="/admin/usuarios" element={<AdminUsers />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
