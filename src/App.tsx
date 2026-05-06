@@ -15,6 +15,7 @@ import AdminSettings from "./pages/AdminSettings";
 import AdminAbout from "./pages/AdminAbout";
 import AdminUsers from "./pages/AdminUsers";
 import NotFound from "./pages/NotFound";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
     <TooltipProvider>
       <Sonner />
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/projetos" element={<Projects />} />
