@@ -1,13 +1,27 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
-const WHATSAPP_NUMBER = "5511999990000";
 
 const WhatsAppButton = () => {
   const [hovered, setHovered] = useState(false);
 
+  const { data: settings } = useQuery({
+    queryKey: ["site-settings-public"],
+    staleTime: 10 * 60 * 1000,
+    queryFn: async () => {
+      const { data } = await supabase.from("site_settings" as any).select("*");
+      return data as any[] || [];
+    },
+  });
+
+  const whatsappNumber = settings?.find((s: any) => s.key === "whatsapp_number")?.value || "";
+
+  if (!whatsappNumber) return null;
+
   return (
     <a
-      href={`https://wa.me/${WHATSAPP_NUMBER}?text=Olá! Gostaria de solicitar um orçamento para meu projeto.`}
+      href={`https://wa.me/${whatsappNumber}?text=Olá! Gostaria de solicitar um orçamento para meu projeto.`}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Contato via WhatsApp"
