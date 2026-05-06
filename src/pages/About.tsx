@@ -2,6 +2,7 @@ import Layout from "@/components/Layout";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -19,6 +20,10 @@ const About = () => {
 
   return (
     <Layout>
+      <Helmet>
+        <title>Sobre — Folioblox</title>
+        <meta name="description" content="Conheça Lucas Evan, diretor criativo especializado em social media, brand identity e web design." />
+      </Helmet>
       {/* Page Banner */}
       <section className="min-h-[180px] md:min-h-[350px] flex items-center justify-center border-b border-border relative pt-[80px] md:pt-0" style={{
         background: "radial-gradient(ellipse 80% 60% at 50% 0%, hsl(15 100% 50% / 0.12), transparent 70%), hsl(var(--background))"

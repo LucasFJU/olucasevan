@@ -2,6 +2,7 @@ import Layout from "@/components/Layout";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Smartphone, Palette, Layout as LayoutIcon, Sparkles } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
 const services = [
   {
@@ -39,6 +40,10 @@ const fadeUp = {
 const Services = () => {
   return (
     <Layout>
+      <Helmet>
+        <title>Serviços — Folioblox</title>
+        <meta name="description" content="Social media design, brand identity, web design e UI/UX. Serviços criativos para posicionar sua marca." />
+      </Helmet>
       {/* Hero Banner */}
       <section
         className="min-h-[220px] md:min-h-[350px] flex flex-col items-center justify-center border-b border-border relative overflow-hidden px-6 pt-[80px] md:pt-0"

@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Send } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
+import { Helmet } from "react-helmet-async";
 
 const contactSchema = z.object({
   nome: z.string().trim().min(1, "Nome é obrigatório").max(100),
@@ -47,6 +48,10 @@ const Contact = () => {
 
   return (
     <Layout>
+      <Helmet>
+        <title>Contato — Folioblox</title>
+        <meta name="description" content="Entre em contato para solicitar um orçamento. Resposta em até 24h." />
+      </Helmet>
       {/* Page Banner */}
       <section className="min-h-[250px] md:min-h-[350px] flex items-center justify-center border-b border-border relative" style={{
         background: "radial-gradient(ellipse 80% 60% at 50% 0%, hsl(15 100% 50% / 0.12), transparent 70%), hsl(var(--background))"
@@ -147,18 +152,21 @@ const Contact = () => {
 
                   <div>
                     <label className="text-[12px] text-muted-foreground font-medium uppercase tracking-[0.05em] mb-2 block">Serviço</label>
-                    <select
-                      value={form.tipo_projeto}
-                      onChange={(e) => setForm({ ...form, tipo_projeto: e.target.value })}
-                      className="w-full bg-foreground/[0.02] border border-border rounded-lg px-4 py-3.5 text-[16px] text-foreground focus:border-primary focus:outline-none transition-colors"
-                    >
-                      <option value="">Selecione um serviço...</option>
-                      <option value="Social Media Design">Social Media Design</option>
-                      <option value="Brand Identity">Brand Identity</option>
-                      <option value="Web Design">Web Design</option>
-                      <option value="UI/UX Design">UI/UX Design</option>
-                      <option value="Estratégia Criativa">Estratégia Criativa</option>
-                    </select>
+                    <div className="relative">
+                      <select
+                        value={form.tipo_projeto}
+                        onChange={(e) => setForm({ ...form, tipo_projeto: e.target.value })}
+                        className="w-full appearance-none bg-foreground/[0.02] border border-border rounded-lg px-4 py-3.5 pr-10 text-[16px] text-foreground focus:border-primary focus:outline-none transition-colors cursor-pointer"
+                      >
+                        <option value="">Selecione um serviço...</option>
+                        <option value="Social Media Design">Social Media Design</option>
+                        <option value="Brand Identity">Brand Identity</option>
+                        <option value="Web Design">Web Design</option>
+                        <option value="UI/UX Design">UI/UX Design</option>
+                        <option value="Estratégia Criativa">Estratégia Criativa</option>
+                      </select>
+                      <svg className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-muted-foreground" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                    </div>
                   </div>
 
                   <div>

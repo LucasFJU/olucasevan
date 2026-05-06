@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import Layout from "@/components/Layout";
@@ -37,6 +38,10 @@ const Projects = () => {
 
   return (
     <Layout>
+      <Helmet>
+        <title>Projetos — Folioblox</title>
+        <meta name="description" content="Conheça os projetos de design de marca, social media e web design desenvolvidos pela Folioblox." />
+      </Helmet>
       {/* Page Banner */}
       <section className="min-h-[180px] md:min-h-[350px] flex items-center justify-center border-b border-border relative pt-[80px] md:pt-0" style={{
         background: "radial-gradient(ellipse 80% 60% at 50% 0%, hsl(15 100% 50% / 0.12), transparent 70%), hsl(var(--background))"
