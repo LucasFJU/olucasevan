@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { Plus, LogOut, Star, Settings, FileText, Eye, Copy, Trash2, Pencil } from "lucide-react";
+import { Plus, LogOut, Star, Settings, FileText, Eye, Copy, Trash2, Pencil, Users } from "lucide-react";
 import { toast } from "sonner";
 import {
   AlertDialog,
@@ -169,6 +169,9 @@ const AdminDashboard = () => {
           <div className="flex items-center gap-1 md:gap-2">
             <Link to="/admin/sobre" className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors" title="Editar Sobre">
               <FileText size={18} />
+            </Link>
+            <Link to="/admin/usuarios" className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors" title="Administradores">
+              <Users size={18} />
             </Link>
             <Link to="/admin/configuracoes" className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors" title="Configurações">
               <Settings size={18} />
