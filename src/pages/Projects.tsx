@@ -52,7 +52,7 @@ const Projects = () => {
       </section>
 
       {/* Filters + Grid */}
-      <section className="max-w-[1200px] mx-auto px-6 md:px-0 py-[60px] md:py-[120px]">
+      <section className="max-w-[1200px] mx-auto px-6 md:px-0 py-[40px] md:py-[60px]">
         {/* Filters */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 md:mb-12">
           <div className="flex flex-wrap gap-2">
