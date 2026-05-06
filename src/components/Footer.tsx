@@ -1,6 +1,33 @@
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+
+const defaultSocials: Record<string, string> = {
+  Dribbble: "#",
+  LinkedIn: "#",
+  Behance: "#",
+  Instagram: "#",
+};
 
 const Footer = () => {
+  const { data: settings } = useQuery({
+    queryKey: ["site-settings-public"],
+    staleTime: 10 * 60 * 1000,
+    queryFn: async () => {
+      const { data } = await supabase.from("site_settings" as any).select("*");
+      return data as any[] || [];
+    },
+  });
+
+  const getSetting = (key: string) => settings?.find((s: any) => s.key === key)?.value || "";
+
+  const socials = [
+    { name: "Dribbble", url: getSetting("social_dribbble") || defaultSocials.Dribbble },
+    { name: "LinkedIn", url: getSetting("social_linkedin") || defaultSocials.LinkedIn },
+    { name: "Behance", url: getSetting("social_behance") || defaultSocials.Behance },
+    { name: "Instagram", url: getSetting("social_instagram") || defaultSocials.Instagram },
+  ].filter((s) => s.url && s.url !== "#");
+
   return (
     <footer className="border-t border-border" style={{
       background: "radial-gradient(ellipse 60% 40% at 50% 0%, hsl(15 100% 50% / 0.06), transparent 60%)"
@@ -49,8 +76,12 @@ const Footer = () => {
             <div className="col-span-2 md:col-span-1">
               <p className="text-primary text-[14px] font-normal mb-4">[ SOCIAL ]</p>
               <div className="flex flex-row md:flex-col gap-4">
-                {["Dribbble", "LinkedIn", "Behance", "Instagram"].map((s) => (
-                  <a key={s} href="#" className="text-foreground text-[15px] md:text-[16px] hover:text-primary transition-colors">
+                {socials.length > 0 ? socials.map((s) => (
+                  <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" className="text-foreground text-[15px] md:text-[16px] hover:text-primary transition-colors">
+                    {s.name}
+                  </a>
+                )) : ["Dribbble", "LinkedIn", "Behance", "Instagram"].map((s) => (
+                  <a key={s} href="#" className="text-foreground text-[15px] md:text-[16px] hover:text-primary transition-colors opacity-50 pointer-events-none">
                     {s}
                   </a>
                 ))}
