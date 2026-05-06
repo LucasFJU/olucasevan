@@ -5,6 +5,7 @@ import Layout from "@/components/Layout";
 import { ArrowLeft, ArrowRight, ExternalLink, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useCallback, useEffect, useRef } from "react";
+import { Helmet } from "react-helmet-async";
 
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -99,6 +100,11 @@ const ProjectDetail = () => {
 
   return (
     <Layout>
+      <Helmet>
+        <title>{project.titulo} — Folioblox</title>
+        <meta name="description" content={project.descricao?.slice(0, 160) || `Projeto ${project.titulo} por Folioblox.`} />
+        {project.imagem_capa && <meta property="og:image" content={project.imagem_capa} />}
+      </Helmet>
       {/* Hero with background */}
       <section className="relative pt-[68px] min-h-[60vh] flex flex-col justify-end overflow-hidden">
         {project.imagem_capa && (
