@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Send } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
+import { Helmet } from "react-helmet-async";
 
 const contactSchema = z.object({
   nome: z.string().trim().min(1, "Nome é obrigatório").max(100),
@@ -47,6 +48,10 @@ const Contact = () => {
 
   return (
     <Layout>
+      <Helmet>
+        <title>Contato — Folioblox</title>
+        <meta name="description" content="Entre em contato para solicitar um orçamento. Resposta em até 24h." />
+      </Helmet>
       {/* Page Banner */}
       <section className="min-h-[250px] md:min-h-[350px] flex items-center justify-center border-b border-border relative" style={{
         background: "radial-gradient(ellipse 80% 60% at 50% 0%, hsl(15 100% 50% / 0.12), transparent 70%), hsl(var(--background))"
