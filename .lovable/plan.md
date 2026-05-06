@@ -1,65 +1,99 @@
 
-O usuário quer melhorar a gestão de projetos no admin. Vou propor um pacote de melhorias baseado no que já existe (`AdminDashboard.tsx` + `AdminProjectForm.tsx`).
+# Auditoria Completa: UX/UI, Funcionalidade e Product Design
 
-## O que pode melhorar (diagnóstico rápido)
+Naveguei por todas as telas (Home, Projetos, Sobre, Servicos, Contato, Admin Dashboard, Admin Form, Admin Settings, Admin Usuarios, Admin Login, 404) em desktop e mobile. Segue a análise organizada por prioridade.
 
-**Hoje:**
-- Lista com busca por texto e ações editar/excluir
-- Stats fixos no topo
-- Toggle de destaque só dentro do formulário
-- Status só editável dentro do formulário
-- `confirm()` nativo feio na exclusão
-- Sem ordenação manual, sem filtros, sem duplicação, sem rascunho
+---
 
-## Pacote de melhorias proposto
+## BUGS E PROBLEMAS FUNCIONAIS (Prioridade Alta)
 
-### 1. Ações rápidas inline na tabela
-- **Estrela clicável** para alternar destaque sem abrir o formulário
-- **Dropdown de status** na coluna (Concluído / Em andamento / Rascunho) — atualiza com 1 clique
-- **Botão de preview** (ícone olho) que abre `/projetos/:id` em nova aba
-- **Botão duplicar** — clona o projeto (útil para projetos parecidos)
+### 1. Login redireciona mesmo se o usuário NÃO for admin
+O `AdminLogin.tsx` redireciona para `/admin` ao detectar qualquer sessão autenticada — sem verificar se o usuário tem role `admin`. Um usuário comum seria redirecionado para o dashboard e ficaria preso numa tela quebrada.
+**Fix:** Verificar role admin antes de redirecionar. Se não for admin, mostrar mensagem "Acesso não autorizado" e fazer sign out.
 
-### 2. Filtros inteligentes
-- Chips no topo da lista: **Todos · Destaques · Rascunhos · Por categoria**
-- Busca atual continua, mas combinada com os filtros
+### 2. Listener de auth vazando (memory leak)
+No `AdminLogin.tsx`, `onAuthStateChange` é chamado sem cleanup no `useEffect` — o listener nunca é removido.
+**Fix:** Retornar `subscription.unsubscribe()` no cleanup do `useEffect`.
 
-### 3. Status "Rascunho"
-- Novo valor de status para projetos não publicados
-- Projetos em Rascunho **não aparecem** no site público (`Index.tsx`, `Projects.tsx`, `ProjectDetail.tsx`)
-- Aparecem destacados na admin com badge cinza
+### 3. Página de detalhe do projeto permite acessar rascunhos via URL direta
+`ProjectDetail.tsx` busca o projeto por ID sem filtrar `status != Rascunho`. Qualquer pessoa com o link pode ver um rascunho.
+**Fix:** Adicionar `.neq("status", "Rascunho")` na query ou redirecionar para 404.
 
-### 4. Exclusão elegante
-- Substituir `confirm()` por `AlertDialog` do shadcn (componente já instalado)
-- Mostra nome do projeto, avisa que é irreversível
+---
 
-### 5. Reordenação manual (drag-and-drop)
-- Adicionar coluna `ordem` na tabela `projects`
-- Arrastar linhas para reordenar — afeta a ordem de exibição em `/projetos` e `Projetos em destaque` na home
-- Usar `@dnd-kit/core` (leve, acessível)
+## UX/UI DO SITE PUBLICO (Prioridade Media)
 
-## Mudanças técnicas
+### 4. Navbar mobile sem menu hamburguer visivel
+No mobile (375px), a navbar mostra só o logo — sem links de navegacao nem menu hamburguer. O usuario nao consegue navegar pelo site no celular.
+**Fix:** Adicionar menu hamburguer mobile com slide-in ou sheet.
 
-**Banco (migration):**
-- `ALTER TABLE projects ADD COLUMN ordem integer DEFAULT 0`
-- Sem mudança em status (já é `text` livre, aceita "Rascunho")
+### 5. Pagina 404 generica e sem identidade
+A 404 e muito basica ("Oops! Page not found" em ingles). Nao tem navbar, footer, nem segue o design system.
+**Fix:** Redesenhar com Layout, ilustracao, texto em PT-BR, e CTA para voltar.
 
-**Arquivos afetados:**
-- `src/pages/AdminDashboard.tsx` — filtros, ações inline, drag-and-drop, AlertDialog
-- `src/pages/AdminProjectForm.tsx` — adicionar opção "Rascunho" no select de status, mutação de duplicar
-- `src/components/FeaturedProjects.tsx` — filtrar `status != 'Rascunho'`, ordenar por `ordem`
-- `src/pages/Projects.tsx` — filtrar `status != 'Rascunho'`, ordenar por `ordem`
-- `src/pages/ProjectDetail.tsx` — retornar 404 se status = 'Rascunho'
-- Adicionar dependência: `@dnd-kit/core` + `@dnd-kit/sortable`
+### 6. Espacamento excessivo entre hero e filtros na pagina Projetos
+Ha um gap vazio grande entre o titulo "Projetos" e os filtros, prejudicando a sensacao de continuidade.
+**Fix:** Reduzir padding/margin nessa zona.
 
-## Sugiro dividir em duas fases
+### 7. Contato — select nativo feio no campo "Servico"
+O `<select>` nativo destoa do design refinado. Usar um Select custom do shadcn.
 
-**Fase 1 (rápido, alto impacto):** ações inline (estrela, status, preview, duplicar) + AlertDialog + filtros + status Rascunho
+### 8. Footer — links sociais sem destino real
+Os links de Dribbble, LinkedIn, Behance e Instagram provavelmente apontam para "#" ou URLs placeholder. Confirmar e corrigir para os perfis reais do designer (ou remover se nao houver).
 
-**Fase 2:** drag-and-drop de reordenação (precisa migration + nova lib)
+### 9. WhatsApp button — sem numero configurado
+O botao verde de WhatsApp pode nao ter numero real configurado.
 
-Posso implementar **a Fase 1 inteira de uma vez**, ou só partes específicas. Me diga qual preferir:
+---
 
-- **A)** Fase 1 completa (ações inline + filtros + Rascunho + AlertDialog)
-- **B)** Fase 1 + Fase 2 (tudo, incluindo drag-and-drop)
-- **C)** Só ações inline (estrela, status, preview, duplicar) — o mais rápido
-- **D)** Outro recorte — me diga qual
+## ADMIN — UX/UI (Prioridade Media)
+
+### 10. Settings muito espartana
+A pagina de Configuracoes so tem 2 campos (nome do site + email). Poderia incluir:
+- Links de redes sociais (que alimentam o footer)
+- Numero do WhatsApp
+- Texto do hero / subtitulo
+- Logo upload
+
+### 11. Formulario de projeto — upload de galeria sem feedback visual
+Nao vi preview das imagens ao fazer upload, nem indicador de progresso. Isso pode frustrar ao subir varias imagens.
+
+### 12. Admin Dashboard — tabela nao responsiva
+Em telas menores a tabela de projetos pode quebrar. Idealmente usar cards em mobile.
+
+### 13. Admin Users — pagina funciona mas e muito simples
+A busca lista todos os usuarios, o que pode ser lento com muitos cadastrados. Adicionar paginacao ou limit.
+
+---
+
+## PRODUCT DESIGN — MELHORIAS ESTRATEGICAS (Prioridade Baixa)
+
+### 14. SEO basico ausente
+- Nenhuma pagina tem `<title>` ou `<meta description>` dinamicos
+- Sem JSON-LD (Person/Organization)
+- Sem Open Graph tags para compartilhamento
+**Fix:** Adicionar react-helmet-async com meta tags por pagina.
+
+### 15. Loading states sem skeleton
+Todas as paginas mostram "Carregando..." em texto puro. Skeletons dariam uma percepcao de velocidade muito melhor.
+
+### 16. Animacoes da home podem ser otimizadas
+Framer Motion esta sendo usado em muitos componentes. Considerar `LazyMotion` para reduzir bundle.
+
+### 17. Falta "scroll to top" na navegacao entre paginas
+Ao clicar em links do footer ou navegar, a pagina nao volta ao topo.
+
+### 18. Depoimentos sao hardcoded
+Os testimonials sao estaticos no codigo. Idealmente viriam de uma tabela no banco para o admin gerenciar.
+
+---
+
+## PLANO DE IMPLEMENTACAO SUGERIDO
+
+**Fase 1 — Bugs criticos (itens 1-3):** ~30 min
+**Fase 2 — UX mobile + 404 (itens 4-6):** ~1h
+**Fase 3 — Polimento UI (itens 7-9, 11-12):** ~1h
+**Fase 4 — SEO + skeletons (itens 14-15, 17):** ~1h
+**Fase 5 — Settings expandido + depoimentos dinamicos (itens 10, 18):** ~2h
+
+Me diga quais itens (ou fases) voce quer que eu implemente primeiro.
