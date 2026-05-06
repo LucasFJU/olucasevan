@@ -18,6 +18,7 @@ const ProjectDetail = () => {
         .from("projects")
         .select("*")
         .eq("id", id!)
+        .neq("status", "Rascunho")
         .single();
       if (error) throw error;
       return data;

@@ -11,9 +11,24 @@ const AdminLogin = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    supabase.auth.onAuthStateChange((event, session) => {
-      if (session) navigate("/admin");
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      if (session) {
+        // Verify user has admin role before redirecting
+        const { data: role } = await supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", session.user.id)
+          .eq("role", "admin")
+          .maybeSingle();
+        if (role) {
+          navigate("/admin");
+        } else {
+          toast.error("Acesso não autorizado. Apenas administradores podem acessar.");
+          await supabase.auth.signOut();
+        }
+      }
     });
+    return () => subscription.unsubscribe();
   }, [navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
