@@ -1,99 +1,109 @@
+# Evolução do Folioblox com referências Pilea, Midu e Aiko
 
-# Auditoria Completa: UX/UI, Funcionalidade e Product Design
+## Diagnóstico do site atual
 
-Naveguei por todas as telas (Home, Projetos, Sobre, Servicos, Contato, Admin Dashboard, Admin Form, Admin Settings, Admin Usuarios, Admin Login, 404) em desktop e mobile. Segue a análise organizada por prioridade.
+### O que já funciona bem
+- A proposta principal é entendida rapidamente: design estratégico para posicionar marcas e gerar conversão.
+- A identidade escura com laranja é reconhecível e deve ser preservada.
+- O site já oferece projetos filtráveis, detalhes com galeria e lightbox, formulário de contato, WhatsApp configurável e painel de projetos.
+- Os CTAs aparecem nos principais pontos da jornada e o carregamento das capas já possui otimização e estados de espera.
 
----
+### Problemas prioritários encontrados
+1. **Credibilidade:** logos e depoimentos exibidos na Home são fictícios; também há promessas numéricas não comprovadas.
+2. **Dados conflitantes:** a Home mostra 5.000 projetos, 500 clientes e 13 anos, enquanto a página Sobre mostra 120 projetos, 50 clientes e 8 anos.
+3. **Contato:** telefone e e-mail visíveis são placeholders; os ícones sociais do topo e os links de Privacidade/Termos não levam a destinos reais.
+4. **Narrativa da Home:** depoimentos aparecem antes dos serviços e dos projetos, reduzindo a força do storytelling.
+5. **Cases pouco estratégicos:** o detalhe do projeto privilegia imagens, mas não apresenta claramente problema, processo, solução e resultado. O título do projeto aparece incorretamente como cliente.
+6. **Serviços sem redução de objeções:** faltam processo, prazos típicos, entregáveis resumidos, perguntas frequentes e uma ponte direta para cases relacionados.
+7. **Formulário pouco qualificador:** ainda não coleta faixa de investimento e prazo; também precisa de proteção contra spam e erros mais acessíveis.
+8. **Admin parcialmente desconectado:** editar “Sobre” no painel não atualiza o conteúdo público.
+9. **Acessibilidade e acabamento:** faltam descrição nas imagens da galeria, estado acessível no menu mobile, link para pular ao conteúdo, suporte completo a movimento reduzido e foco correto no lightbox.
+10. **Consistência técnica:** há avisos de `ref` no console, categorias divergentes entre Serviços e Projetos, metadados estáticos com marca diferente e elementos visuais usando valores fora do sistema de estilos.
 
-## BUGS E PROBLEMAS FUNCIONAIS (Prioridade Alta)
+## O que aproveitar de cada referência
 
-### 1. Login redireciona mesmo se o usuário NÃO for admin
-O `AdminLogin.tsx` redireciona para `/admin` ao detectar qualquer sessão autenticada — sem verificar se o usuário tem role `admin`. Um usuário comum seria redirecionado para o dashboard e ficaria preso numa tela quebrada.
-**Fix:** Verificar role admin antes de redirecionar. Se não for admin, mostrar mensagem "Acesso não autorizado" e fazer sign out.
+### Pilea Agency
+- Prova social e números reais próximos da primeira dobra.
+- Processo apresentado como linha do tempo, reduzindo incerteza sobre contratação.
+- FAQ comercial e repetição estratégica do CTA.
+- Comunicação direta de escopo, compromisso e forma de trabalho.
 
-### 2. Listener de auth vazando (memory leak)
-No `AdminLogin.tsx`, `onAuthStateChange` é chamado sem cleanup no `useEffect` — o listener nunca é removido.
-**Fix:** Retornar `subscription.unsubscribe()` no cleanup do `useEffect`.
+**Não copiar:** estética de produto SaaS, player de vídeo ou paleta verde; esses elementos pertencem ao nicho da Pilea.
 
-### 3. Página de detalhe do projeto permite acessar rascunhos via URL direta
-`ProjectDetail.tsx` busca o projeto por ID sem filtrar `status != Rascunho`. Qualquer pessoa com o link pode ver um rascunho.
-**Fix:** Adicionar `.neq("status", "Rascunho")` na query ou redirecionar para 404.
+### Midu Design
+- Cases padronizados em **Visão geral → Desafio → Solução → Resultado**.
+- Tags de setor, serviço e ano para facilitar leitura e comparação.
+- CTA principal único e consistente.
+- Indicador de disponibilidade real, sem urgência artificial.
 
----
+**Não copiar:** textos, cases, identidade ou falsa escassez de vagas.
 
-## UX/UI DO SITE PUBLICO (Prioridade Media)
+### Aiko
+- Fluxo comercial completo: serviços → processo → trabalhos → depoimentos → oferta → contato.
+- Tipografia editorial de grande impacto, labels pequenos e microinterações discretas.
+- Pacotes ou faixas de investimento para qualificar contatos.
 
-### 4. Navbar mobile sem menu hamburguer visivel
-No mobile (375px), a navbar mostra só o logo — sem links de navegacao nem menu hamburguer. O usuario nao consegue navegar pelo site no celular.
-**Fix:** Adicionar menu hamburguer mobile com slide-in ou sheet.
+**Não copiar:** tema claro genérico, escala tipográfica extrema ou conteúdo de template.
 
-### 5. Pagina 404 generica e sem identidade
-A 404 e muito basica ("Oops! Page not found" em ingles). Nao tem navbar, footer, nem segue o design system.
-**Fix:** Redesenhar com Layout, ilustracao, texto em PT-BR, e CTA para voltar.
+## Direção recomendada
 
-### 6. Espacamento excessivo entre hero e filtros na pagina Projetos
-Ha um gap vazio grande entre o titulo "Projetos" e os filtros, prejudicando a sensacao de continuidade.
-**Fix:** Reduzir padding/margin nessa zona.
+Preservar o dark theme e o laranja do Folioblox, mas tornar o conjunto mais editorial, confiável e orientado a cases. A nova ordem da Home será:
 
-### 7. Contato — select nativo feio no campo "Servico"
-O `<select>` nativo destoa do design refinado. Usar um Select custom do shadcn.
+```text
+Hero com proposta e CTA
+→ prova real curta
+→ serviços
+→ processo de trabalho
+→ projetos selecionados
+→ depoimentos reais
+→ FAQ comercial
+→ CTA final
+```
 
-### 8. Footer — links sociais sem destino real
-Os links de Dribbble, LinkedIn, Behance e Instagram provavelmente apontam para "#" ou URLs placeholder. Confirmar e corrigir para os perfis reais do designer (ou remover se nao houver).
+Se ainda não houver clientes, depoimentos ou métricas comprováveis, esses blocos serão ocultados ou substituídos por mensagens neutras — nunca por dados fictícios.
 
-### 9. WhatsApp button — sem numero configurado
-O botao verde de WhatsApp pode nao ter numero real configurado.
+## Plano de implementação
 
----
+### Fase 1 — Confiança e correções essenciais
+- Centralizar nome, e-mail, telefone, WhatsApp, links sociais e métricas reais nas Configurações do painel.
+- Remover placeholders, links mortos e qualquer prova social não validada.
+- Sincronizar a página Sobre com o conteúdo administrável.
+- Corrigir cliente nos cases, categorias inconsistentes e marca/metadados globais.
+- Criar páginas de Política de Privacidade e Termos adequadas à captação de leads.
 
-## ADMIN — UX/UI (Prioridade Media)
+### Fase 2 — Nova jornada da Home
+- Reorganizar as seções conforme o funil recomendado.
+- Refinar o Hero sem trocar a identidade atual: hierarquia mais limpa, CTA principal dominante e prova real compacta.
+- Adicionar seção “Como trabalho” com 4 etapas: diagnóstico, direção, criação e entrega.
+- Levar os projetos para antes dos depoimentos.
+- Adicionar FAQ comercial próximo do CTA final.
+- Aplicar microinterações editoriais inspiradas nas referências, respeitando movimento reduzido.
 
-### 10. Settings muito espartana
-A pagina de Configuracoes so tem 2 campos (nome do site + email). Poderia incluir:
-- Links de redes sociais (que alimentam o footer)
-- Numero do WhatsApp
-- Texto do hero / subtitulo
-- Logo upload
+### Fase 3 — Cases e serviços que vendem
+- Estruturar cada projeto com cliente, setor, desafio, solução, processo, entregáveis e resultados.
+- Permitir gerenciar esses campos no painel sem alterar o visual principal do site.
+- Exibir tags e métricas verificáveis nos cards e páginas de projeto.
+- Ligar cada serviço aos cases relacionados.
+- Adicionar prazos típicos e, opcionalmente, “projetos a partir de” ou faixas de investimento — sem inventar valores.
 
-### 11. Formulario de projeto — upload de galeria sem feedback visual
-Nao vi preview das imagens ao fazer upload, nem indicador de progresso. Isso pode frustrar ao subir varias imagens.
+### Fase 4 — Conversão e qualidade
+- Qualificar o formulário com prazo e faixa de investimento.
+- Adicionar proteção contra spam e melhorar mensagens de erro e confirmação.
+- Personalizar o texto do WhatsApp conforme a página ou projeto de origem.
+- Corrigir navegação por teclado, textos alternativos, foco do lightbox e menu mobile.
+- Corrigir avisos do console, reduzir animações pesadas e separar o código público do painel para acelerar a primeira visita.
 
-### 12. Admin Dashboard — tabela nao responsiva
-Em telas menores a tabela de projetos pode quebrar. Idealmente usar cards em mobile.
+### Fase 5 — Validação
+- Testar toda a jornada em mobile, tablet e desktop.
+- Validar filtros, cases, formulário, WhatsApp, links sociais, painel e publicação de projetos.
+- Comparar carregamento antes/depois e revisar contraste, sobreposições, teclado e leitores de tela.
 
-### 13. Admin Users — pagina funciona mas e muito simples
-A busca lista todos os usuarios, o que pode ser lento com muitos cadastrados. Adicionar paginacao ou limit.
+## Decisões necessárias durante a execução
+- Fornecer métricas, clientes e depoimentos reais; sem isso, os blocos serão ocultados.
+- Fornecer e-mail, telefone e links sociais definitivos.
+- Decidir se os serviços mostrarão apenas “sob consulta”, preço inicial ou faixas de investimento.
 
----
-
-## PRODUCT DESIGN — MELHORIAS ESTRATEGICAS (Prioridade Baixa)
-
-### 14. SEO basico ausente
-- Nenhuma pagina tem `<title>` ou `<meta description>` dinamicos
-- Sem JSON-LD (Person/Organization)
-- Sem Open Graph tags para compartilhamento
-**Fix:** Adicionar react-helmet-async com meta tags por pagina.
-
-### 15. Loading states sem skeleton
-Todas as paginas mostram "Carregando..." em texto puro. Skeletons dariam uma percepcao de velocidade muito melhor.
-
-### 16. Animacoes da home podem ser otimizadas
-Framer Motion esta sendo usado em muitos componentes. Considerar `LazyMotion` para reduzir bundle.
-
-### 17. Falta "scroll to top" na navegacao entre paginas
-Ao clicar em links do footer ou navegar, a pagina nao volta ao topo.
-
-### 18. Depoimentos sao hardcoded
-Os testimonials sao estaticos no codigo. Idealmente viriam de uma tabela no banco para o admin gerenciar.
-
----
-
-## PLANO DE IMPLEMENTACAO SUGERIDO
-
-**Fase 1 — Bugs criticos (itens 1-3):** ~30 min
-**Fase 2 — UX mobile + 404 (itens 4-6):** ~1h
-**Fase 3 — Polimento UI (itens 7-9, 11-12):** ~1h
-**Fase 4 — SEO + skeletons (itens 14-15, 17):** ~1h
-**Fase 5 — Settings expandido + depoimentos dinamicos (itens 10, 18):** ~2h
-
-Me diga quais itens (ou fases) voce quer que eu implemente primeiro.
+## Fora do escopo
+- Não criar blog nem chatbot.
+- Não copiar layouts, textos, imagens ou identidade visual das referências.
+- Não substituir a identidade Folioblox por um template genérico.
