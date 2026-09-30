@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import type { Tables } from "@/integrations/supabase/types";
 
 interface ProjectCardProps {
@@ -15,15 +15,16 @@ const optimizeImage = (url: string | null) => {
 };
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
+  const reduced = useReducedMotion();
   return (
     <motion.div
-      whileHover={{ y: -5 }}
+      whileHover={reduced ? undefined : { y: -2 }}
       transition={{ duration: 0.25 }}
       className="col-span-12 md:col-span-6 group cursor-pointer"
     >
       <Link to={`/projetos/${project.id}`}>
         {/* Thumbnail */}
-        <div className="w-full h-[350px] md:h-[450px] overflow-hidden rounded-lg bg-card relative mb-5">
+        <div className="w-full h-[350px] md:h-[450px] overflow-hidden rounded-lg bg-card relative mb-5 project-card-image">
           {project.imagem_capa ? (
             <img
               src={optimizeImage(project.imagem_capa) || project.imagem_capa}
@@ -40,16 +41,12 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         </div>
 
         {/* Body */}
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex items-start justify-between gap-4 project-card-meta">
           <div>
+            {project.categoria && <p className="project-card-category">{project.categoria}</p>}
             <h3 className="font-display text-[20px] font-medium text-foreground mb-1">
               {project.titulo}
             </h3>
-            {project.descricao && (
-              <p className="text-[14px] text-muted-foreground leading-[1.6] line-clamp-2">
-                {project.descricao}
-              </p>
-            )}
           </div>
           <span className="text-foreground text-[14px] font-medium shrink-0 mt-1 group-hover:text-primary transition-colors">
             Ver Projeto →
@@ -61,3 +58,4 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
 };
 
 export default ProjectCard;
+
