@@ -2,30 +2,23 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
-const defaultSocials: Record<string, string> = {
-  Dribbble: "#",
-  LinkedIn: "#",
-  Behance: "#",
-  Instagram: "#",
-};
-
 const Footer = () => {
   const { data: settings } = useQuery({
     queryKey: ["site-settings-public"],
     staleTime: 10 * 60 * 1000,
     queryFn: async () => {
-      const { data } = await supabase.from("site_settings" as any).select("*");
-      return data as any[] || [];
+      const { data } = await supabase.from("site_settings").select("*");
+      return data || [];
     },
   });
 
-  const getSetting = (key: string) => settings?.find((s: any) => s.key === key)?.value || "";
+  const getSetting = (key: string) => settings?.find((setting) => setting.key === key)?.value || "";
 
   const socials = [
-    { name: "Dribbble", url: getSetting("social_dribbble") || defaultSocials.Dribbble },
-    { name: "LinkedIn", url: getSetting("social_linkedin") || defaultSocials.LinkedIn },
-    { name: "Behance", url: getSetting("social_behance") || defaultSocials.Behance },
-    { name: "Instagram", url: getSetting("social_instagram") || defaultSocials.Instagram },
+    { name: "Dribbble", url: getSetting("social_dribbble") },
+    { name: "LinkedIn", url: getSetting("social_linkedin") },
+    { name: "Behance", url: getSetting("social_behance") },
+    { name: "Instagram", url: getSetting("social_instagram") },
   ].filter((s) => s.url && s.url !== "#");
 
   return (
@@ -38,10 +31,10 @@ const Footer = () => {
           {/* Logo + Description */}
           <div className="max-w-[305px]">
             <Link to="/" className="font-display text-lg font-semibold text-foreground block mb-4">
-              <span className="text-primary">■</span> Folio<span className="text-primary">blox</span>
+              Lucas<span className="text-primary">.</span> Evangelista
             </Link>
             <p className="text-muted-foreground text-[15px] md:text-[16px] leading-[1.5]">
-              Diretor criativo focado em design digital — social media, brand design e web design que conectam e convertem.
+              Designer de identidades visuais, conteúdo e experiências digitais.
             </p>
           </div>
 
@@ -73,36 +66,25 @@ const Footer = () => {
               </div>
             </div>
 
-            <div className="col-span-2 md:col-span-1">
+            {socials.length > 0 && <div className="col-span-2 md:col-span-1">
               <p className="text-primary text-[14px] font-normal mb-4">[ SOCIAL ]</p>
               <div className="flex flex-row md:flex-col gap-4">
-                {socials.length > 0 ? socials.map((s) => (
+                {socials.map((s) => (
                   <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" className="text-foreground text-[15px] md:text-[16px] hover:text-primary transition-colors">
                     {s.name}
                   </a>
-                )) : ["Dribbble", "LinkedIn", "Behance", "Instagram"].map((s) => (
-                  <a key={s} href="#" className="text-foreground text-[15px] md:text-[16px] hover:text-primary transition-colors opacity-50 pointer-events-none">
-                    {s}
-                  </a>
                 ))}
               </div>
-            </div>
+            </div>}
           </div>
         </div>
 
         {/* Bottom bar */}
         <div className="border-t border-border mt-12 md:mt-16 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-muted-foreground text-[13px] md:text-[14px]">
-            <span className="text-primary">//</span> ©{new Date().getFullYear()} Folioblox. Todos os direitos reservados.
+            <span className="text-primary">//</span> ©{new Date().getFullYear()} Lucas Evangelista. Todos os direitos reservados.
           </p>
-          <div className="flex gap-6">
-            <a href="#" className="text-muted-foreground text-[13px] md:text-[14px] hover:text-foreground transition-colors">
-              Política de Privacidade
-            </a>
-            <a href="#" className="text-muted-foreground text-[13px] md:text-[14px] hover:text-foreground transition-colors">
-              Termos
-            </a>
-          </div>
+          {getSetting("contact_email") && <a href={`mailto:${getSetting("contact_email")}`} className="text-muted-foreground text-[13px] md:text-[14px] hover:text-foreground transition-colors">{getSetting("contact_email")}</a>}
         </div>
       </div>
     </footer>

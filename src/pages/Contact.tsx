@@ -6,6 +6,7 @@ import { Send } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Helmet } from "react-helmet-async";
+import { useQuery } from "@tanstack/react-query";
 
 const contactSchema = z.object({
   nome: z.string().trim().min(1, "Nome é obrigatório").max(100),
@@ -16,6 +17,13 @@ const contactSchema = z.object({
 });
 
 const Contact = () => {
+  const { data: contactEmail } = useQuery({
+    queryKey: ["contact-email"],
+    queryFn: async () => {
+      const { data } = await supabase.from("site_settings").select("value").eq("key", "contact_email").maybeSingle();
+      return data?.value || "";
+    },
+  });
   const [form, setForm] = useState({ nome: "", email: "", assunto: "", tipo_projeto: "", mensagem: "" });
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
@@ -35,7 +43,7 @@ const Contact = () => {
       assunto: result.data.assunto || null,
       tipo_projeto: result.data.tipo_projeto || null,
       mensagem: result.data.mensagem,
-    } as any);
+    });
     setLoading(false);
 
     if (error) {
@@ -49,8 +57,8 @@ const Contact = () => {
   return (
     <Layout>
       <Helmet>
-        <title>Contato — Folioblox</title>
-        <meta name="description" content="Entre em contato para solicitar um orçamento. Resposta em até 24h." />
+        <title>Contato — Lucas Evangelista</title>
+        <meta name="description" content="Conte a Lucas Evangelista sobre seu projeto de identidade visual, conteúdo ou site." />
       </Helmet>
       {/* Page Banner */}
       <section className="min-h-[250px] md:min-h-[350px] flex items-center justify-center border-b border-border relative" style={{
@@ -83,29 +91,12 @@ const Contact = () => {
                 className="font-display text-foreground mb-6"
                 style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 400, lineHeight: 1.15 }}
               >
-                Conecte-se Conosco Hoje!
+                Vamos conversar sobre seu projeto.
               </h2>
               <p className="text-muted-foreground text-[16px] leading-[1.6] mb-2">
-                Conte sobre seu projeto e receba uma proposta personalizada em até 24h.
+                Conte o que você precisa. Vamos conversar sobre o escopo e o próximo passo.
               </p>
-              <span className="inline-flex items-center gap-1.5 text-[13px] font-medium text-primary mb-8">
-                ⚡ Resposta em até 24h
-              </span>
-
-              {/* Contact info cards */}
-              <div className="grid grid-cols-2 gap-3 md:gap-4">
-                {[
-                  { label: "E-mail", value: "hello@folioblox.com" },
-                  { label: "Telefone", value: "+55 11 9999-0000" },
-                  { label: "Localização", value: "São Paulo, BR" },
-                  { label: "Horário", value: "Seg–Sex, 9h–18h" },
-                ].map((item) => (
-                  <div key={item.label} className="border border-border rounded-lg p-4">
-                    <p className="text-primary text-[12px] font-medium mb-1">[ {item.label.toUpperCase()} ]</p>
-                    <p className="text-foreground text-[13px] md:text-[14px]">{item.value}</p>
-                  </div>
-                ))}
-              </div>
+              {contactEmail && <a href={`mailto:${contactEmail}`} className="text-primary underline underline-offset-4">Enviar um e-mail: {contactEmail}</a>}
             </motion.div>
 
             {/* Right — Form */}
@@ -121,7 +112,7 @@ const Contact = () => {
                     <Send size={24} className="text-primary-foreground" />
                   </div>
                   <h3 className="font-display text-2xl font-medium text-foreground">Mensagem enviada!</h3>
-                  <p className="text-muted-foreground mt-3">Retornaremos em até 24 horas.</p>
+                  <p className="text-muted-foreground mt-3">Sua mensagem foi registrada.</p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">

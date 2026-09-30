@@ -10,18 +10,18 @@ const About = () => {
   const { data: settings } = useQuery({
     queryKey: ["site-settings-public"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("site_settings" as any).select("*");
+      const { data, error } = await supabase.from("site_settings").select("*");
       if (error) return [];
-      return data as any[];
+      return data || [];
     },
   });
 
-  const getSetting = (key: string) => settings?.find((s: any) => s.key === key)?.value || "";
+  const getSetting = (key: string) => settings?.find((setting) => setting.key === key)?.value || "";
 
   return (
     <Layout>
       <Helmet>
-        <title>Sobre — Folioblox</title>
+        <title>Sobre — Lucas Evangelista</title>
         <meta name="description" content="Conheça Lucas Evan, diretor criativo especializado em social media, brand identity e web design." />
       </Helmet>
       {/* Page Banner */}

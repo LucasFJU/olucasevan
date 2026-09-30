@@ -39,8 +39,8 @@ const Projects = () => {
   return (
     <Layout>
       <Helmet>
-        <title>Projetos — Folioblox</title>
-        <meta name="description" content="Conheça os projetos de design de marca, social media e web design desenvolvidos pela Folioblox." />
+        <title>Projetos — Lucas Evangelista</title>
+        <meta name="description" content="Conheça os projetos de identidade visual, social media e web design desenvolvidos por Lucas Evangelista." />
       </Helmet>
       {/* Page Banner */}
       <section className="min-h-[180px] md:min-h-[350px] flex items-center justify-center border-b border-border relative pt-[80px] md:pt-0" style={{

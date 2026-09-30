@@ -8,7 +8,7 @@ const services = [
   {
     num: "01",
     title: "Social Media Design",
-    desc: "Conteúdo visual estratégico que para o scroll, comunica em segundos e converte seguidores em clientes.",
+    desc: "Design para campanhas, carrosséis e a comunicação do dia a dia.",
     items: ["Posts e Stories para Instagram", "Carrosséis e Reels Cover", "Identidade visual para redes", "Templates editáveis no Canva", "Calendário visual mensal"],
     icon: Smartphone,
   },
@@ -22,7 +22,7 @@ const services = [
   {
     num: "03",
     title: "Web Design",
-    desc: "Sites e landing pages que impressionam visualmente e são construídos para converter visitantes em leads.",
+    desc: "Páginas que apresentam seu negócio e facilitam o próximo passo do cliente.",
     items: ["Landing pages de alta conversão", "Sites institucionais e portfólios", "UI/UX para aplicativos", "Design para Webflow / Framer", "Protótipos interativos no Figma"],
     icon: LayoutIcon,
   },
@@ -41,7 +41,7 @@ const Services = () => {
   return (
     <Layout>
       <Helmet>
-        <title>Serviços — Folioblox</title>
+        <title>Serviços — Lucas Evangelista</title>
         <meta name="description" content="Social media design, brand identity, web design e UI/UX. Serviços criativos para posicionar sua marca." />
       </Helmet>
       {/* Hero Banner */}

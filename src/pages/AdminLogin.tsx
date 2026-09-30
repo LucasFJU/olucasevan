@@ -53,7 +53,7 @@ const AdminLogin = () => {
 
       <div className="relative z-10 bg-card border border-border rounded-lg p-12 md:p-14 w-full max-w-[420px] shadow-[0_12px_48px_rgba(0,0,0,0.55)]">
         <div className="font-display text-[26px] font-extrabold text-center mb-2">
-          Folio<span className="text-primary">blox</span>
+          Lucas<span className="text-primary">.</span> Evangelista
         </div>
         <p className="text-sm text-muted-foreground text-center mb-10">Painel Administrativo</p>
 
