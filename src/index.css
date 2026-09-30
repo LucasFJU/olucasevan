@@ -7,23 +7,23 @@
 @layer base {
   :root {
     /* Axis-inspired palette */
-    --background: 220 18% 5%;        /* #0C0E12 */
-    --foreground: 0 0% 98%;          /* #FAFAFA */
+    --background: 0 0% 4%;           /* #0B0B0B */
+    --foreground: 45 17% 95%;        /* #F5F4F1 */
 
-    --card: 220 14% 8%;              /* ~#12151A */
+    --card: 0 0% 9%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 220 14% 8%;
+    --popover: 0 0% 9%;
     --popover-foreground: 0 0% 98%;
 
     --primary: 15 100% 50%;          /* #FF4001 */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 12% 7%;         /* subtle variant */
+    --secondary: 0 0% 7%;
     --secondary-foreground: 0 0% 60%;
 
-    --muted: 220 10% 10%;
-    --muted-foreground: 220 5% 58%;  /* #94979C */
+    --muted: 0 0% 10%;
+    --muted-foreground: 0 0% 65%;
 
     --accent: 15 100% 50%;
     --accent-foreground: 0 0% 100%;
@@ -31,8 +31,8 @@
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 218 16% 16%;           /* #22262F */
-    --input: 218 16% 16%;
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
     --ring: 15 100% 50%;
 
     --radius: 0.75rem;

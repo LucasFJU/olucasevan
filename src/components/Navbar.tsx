@@ -1,97 +1,46 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
+import "./navbar.css";
 
-const navLinks = [
-  { label: "Início", path: "/" },
-  { label: "Sobre", path: "/sobre" },
+const links = [
   { label: "Projetos", path: "/projetos" },
+  { label: "Sobre", path: "/sobre" },
   { label: "Serviços", path: "/servicos" },
-  
   { label: "Contato", path: "/contato" },
 ];
 
-const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+export default function Navbar() {
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-
-  return (
-    <nav className="fixed top-3 left-0 right-0 z-50 px-4 md:px-6">
-      <div className="max-w-[1200px] mx-auto flex items-center justify-between rounded-full border border-foreground/[0.06] bg-background/80 backdrop-blur-xl px-5 md:px-6 py-3">
-        {/* Logo */}
-        <Link to="/" className="font-display text-lg font-semibold tracking-tight text-foreground select-none shrink-0">
-          <span className="text-primary">■</span> Folio<span className="text-primary">blox</span>
-        </Link>
-
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-6">
-          {navLinks.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              className={`nav-link-animated text-[15px] ${location.pathname === link.path ? "active" : ""}`}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-
-        {/* Desktop CTA */}
-        <div className="hidden md:block">
-          <Link
-            to="/contato"
-            className="btn-primary inline-flex px-5 py-2.5 text-[14px]"
-          >
-            Solicitar Orçamento
-          </Link>
-        </div>
-
-        {/* Mobile toggle */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden text-foreground p-1"
-          aria-label="Menu"
-        >
-          {isOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
-      </div>
-
-      {/* Mobile menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="md:hidden mt-2 mx-0 rounded-2xl bg-background/95 backdrop-blur-xl border border-foreground/[0.06] overflow-hidden"
-          >
-            <div className="px-6 py-5 flex flex-col gap-3">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  onClick={() => setIsOpen(false)}
-                  className={`text-[16px] font-medium py-2 ${
-                    location.pathname === link.path ? "text-primary" : "text-foreground"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <Link
-                to="/contato"
-                onClick={() => setIsOpen(false)}
-                className="btn-primary justify-center mt-2 text-[14px]"
-              >
-                Solicitar Orçamento
-              </Link>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
-  );
-};
-
-export default Navbar;
+  useEffect(() => {
+    const update = () => setScrolled(window.scrollY > 60);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
+  useEffect(() => setOpen(false), [location.pathname]);
+  useEffect(() => {
+    if (!open) return;
+    const close = (event: KeyboardEvent) => { if (event.key === "Escape") setOpen(false); };
+    window.addEventListener("keydown", close);
+    return () => window.removeEventListener("keydown", close);
+  }, [open]);
+  function quote(event: React.MouseEvent<HTMLButtonElement>) {
+    const focusTarget = event.currentTarget.closest(".site-mobile-menu")
+      ? document.querySelector<HTMLElement>(".site-nav-toggle")
+      : event.currentTarget;
+    setOpen(false);
+    window.dispatchEvent(new CustomEvent("open-quote", { detail: focusTarget }));
+  }
+  return <nav className={`site-nav ${scrolled ? "site-nav-scrolled" : ""}`} aria-label="Navegação principal">
+    <div className="site-nav-inner">
+      <Link className="site-signature" to="/" onClick={() => setOpen(false)}>Lucas<span>.</span> Evangelista</Link>
+      <div className="site-nav-desktop">{links.map((link) => <Link key={link.path} className={location.pathname === link.path ? "active" : ""} to={link.path}>{link.label}</Link>)}</div>
+      {location.pathname === "/" ? <button className="site-nav-cta" onClick={quote}>Conversar sobre um projeto</button> : <Link className="site-nav-cta" to="/contato">Conversar sobre um projeto</Link>}
+      <button className="site-nav-toggle" type="button" aria-label={open ? "Fechar menu" : "Abrir menu"} aria-expanded={open} aria-controls="site-mobile-menu" onClick={() => setOpen(!open)}>{open ? <X size={23} /> : <Menu size={23} />}</button>
+    </div>
+    {open && <div id="site-mobile-menu" className="site-mobile-menu">{links.map((link) => <Link key={link.path} to={link.path} onClick={() => setOpen(false)}>{link.label}</Link>)}{location.pathname === "/" ? <button onClick={quote}>Conversar sobre um projeto</button> : <Link to="/contato" onClick={() => setOpen(false)}>Conversar sobre um projeto</Link>}</div>}
+  </nav>;
+}

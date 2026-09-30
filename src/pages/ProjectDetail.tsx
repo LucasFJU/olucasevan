@@ -101,8 +101,8 @@ const ProjectDetail = () => {
   return (
     <Layout>
       <Helmet>
-        <title>{project.titulo} — Folioblox</title>
-        <meta name="description" content={project.descricao?.slice(0, 160) || `Projeto ${project.titulo} por Folioblox.`} />
+        <title>{project.titulo} — Lucas Evangelista</title>
+        <meta name="description" content={project.descricao?.slice(0, 160) || `Projeto ${project.titulo} por Lucas Evangelista.`} />
         {project.imagem_capa && <meta property="og:image" content={project.imagem_capa} />}
       </Helmet>
       {/* Hero with background */}
@@ -197,7 +197,7 @@ const ProjectDetail = () => {
               ].map((row) => (
                 <div key={row.label} className="flex justify-between py-2.5 border-b border-border last:border-b-0 text-[13px]">
                   <span className="text-muted-foreground">{row.label}</span>
-                  <span className={`font-medium text-right ${(row as any).color || ""}`}>{row.value}</span>
+                  <span className={`font-medium text-right ${"color" in row ? row.color : ""}`}>{row.value}</span>
                 </div>
               ))}
             </div>

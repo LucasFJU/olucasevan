@@ -1,0 +1,18 @@
+.site-nav { position: fixed; z-index: 50; top: 0; left: 0; right: 0; color: #f5f4f1; transition: background .25s, border-color .25s, backdrop-filter .25s; background: rgba(11,11,11,.42); border-bottom: 1px solid transparent; }
+.site-nav-scrolled { background: rgba(11,11,11,.94); border-bottom-color: #353535; backdrop-filter: blur(12px); }
+.site-nav-inner { width: min(100% - 64px,1320px); min-height: 70px; margin: auto; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+.site-nav a { color: inherit; text-decoration: none; }
+.site-signature { font-size: 20px; font-weight: 600; letter-spacing: -.05em; white-space: nowrap; }
+.site-signature span { color: #ff4001; }
+.site-nav-desktop { display: flex; gap: clamp(16px,2vw,32px); align-items: center; margin-left: auto; }
+.site-nav-desktop a { font-size: 14px; color: #d1cfca; transition: color .25s; }
+.site-nav-desktop a:hover, .site-nav-desktop a.active { color: #fff; }
+.site-nav-cta { display: inline-flex; align-items: center; justify-content: center; min-height: 38px; background: #ff4001; border: 0; border-radius: 3px; padding: 8px 14px; font-size: 13px; font-weight: 600; color: white !important; white-space: nowrap; cursor: pointer; }
+.site-nav-cta:hover { background: #d93604; }
+.site-nav-toggle { display: none; background: transparent; border: 0; color: #f5f4f1; cursor: pointer; padding: 8px; }
+.site-nav :is(a,button):focus-visible { outline: 2px solid #ff4001; outline-offset: 4px; }
+.site-mobile-menu { display: flex; flex-direction: column; gap: 0; background: #111; border-top: 1px solid #333; padding: 12px 20px 20px; }
+.site-mobile-menu a, .site-mobile-menu button { padding: 13px 3px; border: 0; border-bottom: 1px solid #303030; background: none; color: #f5f4f1; text-align: left; font-size: 16px; }
+.site-mobile-menu button { color: #ff7445; }
+@media (max-width: 900px) { .site-nav-desktop, .site-nav-inner > .site-nav-cta { display: none; } .site-nav-toggle { display: inline-flex; } }
+@media (max-width: 767px) { .site-nav-inner { width: min(100% - 40px,620px); min-height: 64px; } }
