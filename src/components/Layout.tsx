@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import WhatsAppButton from "./WhatsAppButton";
+import "./editorial-pages.css";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   return (
@@ -15,3 +16,4 @@ const Layout = ({ children }: { children: ReactNode }) => {
 };
 
 export default Layout;
+

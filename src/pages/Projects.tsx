@@ -4,12 +4,13 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import Layout from "@/components/Layout";
 import ProjectCard from "@/components/ProjectCard";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Search } from "lucide-react";
 
 const categories = ["Todos", "Social Media", "Brand Design", "Web Design"];
 
 const Projects = () => {
+  const reduced = useReducedMotion();
   const [activeFilter, setActiveFilter] = useState("Todos");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -38,16 +39,17 @@ const Projects = () => {
 
   return (
     <Layout>
+      <div className="editorial-page projects-page">
       <Helmet>
         <title>Projetos — Lucas Evangelista</title>
         <meta name="description" content="Conheça os projetos de identidade visual, social media e web design desenvolvidos por Lucas Evangelista." />
       </Helmet>
       {/* Page Banner */}
-      <section className="min-h-[180px] md:min-h-[350px] flex items-center justify-center border-b border-border relative pt-[80px] md:pt-0" style={{
+      <section className="editorial-page-hero min-h-[180px] md:min-h-[350px] flex items-center justify-center border-b border-border relative pt-[80px] md:pt-0" style={{
         background: "radial-gradient(ellipse 80% 60% at 50% 0%, hsl(15 100% 50% / 0.12), transparent 70%), hsl(var(--background))"
       }}>
         <motion.h1
-          initial={{ opacity: 0, y: 28 }}
+          initial={reduced ? false : { opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           className="font-display text-foreground text-center"
           style={{ fontSize: "clamp(36px, 8vw, 120px)", fontWeight: 500, lineHeight: 1, letterSpacing: "-0.02em" }}
@@ -106,8 +108,10 @@ const Projects = () => {
             )}
         </div>
       </section>
+      </div>
     </Layout>
   );
 };
 
 export default Projects;
+

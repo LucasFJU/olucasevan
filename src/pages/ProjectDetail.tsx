@@ -3,12 +3,13 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import Layout from "@/components/Layout";
 import { ArrowLeft, ArrowRight, ExternalLink, X, ChevronLeft, ChevronRight } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
+  const reduced = useReducedMotion();
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const touchStartX = useRef<number>(0);
 
@@ -100,6 +101,7 @@ const ProjectDetail = () => {
 
   return (
     <Layout>
+      <div className="editorial-page project-case">
       <Helmet>
         <title>{project.titulo} — Lucas Evangelista</title>
         <meta name="description" content={project.descricao?.slice(0, 160) || `Projeto ${project.titulo} por Lucas Evangelista.`} />
@@ -127,10 +129,6 @@ const ProjectDetail = () => {
             {project.titulo}
           </h1>
           <div className="flex gap-10 flex-wrap">
-            <div>
-              <strong className="block font-display text-[15px] text-foreground mb-1">{project.titulo}</strong>
-              <span className="text-[13px] text-muted-foreground">Cliente</span>
-            </div>
             <div>
               <strong className="block font-display text-[15px] text-foreground mb-1">
                 {project.data_publicacao ? new Date(project.data_publicacao).getFullYear() : "—"}
@@ -169,8 +167,8 @@ const ProjectDetail = () => {
                 {project.galeria.map((img, i) => (
                   <motion.div
                     key={i}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={reduced ? false : { opacity: 0, y: 20 }}
+                    whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.03 }}
                     className={`rounded-md overflow-hidden bg-secondary cursor-pointer hover:scale-[1.01] transition-transform ${
@@ -190,10 +188,8 @@ const ProjectDetail = () => {
             <div className="bg-card border border-border rounded-lg p-7">
               <h4 className="font-display text-base font-bold text-foreground mb-4">Informações</h4>
               {[
-                { label: "Cliente", value: project.titulo },
                 { label: "Serviço", value: project.categoria },
                 { label: "Ano", value: project.data_publicacao ? new Date(project.data_publicacao).getFullYear().toString() : "—" },
-                { label: "Status", value: "● Publicado", color: "text-green-400" },
               ].map((row) => (
                 <div key={row.label} className="flex justify-between py-2.5 border-b border-border last:border-b-0 text-[13px]">
                   <span className="text-muted-foreground">{row.label}</span>
@@ -265,9 +261,9 @@ const ProjectDetail = () => {
       <AnimatePresence>
         {lightboxIndex !== null && project?.galeria && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={reduced ? false : { opacity: 0 }}
+            animate={reduced ? undefined : { opacity: 1 }}
+            exit={reduced ? undefined : { opacity: 0 }}
             transition={{ duration: 0.2 }}
             className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-sm"
             onClick={closeLightbox}
@@ -314,9 +310,9 @@ const ProjectDetail = () => {
             {/* Image */}
             <motion.img
               key={lightboxIndex}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
+              initial={reduced ? false : { opacity: 0, scale: 0.95 }}
+              animate={reduced ? undefined : { opacity: 1, scale: 1 }}
+              exit={reduced ? undefined : { opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.2 }}
               src={project.galeria[lightboxIndex]}
               alt=""
@@ -326,8 +322,10 @@ const ProjectDetail = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
     </Layout>
   );
 };
 
 export default ProjectDetail;
+

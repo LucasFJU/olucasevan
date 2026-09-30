@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Layout from "@/components/Layout";
 import { supabase } from "@/integrations/supabase/client";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Send } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -17,6 +17,7 @@ const contactSchema = z.object({
 });
 
 const Contact = () => {
+  const reduced = useReducedMotion();
   const { data: contactEmail } = useQuery({
     queryKey: ["contact-email"],
     queryFn: async () => {
@@ -56,12 +57,13 @@ const Contact = () => {
 
   return (
     <Layout>
+      <div className="editorial-page contact-page">
       <Helmet>
         <title>Contato — Lucas Evangelista</title>
         <meta name="description" content="Conte a Lucas Evangelista sobre seu projeto de identidade visual, conteúdo ou site." />
       </Helmet>
       {/* Page Banner */}
-      <section className="min-h-[250px] md:min-h-[350px] flex items-center justify-center border-b border-border relative" style={{
+      <section className="editorial-page-hero min-h-[250px] md:min-h-[350px] flex items-center justify-center border-b border-border relative" style={{
         background: "radial-gradient(ellipse 80% 60% at 50% 0%, hsl(15 100% 50% / 0.12), transparent 70%), hsl(var(--background))"
       }}>
         <motion.h1
@@ -80,7 +82,7 @@ const Contact = () => {
           <div className="flex flex-col md:flex-row gap-12 md:gap-16">
             {/* Left — Info */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={reduced ? false : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="md:w-1/2"
             >
@@ -101,7 +103,7 @@ const Contact = () => {
 
             {/* Right — Form */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={reduced ? false : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
               className="md:w-1/2"
@@ -185,8 +187,10 @@ const Contact = () => {
           </div>
         </div>
       </section>
+      </div>
     </Layout>
   );
 };
 
 export default Contact;
+

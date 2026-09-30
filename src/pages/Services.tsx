@@ -1,30 +1,37 @@
 import Layout from "@/components/Layout";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { ArrowRight, Smartphone, Palette, Layout as LayoutIcon, Sparkles } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowRight, Smartphone, Palette, Layout as LayoutIcon, Sparkles, PanelsTopLeft } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 
 const services = [
   {
     num: "01",
-    title: "Social Media Design",
+    title: "Social media",
     desc: "Design para campanhas, carrosséis e a comunicação do dia a dia.",
     items: ["Posts e Stories para Instagram", "Carrosséis e Reels Cover", "Identidade visual para redes", "Templates editáveis no Canva", "Calendário visual mensal"],
     icon: Smartphone,
   },
   {
     num: "02",
-    title: "Brand Identity",
-    desc: "Identidades visuais que transmitem profissionalismo, geram confiança e tornam sua marca inesquecível.",
+    title: "Identidade visual",
+    desc: "Logotipo, linguagem visual e aplicações para uma marca consistente.",
     items: ["Logotipo + variações", "Paleta de cores e tipografia", "Manual de identidade visual", "Papelaria e materiais gráficos", "Brandbook completo"],
     icon: Palette,
   },
   {
     num: "03",
-    title: "Web Design",
+    title: "Sites e landing pages",
     desc: "Páginas que apresentam seu negócio e facilitam o próximo passo do cliente.",
-    items: ["Landing pages de alta conversão", "Sites institucionais e portfólios", "UI/UX para aplicativos", "Design para Webflow / Framer", "Protótipos interativos no Figma"],
+    items: ["Páginas para apresentar seu negócio", "Sites institucionais e portfólios", "Interfaces para produtos digitais", "Fluxos de navegação", "Protótipos interativos"],
     icon: LayoutIcon,
+  },
+  {
+    num: "04",
+    title: "UI/UX",
+    desc: "Interfaces e fluxos claros para produtos digitais.",
+    items: ["Arquitetura de informação", "Fluxos de navegação", "Interfaces para produtos", "Protótipos interativos"],
+    icon: PanelsTopLeft,
   },
 ];
 
@@ -38,31 +45,33 @@ const fadeUp = {
 };
 
 const Services = () => {
+  const reduced = useReducedMotion();
   return (
     <Layout>
+      <div className="editorial-page services-page">
       <Helmet>
         <title>Serviços — Lucas Evangelista</title>
         <meta name="description" content="Social media design, brand identity, web design e UI/UX. Serviços criativos para posicionar sua marca." />
       </Helmet>
       {/* Hero Banner */}
       <section
-        className="min-h-[220px] md:min-h-[350px] flex flex-col items-center justify-center border-b border-border relative overflow-hidden px-6 pt-[80px] md:pt-0"
+        className="editorial-page-hero min-h-[220px] md:min-h-[350px] flex flex-col items-center justify-center border-b border-border relative overflow-hidden px-6 pt-[80px] md:pt-0"
         style={{
           background:
             "radial-gradient(ellipse 80% 50% at 50% 0%, hsl(15 100% 50% / 0.10), transparent 60%), hsl(var(--background))",
         }}
       >
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={reduced ? false : { opacity: 0, y: 12 }}
+          animate={reduced ? undefined : { opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="section-label mb-6"
         >
-          <span className="label-num">[ 02 ]</span> O que fazemos
+          <span className="label-num">03 / SERVIÇOS</span>
         </motion.div>
         <motion.h1
-          initial={{ opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={reduced ? false : { opacity: 0, y: 28 }}
+          animate={reduced ? undefined : { opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1 }}
           className="font-display text-foreground text-center max-w-[900px]"
           style={{
@@ -72,17 +81,15 @@ const Services = () => {
             letterSpacing: "-0.03em",
           }}
         >
-          Design que transforma
-          <br />
-          <span className="text-primary">marcas em referência</span>
+          O que podemos<br /><span className="text-primary">criar juntos.</span>
         </motion.h1>
         <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={reduced ? false : { opacity: 0, y: 16 }}
+          animate={reduced ? undefined : { opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.25 }}
           className="text-muted-foreground text-center mt-6 max-w-[520px] text-[15px] md:text-[17px] leading-[1.6]"
         >
-          Combinamos estratégia, estética e performance para criar experiências visuais que geram resultados reais.
+          Projetos pontuais ou uma parceria contínua, conforme a necessidade da sua marca.
         </motion.p>
       </section>
 
@@ -91,8 +98,8 @@ const Services = () => {
         {services.map((srv, i) => (
           <motion.div
             key={srv.title}
-            initial="hidden"
-            whileInView="visible"
+            initial={reduced ? false : "hidden"}
+            whileInView={reduced ? undefined : "visible"}
             viewport={{ once: true, margin: "-80px" }}
             custom={0}
             variants={fadeUp}
@@ -142,8 +149,8 @@ const Services = () => {
       <section className="py-[60px] md:py-[140px] px-6 border-t border-border">
         <div className="max-w-[800px] mx-auto text-center">
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={reduced ? false : { opacity: 0, y: 24 }}
+            whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
@@ -165,13 +172,15 @@ const Services = () => {
               Vamos conversar sobre como transformar sua visão em realidade com design estratégico.
             </p>
             <Link to="/contato" className="btn-primary">
-              Solicitar Orçamento <ArrowRight size={16} />
+              Conversar sobre um projeto <ArrowRight size={16} />
             </Link>
           </motion.div>
         </div>
       </section>
+      </div>
     </Layout>
   );
 };
 
 export default Services;
+
